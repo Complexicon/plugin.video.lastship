@@ -23,6 +23,34 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
 
 [B][COLOR lime]Changelog plugin.video.lastship[/COLOR][/B]
 
+[B]3.0.4[/B]
+  13.01.2019
+- Hompagelink aktualisiert
+- Fix Trailer abspiel Probleme
+- Beliebige IMDB Listen hinzufügen (lastship.py, movies.py, navigator.py, settings.xml)
+	Es ist nun möglich beliebige IMDB-Listen mit ihren IDs (z.B. ls123456789) unter Einstellungen einzutragen und zu 
+	benennen
+	Der Punkt „IMDB-Listen“ erscheint dann in der Kategorienübersicht der Filme. Standardsortierung ist immer die Sortierung 
+	der Liste
+	Die Einstellung befindet sich unter „Allgemein“ und ist Standardmäßig deaktiviert
+	
+[B]3.0.3.0[/B]
+  03.01.2019
+- Update fixzipfile (damit das nightly Update auf Android funktioniert)
+
+[B]3.0.2.9[/B]
+  30.12.2018
+- Update fixzipfile
+- Update sources.py (Openload wird bei Hoster mit Captcha jetzt auch deaktiviert)
+-  moovie entfernt (Authentifizierung zum Abspielen der Links notwendig)
+- Update movies.py, tvshows.py, settings.xml:
+   Genre kann nun unabhängig von den Schlagwörtern benannt werden
+   Kurze Erklärung zum notwendigen Eintrag eingefügt
+- Add tmovie
+- [tvshows.py] Anpassung der Auszeichnungen Icons
+- [navigator.py] In tvshows Icon Anpassung
+- [movies.py] optische Optimierung
+
 [B]3.0.2.8[/B]
   09.12.2018
 - Fix TV Sender (nächste Seite)
