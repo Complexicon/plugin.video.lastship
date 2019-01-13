@@ -13,11 +13,9 @@
 	</extension>
 	<extension point="xbmc.service" library="service.py" start="startup" />
 	<extension point="xbmc.addon.metadata">
-		<summary lang="en">lastship</summary>
+		<summary lang="de">Lastship</summary>
 		<description lang="de">Wir suchen Entwickler. Bitte besuche das Forum [COLOR blue]https://lastship.ch[/COLOR] oder unseren Chatroom [COLOR blue]https://gitter.im/lastship_Chat/Lobby[/COLOR] für Unterstützung und Fragen zu lastship. lastship FAQ bitte lesen. Beachte, dass lastship kein offizieller Teil des verwendeten Media Players ist, und daher nicht von den offiziellen Support-Kanälen abgedeckt wird. Es handelt sich lediglich um eine Drittanbieter-Erweiterung, die dem System hinzugefügt wurde.</description>
-		<description lang="en">We're looking for developers. For support or questions about lastship, please visit the forums [COLOR blue]https://lastship.ch[/COLOR] or our chat room [COLOR blue]https://gitter.im/lastship_Chat/Lobby[/COLOR]. Please read the lastship FAQs. Keep in mind that lastship is not an official part of the media player it runs on, it will not be supported via the official channels. It is just a third-party extension, which has been integrated into the system.</description>
 		<disclaimer lang="de">Die von diesem Addon dargestellten Inhalte werden von den Erstellern der Software weder gehostet oder verbreitet, noch stehen die Ersteller in irgendeiner Beziehung zu den Content-Anbietern.</disclaimer>
-		<disclaimer lang="en">The contents which are displayed by this addon are neither hosted nor distributed by the software developers, nor do the creators have any kind of relationship to the content providers.</disclaimer>
 		<platform>all</platform>
 		<forum>https://lastship.ch</forum>
 		<source>https://github.com/lastship/plugin.video.lastship</source>
@@ -30,6 +28,8 @@
 		</assets>
 		<news>
 - Add beliebige IMDB Listen
+- Fix Trailer abspiel Probleme
+- Hompagelink aktualisiert
 		</news>
 	</extension>
 </addon>
