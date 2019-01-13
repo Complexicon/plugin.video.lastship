@@ -1,10 +1,7 @@
-[B]3.0.4~nightly3[/B]
+[B]3.0.4[/B]
+  13.01.2019
 - Hompagelink aktualisiert
-
-[B]3.0.4~nightly2[/B]
 - Fix Trailer abspiel Probleme
-
-[B]3.0.4~nightly1[/B]
 - Beliebige IMDB Listen hinzufügen (lastship.py, movies.py, navigator.py, settings.xml)
 	Es ist nun möglich beliebige IMDB-Listen mit ihren IDs (z.B. ls123456789) unter Einstellungen einzutragen und zu 
 	benennen
