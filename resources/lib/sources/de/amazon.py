@@ -1,26 +1,4 @@
-# -*- coding: UTF-8 -*-
-
-"""
-    Lastship Add-on (C) 2019
-    Credits to Placenta and Covenant; our thanks go to their creators
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
-
-# Addon Name: Lastship
-# Addon id: plugin.video.lastship
-# Addon Provider: LastShip
+# -*- coding: utf-8 -*-
 
 import re
 import os
@@ -85,7 +63,7 @@ class source:
                 #print "print AP episode local title VS. amazon clena title", localtitle,cleantitle.getsearch(str(i['ancestorTitles'][0]['title']))
                 #amazontitle =re.sub("\[dt.\/OV\]","",str(i['title']))
                 ## try-block weil ChildTitles manchmal leeres ergebnis liefern
-                if localtitle in cleantitle.getsearch(str(i['ancestorTitles'][0]['title'])):
+                if localtitle in cleantitle.getsearch(str(i['ancestorTitles'][0]['title'])) and not "[ov]" in cleantitle.getsearch(str(i['ancestorTitles'][0]['title'])):
                     #print "print AP TvSow Title found!"
                     ## Season abgleich ##
                     #print "print AP str(season) == str(i['number']", str(season), str(i['number'])
@@ -171,7 +149,7 @@ class source:
             #jahr=str(i['releaseOrFirstAiringDate']['valueFormatted'])
             #print "print AP Titel &Jahr, Jahr Trakt",jahr,i['title'],year
             #amazontitle=str(i['title'])
-            ### Release Date stimmt nicht immer überein!! ##
+            ### Release Date stimmt nicht immer ueberein!! ##
             try:
                 amazontitle =re.sub("\[dt.\/OV\]","",str(i['title']))
                 ratio=difflib.SequenceMatcher(None, localtitle, amazontitle).ratio()

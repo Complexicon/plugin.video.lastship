@@ -1,3 +1,6 @@
+[B]3.0.5~nightly1[/B]
+- Fix Amazon (deutsche Tonspur)
+
 [B]3.0.4[/B]
   13.01.2019
 - Hompagelink aktualisiert
