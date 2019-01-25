@@ -1,3 +1,6 @@
+[B]3.0.5~nightly2[/B]
+- Downloadfunktion Bugfix (Benennung auf Deutsch und Umlaute)
+
 [B]3.0.5~nightly1[/B]
 - Fix Amazon (deutsche Tonspur)
 
