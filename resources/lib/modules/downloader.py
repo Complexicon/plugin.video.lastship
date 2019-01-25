@@ -100,7 +100,7 @@ def download(name, image, url):
             if not ext in ['mp4', 'mkv', 'flv', 'avi', 'mpg']: ext = 'mp4'
             dest = os.path.join(dest, 'Season %01d' % int(content[0][1]))
             control.makeFile(dest)
-            dest = os.path.join(dest, transname + ' ' + episode + '.' + ext)
+            dest = os.path.join(dest, transname + ' ' + episode[1] + '.' + ext)
     else: #Option für Benennung auf Deutsch AUS
         if len(sorter) == 0: #Filme
             transname = name.translate(None, '\/:*?"<>|').strip('.')
