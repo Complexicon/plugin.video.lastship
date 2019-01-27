@@ -22,12 +22,18 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-import re,sys,json,time,xbmc
+import re,sys,json,time,xbmc,xbmcaddon
 import hashlib,urllib,os,base64,codecs,xmlrpclib
-import gzip, StringIO
+import gzip, StringIO, AddonSignals
 
 try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
+
+try:
+    from urlparse import parse_qsl, parse_qs, unquote, urlparse
+    from urllib import urlencode, quote_plus, quote
+except:
+    from urllib.parse import parse_qsl, urlencode, quote_plus, parse_qs, quote, unquote, urlparse
 
 from resources.lib.modules import control
 from resources.lib.modules import cleantitle
@@ -38,7 +44,6 @@ from resources.lib.modules import playcount
 class player(xbmc.Player):
     def __init__ (self):
         xbmc.Player.__init__(self)
-
 
     def run(self, title, year, season, episode, imdb, tvdb, url, meta):
         try:
@@ -59,7 +64,8 @@ class player(xbmc.Player):
             self.tvdb = tvdb if not tvdb == None else '0'
             self.ids = {'imdb': self.imdb, 'tvdb': self.tvdb}
             self.ids = dict((k,v) for k, v in self.ids.iteritems() if not v == '0')
-
+            self.meta = meta
+            
             self.offset = bookmarks().get(self.name, season, episode, imdb, self.year)
 
             poster, thumb, meta = self.getMeta(meta)
@@ -166,13 +172,12 @@ class player(xbmc.Player):
         pname = '%s.player.overlay' % control.addonInfo('id')
         control.window.clearProperty(pname)
 
-
         if self.content == 'movie':
             overlay = playcount.getMovieOverlay(playcount.getMovieIndicators(), self.imdb)
 
         elif self.content == 'episode':
             overlay = playcount.getEpisodeOverlay(playcount.getTVShowIndicators(), self.imdb, self.tvdb, self.season, self.episode)
-
+        
         else:
             overlay = '6'
 
@@ -266,7 +271,12 @@ class player(xbmc.Player):
         if not self.offset == '0': self.seekTime(float(self.offset))
         subtitles().get(self.name, self.imdb, self.season, self.episode)
         self.idleForPlayback()
-
+        kodiVersion = int(xbmc.getInfoLabel("System.BuildVersion")[:2])
+        if kodiVersion > 17:
+            return
+        self.play_next_triggered = False
+        self.upnext_Trigger()
+        
     # Exposed by kodi core in v18 when a video starts playing 
     # https://forum.kodi.tv/showthread.php?tid=334929
     def onAVStarted(self):
@@ -275,8 +285,16 @@ class player(xbmc.Player):
         if not self.offset == '0': self.seekTime(float(self.offset))
         subtitles().get(self.name, self.imdb, self.season, self.episode)
         self.idleForPlayback()
-
+        kodiVersion = int(xbmc.getInfoLabel("System.BuildVersion")[:2])
+        if kodiVersion > 17:
+            return
+        self.play_next_triggered = False
+        self.upnext_Trigger()
+        
     def onPlayBackStopped(self):
+        playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playList.clear()
+        self.play_next_triggered = False
         bookmarks().reset(self.currentTime, self.totalTime, self.name, self.year)
         if control.setting('crefresh') == 'true':
             xbmc.executebuiltin('Container.Refresh')
@@ -287,10 +305,90 @@ class player(xbmc.Player):
         except: pass
 
     def onPlayBackEnded(self):
+        self.play_next_triggered = False
         self.libForPlayback()
         self.onPlayBackStopped()
         if control.setting('crefresh') == 'true':
             xbmc.executebuiltin('Container.Refresh')
+
+    def upnext_Trigger(self):
+        self.media_length = self.getTotalTime()
+        print(self.content)
+        if self.content == 'episode':
+            source_id = 'plugin.video.lastship'
+            return_id = 'plugin.video.lastship_play_action'
+            try:
+                next_info = self.next_info()
+                AddonSignals.sendSignal('upnext_data', next_info, source_id=source_id)
+                AddonSignals.registerSlot('upnextprovider', return_id, self.signals_callback)
+            except:
+                import traceback
+                traceback.print_exc()
+                pass
+                    
+    def signals_callback(self, data):
+        if not self.play_next_triggered:
+            self.play_next_triggered = True
+            # Using a seek here as playnext causes Kodi gui to wig out. So we seek instead so it looks more graceful
+            self.seekTime(self.media_length)
+                    
+    def next_info(self):
+        current_episode = {}
+        current_episode["episodeid"] = self.tvdb
+        current_episode["tvshowid"] = self.imdb
+        current_episode["title"] = self.title
+        current_episode["art"] = {}
+        current_episode["art"]["tvshow.poster"] = self.meta['poster']
+        current_episode["art"]["thumb"] = self.meta['thumb']
+        current_episode["art"]["tvshow.fanart"] = self.meta['thumb']
+        current_episode["art"]["tvshow.landscape"] = ''
+        current_episode["art"]["tvshow.clearart"] = ''
+        current_episode["art"]["tvshow.clearlogo"] = ''
+        current_episode["plot"] = self.meta['plot']
+        current_episode["showtitle"] = self.meta['tvshowtitle']
+        current_episode["playcount"] = 0
+        current_episode["season"] = self.season
+        current_episode["episode"] = self.episode
+        current_episode["rating"] = self.meta['rating']
+        current_episode["firstaired"] = self.meta['premiered']
+        
+        playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)        
+        current_position = playList.getposition()
+        url = playList[current_position + 1].getPath()
+        params = dict(parse_qsl(url.replace('?','')))
+        next_info = json.loads(params.get('meta'))
+        
+        next_episode = {}
+        next_episode["episodeid"] = next_info['thumb']
+        next_episode["tvshowid"] = next_info['imdb']
+        next_episode["title"] = next_info['title']
+        next_episode["art"] = {}
+        next_episode["art"]["tvshow.poster"] = next_info['poster']
+        next_episode["art"]["thumb"] = next_info['thumb']
+        next_episode["art"]["tvshow.fanart"] = next_info['fanart']
+        next_episode["art"]["tvshow.landscape"] = next_info['banner']
+        next_episode["art"]["tvshow.clearart"] = ''
+        next_episode["art"]["tvshow.clearlogo"] = ''
+        next_episode["plot"] = next_info["plot"]
+        next_episode["showtitle"] = next_info['tvshowtitle']
+        next_episode["playcount"] = 0
+        next_episode["season"] = next_info['season']
+        next_episode["episode"] = next_info['episode']
+        next_episode["rating"] = next_info['rating']
+        next_episode["firstaired"] = next_info['premiered']
+        
+        play_info = {}
+        play_info["item_id"] = current_episode['episodeid']
+        
+        next_info = {
+            "current_episode": current_episode,
+            "next_episode": next_episode,
+            "play_info": play_info,
+            "notification_time": int(90)
+            # "notification_time": int(IN DIE LASTSHIP EINSTELLUNGEN EINBAUEN?)
+        }
+
+        return next_info
 
 
 class subtitles:
