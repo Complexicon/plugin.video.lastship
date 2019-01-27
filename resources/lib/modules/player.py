@@ -272,7 +272,7 @@ class player(xbmc.Player):
         subtitles().get(self.name, self.imdb, self.season, self.episode)
         self.idleForPlayback()
         kodiVersion = int(xbmc.getInfoLabel("System.BuildVersion")[:2])
-        if kodiVersion < 18:
+        if kodiVersion > 17:
             return
         self.play_next_triggered = False
         self.upnext_Trigger()
@@ -286,7 +286,7 @@ class player(xbmc.Player):
         subtitles().get(self.name, self.imdb, self.season, self.episode)
         self.idleForPlayback()
         kodiVersion = int(xbmc.getInfoLabel("System.BuildVersion")[:2])
-        if kodiVersion > 17:
+        if kodiVersion < 18:
             return
         self.play_next_triggered = False
         self.upnext_Trigger()
