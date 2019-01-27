@@ -7,6 +7,7 @@
 		<import addon="script.module.urlresolver" />
 		<import addon="script.module.requests" />
 		<import addon="script.module.metahandler" version="1.0.0" />
+		<import addon="script.module.addon.signals" version="0.0.1"/>
 	</requires>
 	<extension point="xbmc.python.pluginsource" library="lastship.py">
 		<provides>video</provides>
