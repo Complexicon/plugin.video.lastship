@@ -314,7 +314,7 @@ class player(xbmc.Player):
     def upnext_Trigger(self):
         self.media_length = self.getTotalTime()
         print(self.content)
-        if self.content == 'episode':
+        if self.content == 'episode' and control.setting('upnext') == 'true':
             source_id = 'plugin.video.lastship'
             return_id = 'plugin.video.lastship_play_action'
             try:
@@ -384,8 +384,7 @@ class player(xbmc.Player):
             "current_episode": current_episode,
             "next_episode": next_episode,
             "play_info": play_info,
-            "notification_time": int(90)
-            # "notification_time": int(IN DIE LASTSHIP EINSTELLUNGEN EINBAUEN?)
+            "notification_time": int(control.setting('upnext.timer'))
         }
 
         return next_info
