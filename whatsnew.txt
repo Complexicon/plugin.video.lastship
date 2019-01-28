@@ -23,6 +23,11 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
 
 [B][COLOR lime]Changelog plugin.video.lastship[/COLOR][/B]
 
+[B]3.0.5[/B]
+  28.01.2019
+- Downloadfunktion Bugfix (Benennung auf Deutsch und Umlaute)
+- Fix Amazon (deutsche Tonspur)
+
 [B]3.0.4[/B]
   13.01.2019
 - Hompagelink aktualisiert
