@@ -1,5 +1,5 @@
 [B]3.0.6~nightly1[/B]
-- add UpNext Funktion in Lastship 
+- add UpNext Funktion (mur Kodi18) in Lastship 
   Das Addon UpNext muss aber seperat installiert werden
   Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
   Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
