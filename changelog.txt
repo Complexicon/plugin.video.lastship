@@ -1,8 +1,8 @@
 [B]3.0.6~nightly1[/B]
 - add UpNext Funktion in Lastship 
-  Das Addon UpNext muss aber seperat installiert werden (https://github.com/im85288/service.upnext)
-  Wie NextUp Notification. Einstellungen angelegt (auf 90sek. Restzeit)
-  Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden. 
+  Das Addon UpNext muss aber seperat installiert werden
+  Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
+  Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
   NUR Serien!
 
 [B]3.0.5[/B]
