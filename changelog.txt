@@ -1,5 +1,6 @@
 [B]3.0.6~nightly1[/B]
-- add UpNext Funktion in Lastship
+- add UpNext Funktion in Lastship 
+  Das Addon UpNext muss aber seperat installiert werden (https://github.com/im85288/service.upnext)
 
 [B]3.0.5[/B]
   28.01.2019
