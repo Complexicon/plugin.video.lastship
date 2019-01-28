@@ -1,7 +1,9 @@
-[B]3.0.5~nightly2[/B]
-- Downloadfunktion Bugfix (Benennung auf Deutsch und Umlaute)
+[B]3.0.6~nightly1[/B]
+- add UpNext Funktion in Lastship
 
-[B]3.0.5~nightly1[/B]
+[B]3.0.5[/B]
+  28.01.2019
+- Downloadfunktion Bugfix (Benennung auf Deutsch und Umlaute)
 - Fix Amazon (deutsche Tonspur)
 
 [B]3.0.4[/B]
