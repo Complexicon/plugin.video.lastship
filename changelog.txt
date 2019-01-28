@@ -1,3 +1,6 @@
+[B]3.0.6~nightly2[/B]
+- Fix settings.xml Menü Bug
+
 [B]3.0.6~nightly1[/B]
 - add UpNext Funktion (mur Kodi18) in Lastship 
   Das Addon UpNext muss aber seperat installiert werden
