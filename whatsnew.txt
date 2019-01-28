@@ -7,10 +7,12 @@ Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby
 Die Gründer und auch die Entwickler von Lastship sind nur in unserem Lastship Forum anzutreffen
 
 [B][COLOR blue]Aktuelles[/COLOR][/B]
-11.01.2019
-Wir haben eine neue Homepage Adresse
-
-In der nightly ist es möglich, eigene Genres anzulegen und auch fertige IMDB Listen hinzuzufügen
+28.11.2019
+UpNext Funktion (nur Kodi18) in Lastship 
+  Das Addon UpNext muss aber seperat installiert werden 
+  Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
+  Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
+NUR Serien!
 
 [B]INFO Allgemein:[/B]
 Für die Seite Serienstream ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (kann auch Wegwerf E-Mailadresse sein)
