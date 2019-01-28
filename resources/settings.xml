@@ -32,6 +32,13 @@
         <setting id="prgr.sortorder" type="enum" label="Trakt-Fortschritt sortieren nach" values="kürzlich gesendet|kürzlich gesehen" default="1" visible="!eq(-23,)" />
         <setting id="autoTraktOnStart" type="bool" label="Synchronisierung bei Kodi Start" default="False" />
         <setting id="schedTraktTime" type="slider" label="Geplante Updates jede Stunde/n" default="0" range="0,24" option="int" />
+        <setting type="lsep" label="Entwicklung & Debugging" />
+        <setting id="DevUpdate" type="bool" label="Nightly Update" default="false" />
+        <setting id="FaultLogger.enabled" type="bool" label="Fehlerhafte Provider erkennen" default="true" />
+        <setting id="FaultLogger.numErrors" type="slider" label="Anzahl Errors für Deaktivierung" default="5" range="1,30" visible="eq(-1,true)"  option="int" />
+        <setting id="FaultLogger.recheckHours" type="slider" label="Deaktivierten Provider überprüfen nach Stunden" default="24" range="12,72" visible="eq(-2,true)" option="int" />
+    </category>
+    <category label="Genres & Listen">
         <setting type="lsep" label="Persönliche Genres" />
         <setting id="PersonalMovieGenre" type="bool" label="Persönliche Film-Genres aktivieren" default="false" />
         <setting id="PersonalMovieGenreTitle1" type="text" label="Titel Genre 1" visible="eq(-1,true)" enable="true" default=""/>
@@ -75,11 +82,6 @@
         <setting id="PersonalMovieList5" type="text" label="ID Liste 5" visible="eq(-10,true)" enable="true" default=""/>
         <setting type="text" label="[COLOR blue]ID im Format ls123456789 eingeben.[/COLOR]" visible="eq(-11,true)" />
         <setting type="text" label="[COLOR blue]Große Listen benötigen lange Ladezeiten.[/COLOR]" visible="eq(-12,true)" />
-        <setting type="lsep" label="Entwicklung / Debugging" />
-        <setting id="DevUpdate" type="bool" label="Nightly Update" default="false" />
-        <setting id="FaultLogger.enabled" type="bool" label="Fehlerhafte Provider erkennen" default="true" />
-        <setting id="FaultLogger.numErrors" type="slider" label="Anzahl Errors für Deaktivierung" default="5" range="1,30" visible="eq(-1,true)"  option="int" />
-        <setting id="FaultLogger.recheckHours" type="slider" label="Deaktivierten Provider überprüfen nach Stunden" default="24" range="12,72" visible="eq(-2,true)" option="int" />
     </category>
     <category label="Wiedergabe">
         <setting id="hosts.mode" type="enum" label="Standard-Aktion" values="Dialog|Verzeichnis|Autoplay" default="1" />
@@ -87,10 +89,6 @@
         <setting id="prem.identify" type="enum" label="Textfarbe für Premium-Links" values="Blau|Rot|Gelb|Altrosa|Cyan|Grasgrün|Gold|Magenta|Gelbgrün|Ohne Farbe" default="0" />
         <setting id="preemptive.termination" type="bool" label="Streamsuche vorzeitig abbrechen" default="False" />
         <setting id="preemptive.limit" type="slider" label="Abbruch-Limit Streamsuche" default="10" range="1,50" option="int" />
-	<setting type="lsep" label="UpNext" />
-	<setting type="action" action="InstallAddon(service.upnext)" label="UpNext Installieren" option="close" visible="!System.HasAddon(service.upnext)"/>
-	<setting id="upnext" type="bool" label="UpNext für Serien benutzen" default="false" visible="System.HasAddon(service.upnext)"/>
-	<setting id="upnext.timer" type="slider" label="Restsekunden für UpNext Popup" default="90" range="10,240" option="int" visible="eq(-1,true)"/>
         <setting type="lsep" label="Dateinanbieter-Filter" />
         <setting id="hosts.quality" type="enum" label="Höchste Qualität" values="4K|1440p|1080p|720p|480p" default="0" />
         <setting id="autoplay.sd" type="bool" label="Nur SD-Anbieter in Auto-Play" default="false" />
