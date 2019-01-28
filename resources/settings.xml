@@ -225,8 +225,8 @@
         <setting id="downloads" type="bool" label="Herunterladen aktivieren" default="false" />
         <setting id="movie.download.path" type="folder" label="Filme" enable="!eq(-1,false)" default="" />
         <setting id="tv.download.path" type="folder" label="TV-Serien" enable="!eq(-2,false)" default="" />
-        <setting id="Download.auf.Deutsch" type="bool" label="Benennung der Filme/Serien auf Deutsch" default="false" />
+        <setting id="Download.auf.Deutsch" type="bool" label="Benennung der Filme/Serien auf Deutsch" enable="!eq(-3,false)" default="false" />
         <setting type="text" label="[COLOR blue]Herunterladen ist standardmäßig deaktiviert.[/COLOR]" />
-        <setting type="text" label="[COLOR blue]Bitte geben sie Ihre Ordnerpfade an, um sie zu aktivieren.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Ordnerpfade müssen vollständig angegeben werden.[/COLOR]" />
     </category>
 </settings>
