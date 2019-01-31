@@ -1,3 +1,7 @@
+[B]3.0.6~nightly4[/B]
+- Offline Seiten entfernt
+  view4u.co, szene-streamz.com, movie2k.st
+
 [B]3.0.6~nightly3[/B]
 - [settings.xml] Menü neu geordnet und neu Strukturiert
 
