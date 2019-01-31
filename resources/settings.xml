@@ -154,7 +154,6 @@
         <setting id="provider.streamit" type="bool" label="STREAMIT.WS" default="true" />
         <setting id="provider.streamworld" type="bool" label="STREAMWORLD.TO (ReCaptcha)" default="false" />
         <setting id="provider.stream-to" type="bool" label="STREAM.TO (ReCaptcha)" default="false" />
-        <setting id="provider.szene-streamz" type="bool" label="SZENE-STREAMZ.COM" default="true" />
         <setting id="provider.tmovie" type="bool" label="TMOVIE.TO" default="true" />
     </category>
     <category label="Konten">
