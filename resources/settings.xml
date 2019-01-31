@@ -141,7 +141,6 @@
         <setting id="provider.kinoger" type="bool" label="KINOGER.COM" default="true" />
         <setting id="provider.kino-cx" type="bool" label="KINO.CX" default="true" />
         <setting id="provider.kinox" type="bool" label="KINOX.TO" default="false" />
-        <setting id="provider.movie2k-st" type="bool" label="MOVIE2K.ST" default="true" />
         <setting id="provider.movie2k-ag" type="bool" label="MOVIE2K.AG" default="true" />
         <setting id="provider.movie4k" type="bool" label="MOVIE4K.TO" default="true" />
         <setting id="provider.movie4k-lt" type="bool" label="MOVIE4K.LT" default="true" />
