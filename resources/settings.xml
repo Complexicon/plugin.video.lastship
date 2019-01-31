@@ -156,7 +156,6 @@
         <setting id="provider.stream-to" type="bool" label="STREAM.TO (ReCaptcha)" default="false" />
         <setting id="provider.szene-streamz" type="bool" label="SZENE-STREAMZ.COM" default="true" />
         <setting id="provider.tmovie" type="bool" label="TMOVIE.TO" default="true" />
-        <setting id="provider.view4u" type="bool" label="VIEW4U.CO" default="true" />
     </category>
     <category label="Konten">
         <setting type="lsep" label="Fanart.tv" />
