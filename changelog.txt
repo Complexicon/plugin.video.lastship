@@ -1,17 +1,10 @@
-[B]3.0.6~nightly5[/B]
+[B]3.0.6[/B]
+  01.02.2019
 - Anzeigen, auch englischer Streams von s.to
-
-[B]3.0.6~nightly4[/B]
 - Offline Seiten entfernt
   view4u.co, szene-streamz.com, movie2k.st
-
-[B]3.0.6~nightly3[/B]
 - [settings.xml] Menü neu geordnet und neu Strukturiert
-
-[B]3.0.6~nightly2[/B]
 - Fix settings.xml Menü Bug
-
-[B]3.0.6~nightly1[/B]
 - add UpNext Funktion (nur Kodi18) in Lastship 
   Das Addon UpNext muss aber seperat installiert werden
   Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
