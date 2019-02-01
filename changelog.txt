@@ -1,3 +1,6 @@
+[B]3.0.6~nightly5[/B]
+- Anzeigen, auch englischer Streams von s.to
+
 [B]3.0.6~nightly4[/B]
 - Offline Seiten entfernt
   view4u.co, szene-streamz.com, movie2k.st
