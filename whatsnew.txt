@@ -7,23 +7,31 @@ Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby
 Die Gründer und auch die Entwickler von Lastship sind nur in unserem Lastship Forum anzutreffen
 
 [B][COLOR blue]Aktuelles[/COLOR][/B]
-28.11.2019
-UpNext Funktion (nur Kodi18) in Lastship 
-  Das Addon UpNext muss aber seperat installiert werden 
-  Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
-  Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
-NUR Serien!
+zur Zeit keine Neuigkeiten
 
 [B]INFO Allgemein:[/B]
-Für die Seite Serienstream ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (kann auch Wegwerf E-Mailadresse sein)
+Für die Seite Serienstream (s.to) ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (kann auch Wegwerf E-Mailadresse sein)
 
-Die Seite Emby ist Standardmäßig deaktiviert, da diese Seite eine Premium Seite ist, dass heißt es muss für die Nutzung bezahlt werden
+Amazon und Netflix nur mit einem gültigen Abo des Betreibers nutzbar, Infos dazu siehe FAQ
 
 Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos dazu stehen in der FAQ
 
 [COLOR orange]-------------------------------------------------------------------------------------------------------[/COLOR]
 
 [B][COLOR lime]Changelog plugin.video.lastship[/COLOR][/B]
+
+[B]3.0.6[/B]
+  01.02.2019
+- Anzeigen, auch englischer Streams von s.to
+- Offline Seiten entfernt
+  view4u.co, szene-streamz.com, movie2k.st
+- [settings.xml] Menü neu geordnet und neu Strukturiert
+- Fix settings.xml Menü Bug
+- add UpNext Funktion (nur Kodi18) in Lastship 
+  Das Addon UpNext muss aber seperat installiert werden
+  Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
+  Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
+  NUR Serien!
 
 [B]3.0.5[/B]
   28.01.2019
@@ -40,121 +48,6 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
 	Der Punkt „IMDB-Listen“ erscheint dann in der Kategorienübersicht der Filme. Standardsortierung ist immer die Sortierung 
 	der Liste
 	Die Einstellung befindet sich unter „Allgemein“ und ist Standardmäßig deaktiviert
-	
-[B]3.0.3.0[/B]
-  03.01.2019
-- Update fixzipfile (damit das nightly Update auf Android funktioniert)
-
-[B]3.0.2.9[/B]
-  30.12.2018
-- Update fixzipfile
-- Update sources.py (Openload wird bei Hoster mit Captcha jetzt auch deaktiviert)
--  moovie entfernt (Authentifizierung zum Abspielen der Links notwendig)
-- Update movies.py, tvshows.py, settings.xml:
-   Genre kann nun unabhängig von den Schlagwörtern benannt werden
-   Kurze Erklärung zum notwendigen Eintrag eingefügt
-- Add tmovie
-- [tvshows.py] Anpassung der Auszeichnungen Icons
-- [navigator.py] In tvshows Icon Anpassung
-- [movies.py] optische Optimierung
-
-[B]3.0.2.8[/B]
-  09.12.2018
-- Fix TV Sender (nächste Seite)
-- DuckDuckgo als Fallback Suche entfernt
-- Personal Generes Code Optimierung
-- Fix HDFilme
-- [watchbox] Serien werden jetzt auch gefunden
-- Update Icons Verweis für Studio und Auszeichnungen
-  [settings.xml], [movies.py], [navigator.py]
-- Update cinemaxx.to (Staffel fix)
-- Update foxx
-- Update serienstream.to (Suche angepasst)
-- Persönliche Genres hinzugefügt:
-  - [movies.py], [tvshows.py], [settings.xml]
-- [settings.xml] Untertitel Standard Deutsch, Menue neu sortiert
-- [HDFilme] Update auf Domain Endung .net
-- Watchbox neu hinzugefügt (nur Filme)
-- [kinox] Domain Update (kinox.nu)
-- kinoking entfernt (Seite gibt es nicht mehr)
-
-- movies.py:
-  Kategorie „Herkunftsland“ hinzugefügt (dient als sinnvollerer „Ersatz“ für „Sprachen“)
-  Wird von „Filter by Year“ beeinflusst (Anmerkung: Oft gibt es mehrere „Herkunftsländer“ und somit Überschneidungen; Dies ist 
-  auf IMDB nicht anders)
-  Symbole angepasst
-  
-  Alle IMDB-Links aktualisiert/bereinigt, Moviemeter in Links entfernt da von IMDB nicht mehr unterstützt. Alle IMDB-Links 
-  auf „include=adult“ gesetzt und unnötige Teile entfernt. Nahezu alle Ergebnisse der Kategorien werden jetzt, wie standardmäßig  
-  in IMDB, nach Popularität sortiert
-  
-  Kategorie „Studios“ hinzugefügt (Filterbar mit „Filter by Years“), Code bereinigt/reduziert
-  tvshows.py: Top/Bottom wird zwar von IMDB angeboten aber liefert auch auf der Website keine Ergebnisse
-  Über Alternativen, die über IMDB realisierbar sind, wird nachgedacht. Funktion somit deaktiviert
-
-- tvshows.py:
-  Kategorie „Herkunftsland“ hinzugefügt (dient als sinnvollerer „Ersatz“ für „Sprachen“). (Anmerkung: Oft gibt es mehrere „    
-  Herkunftsländer und somit Überschneidungen; Dies ist auf IMDB nicht anders)
-  Emmy und „Golden Globe“ unter „Auszeichnungen & Co“ hinzugefügt. (Anmerkung: Auf Grund der Vielzahl verliehener Preise sehen   
-  die Liste auf dem ersten Blick identisch aus, sie sind es aber nicht)
-  Symbole angepasst
-  
-  Populär“ wieder hergestellt als Ersatz für IMDB-Top-Listen
-
-- navigator.py:
-  Anpassungen für neue Kategorien
-  Anzeige der Versionsnummer im Bereich Infos und Updates
-  Punkt „Studios“ hinzugefügt
-
-- lastship.py:
-  Anpassung für Kategorie „Studios“
-
-- settings.xml:
-  Anpassung des Hinweises für „Filter by Year“
-  
-- Populär aus „Auszeichnungen & Co“ gelöscht da identisch zu „IMDB Top 1000“
-  Links bleiben bestehen wegen Movie Widget
-- Aktive Betrachter wird bei Filter by Year nicht gefiltert (wie vorher) und Boxoffice sowie Meistbewertet wird nun auch   
-  gefiltert
-- Icons hinzugefügt
-- Schreibweise zu einer optischen schöneren geändert
-
-- Übersicht in movies.py, tvshows.py, navigator.py umsortiert
-- Mehr Auszeichnungen und Bewertungen unter einen Punkt vereint um die Übersichtlichkeit zu steigern
-- Bewertungen/Auszeichnungen ergänzt
-- Filter by year für Genres, FSK, Auszeichnungen möglich. Allerdings nicht für populär, boxoffice, aktive Betrachter und   
-  besten bewertet (hier muss jemand dan der besser Python kann)
-- https einheitlich (in bearbeiteten Dateien) zu http geändert
-- Cleanup von auskommentierten Funktionen und weitere Kleinigkeiten
-
-- [updatemanager.py] Lizenz Update
-- Update downloader.py und settings.xml:
-	- Benennung der Downloads (Dateien und Ordner) in Deutsch ist nun vollständig für Serien und Filme möglich 
-	  (inkl. Downloadanzeige)
-	  Code übersichtlicher gestaltet (downloader.py, settings.xml)
-- Fake-Genre Superhelden hinzugefügt (movies.py, tvshows.py, cleangenre.py)
-
-- downloader.py (Filme und Ordner werden beim Download in Deutsch angelegt)
-	Egal ob die Option aktiviert oder deaktiviert ist werden Serien vorerst in Englisch benannt
-	Downloadanzeige gibt vorerst bei Filmen und Serien den englischen Namen aus
-- Update serienstream (Anzeigetext geändert, bei nicht eingetragenem Konto bzw. Recpatcha)
-
-- Option für deutsche Datei- und Ordnerstruktur:
-- settings.xml
-- libtools.py
-
--Umstellung auf Deutsch:
-	- metacache.py
-	- sources.py
-	- trailer.py
-	- library.py
-	- libtools.py
-- Lizenz Update
-	- episodes.py
-	- movies.py
-	- tvshows.py
-
-- [duckduckgo.py] orion header und referer Update
 
 [COLOR orange]-------------------------------------------------------------------------------------------------------[/COLOR] 
   
