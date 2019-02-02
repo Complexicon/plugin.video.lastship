@@ -50,7 +50,7 @@ try: hoursTillRecheck = int(control.setting('FaultLogger.recheckHours'))
 except: hoursTillRecheck = 24
 triggerCacheSetting = "source_fault_last_seen"
 
-statisticURL = "aHR0cDovL2xhc3RzaGlwLnNxdWFyZTcuY2gvQ291bnRlci9wcm92aWRlcmNvdW50LnBocD9zaXRlPSVzJmV4cGlyZT0lZCZzZXQ="
+statisticURL = "aHR0cHM6Ly9sYXN0c2hpcC5jaC9Db3VudGVyL3Byb3ZpZGVyY291bnQucGhwP3NpdGU9JXMmZXhwaXJlPSVkJnNldA=="
 
 
 def init():
