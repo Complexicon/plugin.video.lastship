@@ -1,3 +1,6 @@
+[B]3.0.7~nightly1[/B]
+- Update source_faultlog Url
+
 [B]3.0.6[/B]
   01.02.2019
 - Anzeigen, auch englischer Streams von s.to
