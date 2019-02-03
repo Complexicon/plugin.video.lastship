@@ -1,3 +1,6 @@
+[B]3.0.8~nightly2[/B]
+- Anzeigen, auch englischer Streams von s.to
+
 [B]3.0.8~nightly1[/B]
 - Fix für cfscrape 
 kinoger, cine, stream-to laufen mit dem neuen cfscrape
