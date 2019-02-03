@@ -7,7 +7,9 @@ Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby
 Die Gründer und auch die Entwickler von Lastship sind nur in unserem Lastship Forum anzutreffen
 
 [B][COLOR blue]Aktuelles[/COLOR][/B]
-zur Zeit keine Neuigkeiten
+03.02.2019
+Es gab anscheinden mit v3.0.6 einige Problem bezüglich verfügbarer Streams. Daher erfolgt mit v3.0.7 ein Downgrade auf Stand v.3.0.5 
+Ursache des Fehlers ist uns noch nicht bekannt
 
 [B]INFO Allgemein:[/B]
 Für die Seite Serienstream (s.to) ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (kann auch Wegwerf E-Mailadresse sein)
@@ -20,6 +22,19 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
 
 [B][COLOR lime]Changelog plugin.video.lastship[/COLOR][/B]
 
+[B]3.0.7[/B]
+  03.02.2019
+- Downgrade auf Stand von v3.0.5 (Da sich wahrscheinlich ein Fehler in v3.0.6 eingeschlichen hat)
+- Offline Seiten entfernt
+  view4u.co, szene-streamz.com, movie2k.st
+- [settings.xml] Menü neu geordnet und neu Strukturiert
+- Fix settings.xml Menü Bug
+- Update source_faultlog Url
+
+  Entfernt:
+  - UpNext Funktion im Lastship Menue
+  - Anzeigen, auch englischer Streams von s.to
+
 [B]3.0.6[/B]
   01.02.2019
 - Anzeigen, auch englischer Streams von s.to
@@ -31,7 +46,7 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
   Das Addon UpNext muss aber seperat installiert werden
   Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
   Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
-  NUR Serien!
+NUR Serien!
 
 [B]3.0.5[/B]
   28.01.2019
@@ -48,6 +63,7 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
 	Der Punkt „IMDB-Listen“ erscheint dann in der Kategorienübersicht der Filme. Standardsortierung ist immer die Sortierung 
 	der Liste
 	Die Einstellung befindet sich unter „Allgemein“ und ist Standardmäßig deaktiviert
+	
 
 [COLOR orange]-------------------------------------------------------------------------------------------------------[/COLOR] 
   

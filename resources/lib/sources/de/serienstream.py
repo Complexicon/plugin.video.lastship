@@ -84,9 +84,9 @@ class source:
             r = cache.get(client.request, 4, urlparse.urljoin(self.base_link, url))
 
             r = dom_parser.parse_dom(r, 'div', attrs={'class': 'hosterSiteVideo'})
-            r = dom_parser.parse_dom(r, 'li', attrs={'data-lang-key': re.compile('[1|2|3]')})
+            r = dom_parser.parse_dom(r, 'li', attrs={'data-lang-key': re.compile('[1|3]')})
             r = [(i.attrs['data-link-target'], dom_parser.parse_dom(i, 'h4'),
-                  'subbed' if i.attrs['data-lang-key'] == '3' else '' if i.attrs['data-lang-key'] == '1' else 'subbed' if i.attrs['data-lang-key'] == '2' else '') for i
+                  'subbed' if i.attrs['data-lang-key'] == '3' else '' if i.attrs['data-lang-key'] == '1' else '') for i
                  in r]
             r = [(i[0], i[1][0].content, 'HD' if 'hd' in i[1][0][1].lower() else 'SD', i[2]) for i in r]
 

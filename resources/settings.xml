@@ -103,10 +103,6 @@
         <setting id="bookmarks" type="bool" label="Fortsetzen" default="true" />
         <setting id="bookmarks.trakt" type="bool" label="Trakt-Fortsetzungspunkt" default="false" enable="!eq(-1,false)" />
         <setting id="bookmarks.auto" type="bool" label="Automatisch Fortsetzen" default="false" enable="!eq(-2,false)" />
-        <setting type="lsep" label="UpNext" />
-        <setting type="action" action="InstallAddon(service.upnext)" label="UpNext Installieren" option="close" visible="!System.HasAddon(service.upnext)"/>
-        <setting id="upnext" type="bool" label="UpNext für Serien benutzen" default="false" visible="System.HasAddon(service.upnext)"/>
-        <setting id="upnext.timer" type="slider" label="Restsekunden für UpNext Popup" default="90" range="10,240" option="int" visible="eq(-1,true)"/>
         <setting type="lsep" label="Bei Wiedergabe-Ende..." />
         <setting id="crefresh" type="bool" label="Verzeichnis neu laden" default="false" />
     </category>
