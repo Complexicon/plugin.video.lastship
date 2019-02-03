@@ -1,3 +1,7 @@
+[B]3.0.8~nightly1[/B]
+- Fix für cfscrape 
+kinoger, cine, stream-to laufen mit dem neuen cfscrape
+
 [B]3.0.7[/B]
   03.02.2019
 - Downgrade auf Stand von v3.0.5 (Da sich wahrscheinlich ein Fehler in v3.0.6 eingeschlichen hat)
