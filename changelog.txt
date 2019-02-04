@@ -1,3 +1,6 @@
+[B]3.0.8~nightly3[/B]
+- Fix nach Personen suchen im QuickSearch Dialog
+
 [B]3.0.8~nightly2[/B]
 - Anzeigen, auch englischer Streams von s.to
 

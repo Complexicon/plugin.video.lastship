@@ -55,7 +55,7 @@ class navigator:
 
     def root(self):
         self.addDirectoryItem('[COLOR=lime]Infos und Updates[/COLOR]', 'newsNavigator', 'news_paper.png', 'DefaultAddonProgram.png') #news_paper.png sieht vor allem mit Exuary-Skin von Lastship nicht gut aus.
-        self.addDirectoryItem("Suche", 'searchNavigator', 'search.png', 'DefaultFolder.png')
+        self.addDirectoryItem("Suche", 'searchNavigator', 'search.png', 'DefaultFolder.png', isFolder=False)
         self.addDirectoryItem("Filme", 'movieNavigator', 'movies.png', 'DefaultMovies.png')
         self.addDirectoryItem("TV-Serien", 'tvNavigator', 'tvshows.png', 'DefaultTVShows.png')
 
