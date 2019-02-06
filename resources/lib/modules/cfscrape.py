@@ -4,7 +4,7 @@ import re
 import subprocess
 from copy import deepcopy
 from time import sleep
-import requests 
+import requests
 from resources.lib.modules import cfdecoder
 
 from requests.sessions import Session
@@ -14,42 +14,34 @@ try:
 except ImportError:
     from urllib.parse import urlparse
 
-__version__ = "1.9.4"
+__version__ = "1.9.5"
 
 DEFAULT_USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0",
-    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0"
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/65.0.3325.181 Chrome/65.0.3325.181 Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 7.0; Moto G (5) Build/NPPS25.137-93-8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.137 Mobile Safari/537.36",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53",
+    "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0) Gecko/20100101 Firefox/59.0",
+    "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0"
 ]
-
 DEFAULT_USER_AGENT = random.choice(DEFAULT_USER_AGENTS)
-
-BUG_REPORT = """\
-Cloudflare may have changed their technique, or there may be a bug in the script.
-
-Please read https://github.com/Anorov/cloudflare-scrape#updates, then file a \
-bug report at https://github.com/Anorov/cloudflare-scrape/issues."\
-"""
 
 ANSWER_ACCEPT_ERROR = """\
 The challenge answer was not properly accepted by Cloudflare. This can occur if \
 the target website is under heavy load, or if Cloudflare is experiencing issues. You can
 potentially resolve this by increasing the challenge answer delay (default: 5 seconds). \
 For example: cfscrape.create_scraper(delay=10)
-
 If increasing the delay does not help, please open a GitHub issue at \
 https://github.com/Anorov/cloudflare-scrape/issues\
 """
 
 class CloudflareScraper(Session):
     def __init__(self, *args, **kwargs):
-        self.delay = kwargs.pop("delay", 5)
+        self.delay = kwargs.pop("delay", 0)
         super(CloudflareScraper, self).__init__(*args, **kwargs)
 
         if "requests" in self.headers["User-Agent"]:
-            # Set a random User-Agent if no custom User-Agent has been set
             self.headers["User-Agent"] = DEFAULT_USER_AGENT
 
     def is_cloudflare_challenge(self, resp):
@@ -72,21 +64,24 @@ class CloudflareScraper(Session):
         return resp
 
     def solve_cf_challenge(self, resp, **original_kwargs):
-        sleep(5)  # Cloudflare requires a delay before solving the challenge
-        body = resp.text
-        parsed_url = urlparse(resp.url)
+        sleep(self.delay)
+		
         domain = urlparse(resp.url).netloc
-        submit_url = "%s://%s/cdn-cgi/l/chk_jschl" % (parsed_url.scheme, domain)
-
         cloudflare_kwargs = deepcopy(original_kwargs)
         params = cloudflare_kwargs.setdefault("params", {})
         headers = cloudflare_kwargs.setdefault("headers", {})
+		
+        headers["Host"] = domain
         headers["Referer"] = resp.url
+        headers["Accept"]= 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+        headers["Content-Type"]= 'text/html; charset=utf-8'
+
         request = {}
-        request['data'] = body
         request['url'] = resp.url
+        request['data'] = resp.content
         request['headers'] = resp.headers
         submit_url = cfdecoder.Cloudflare(request).get_url()
+
         method = resp.request.method
         cloudflare_kwargs["allow_redirects"] = False
         redirect = self.request(method, submit_url, **cloudflare_kwargs)
@@ -108,9 +103,7 @@ class CloudflareScraper(Session):
 
         return scraper
 
-
     ## Functions for integrating cloudflare-scrape with other applications and scripts
-
     @classmethod
     def get_tokens(cls, url, user_agent=None, **kwargs):
         scraper = cls.create_scraper()
