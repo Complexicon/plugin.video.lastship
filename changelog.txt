@@ -1,3 +1,6 @@
+[B]3.0.8~nightly7[/B]
+- Update settings.xml
+
 [B]3.0.8~nightly6[/B]
 - Fix HDFilme
 
