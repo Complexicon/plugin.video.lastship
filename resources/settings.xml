@@ -25,8 +25,8 @@
         <setting id="hidecinema" type="bool" label="Nur Filme älter als 90 Tage anzeigen" default="false" />
         <setting id="filter.movies.byyear" type="bool" label="Filme nach Jahrgang filtern" default="false" />
         <setting type="text" label="[COLOR blue]Genres, FSK, Studios, Einspielergebnis, Meistbewertet, Auszeichnungen, Herkunftsland[/COLOR]" visible="eq(-1,true)" />
-        <setting id="movies.byyear.from" type="slider" label="Von" default="1980" range="1900,2017" option="int" visible="eq(-2,true)" />
-        <setting id="movies.byyear.to" type="slider" label="Bis" default="2017" range="1900,2018" option="int" visible="eq(-3,true)" />
+        <setting id="movies.byyear.from" type="slider" label="Von" default="1980" range="1900,2018" option="int" visible="eq(-2,true)" />
+        <setting id="movies.byyear.to" type="slider" label="Bis" default="2018" range="1900,2019" option="int" visible="eq(-3,true)" />
         <setting type="lsep" label="Untertitel" />
         <setting id="subtitles" type="bool" label="Untertitel aktivieren" default="false" />
         <setting id="subtitles.utf" type="bool" label="Untertitel nach UTF-8 umwandeln" visible="!eq(-1,false)" default="false" />
@@ -164,7 +164,8 @@
         <setting id="trakt.refresh" type="text" visible="false" label="" default="" />
         <setting type="lsep" label="Trakt-Bibliothek und Automatische Synchronisierung" />
         <setting id="lists.widget" type="enum" label="Meine Listen" values="Deaktiviert|Aktiviert" default="1" />
-        <setting id="prgr.sortorder" type="enum" label="Trakt-Fortschritt sortieren nach" values="kürzlich gesendet|kürzlich gesehen" default="1" visible="!eq(-23,)" />
+        <setting id="trakt.user" type="text" label="Benutzer" default="" visible="false"/>
+        <setting id="prgr.sortorder" type="enum" label="Trakt-Fortschritt sortieren nach" values="kürzlich gesendet|kürzlich gesehen" default="1" visible="!eq(-1,)" />
         <setting id="autoTraktOnStart" type="bool" label="Synchronisierung bei Kodi Start" default="False" />
         <setting id="schedTraktTime" type="slider" label="Geplante Updates jede Stunde/n" default="0" range="0,24" option="int" />
         <setting type="lsep" label="IMDB" />
