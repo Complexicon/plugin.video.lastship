@@ -164,8 +164,7 @@
         <setting id="trakt.refresh" type="text" visible="false" label="" default="" />
         <setting type="lsep" label="Trakt-Bibliothek und Automatische Synchronisierung" />
         <setting id="lists.widget" type="enum" label="Meine Listen" values="Deaktiviert|Aktiviert" default="1" />
-        <setting id="trakt.user" type="text" label="Benutzer" default="" visible="false"/>
-        <setting id="prgr.sortorder" type="enum" label="Trakt-Fortschritt sortieren nach" values="kürzlich gesendet|kürzlich gesehen" default="1" visible="!eq(-1,)" />
+        <setting id="prgr.sortorder" type="enum" label="Trakt-Fortschritt sortieren nach" values="kürzlich gesendet|kürzlich gesehen" default="1" visible="true" />
         <setting id="autoTraktOnStart" type="bool" label="Synchronisierung bei Kodi Start" default="False" />
         <setting id="schedTraktTime" type="slider" label="Geplante Updates jede Stunde/n" default="0" range="0,24" option="int" />
         <setting type="lsep" label="IMDB" />
