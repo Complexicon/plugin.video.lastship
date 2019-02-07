@@ -1,3 +1,6 @@
+[B]3.0.8~nightly5[/B]
+- QuickSearch und normale Suche (Listview) funktionieren beide wieder
+
 [B]3.0.8~nightly4[/B]
 - Update cfscrape
 
