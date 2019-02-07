@@ -46,7 +46,7 @@ class source:
         self.base_link = 'https://hdfilme.net'
         self.search_link = '/movie-search?key=%s'
         self.get_link = 'movie/load-stream/%s/%s?server=1'
-        self.scraper = cfscrape.scraper
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -102,31 +102,33 @@ class source:
 
             if "episode" in url:
                 #we want the current link
-                streamlink = dom_parser.parse_dom(moviecontent.content, 'a', attrs={'class': 'current'})
-                r = (r[0],streamlink[0].attrs['_episode'])
+                streamlink = re.findall(r'stream" data-episode-id="(.*?)"\sonclick\=\"event.preventDefault\(\)\;\sload_episode\(this\)\">((?s).*?)</a>', moviecontent.content)
+                episode = int(re.findall(r'\?episode=(.*)', url)[0])
+                r = (r[0],streamlink[episode-1][0])
             else:
                 streamlink = dom_parser.parse_dom(moviecontent.content, 'a', attrs={'class': 'new'})
                 r = (r[0],streamlink[int(r[1])-1].attrs['_episode'])
 
             moviesource = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.get_link % r))
 
-            foundsource = re.findall('var sources = (\[.*?\]);', moviesource.content)
+            foundsource = re.findall(r'window.urlVideo = (\".*?\");', moviesource.content)
             sourcejson = json.loads(foundsource[0])
 
-            for sourcelink in sourcejson:
-                try:
-                    tag = directstream.googletag(sourcelink['file'])
-                    if tag:
-                        sources.append({'source': 'gvideo', 'quality': tag[0].get('quality', 'SD'), 'language': 'de', 'url': sourcelink['file'], 'direct': True, 'debridonly': False})
-                    else:
-                        if sourcelink['label'] == 'VIP':
-                            quality = "HD"
-                        else:
-                            quality = sourcelink['label']
-                        sources.append({'source': 'GoogleFile', 'quality': quality, 'language': 'de', 'url': sourcelink['file'], 'direct': True, 'debridonly': False})
-                except:
-                    pass
+            moviesources = cache.get(self.scraper.get, 4, sourcejson)
+            streams = re.findall(r'/drive(.*?)\n', moviesources.content)
+            qualitys = re.findall(r'RESOLUTION=(.*?)\n', moviesources.content)
+            url_stream = re.findall(r'"(.*?)"', foundsource[0])
+
+            for x in range(0, len(qualitys)):
+                stream = ('/drive' + streams[x])
+                if "1080" in qualitys[x]:
+                    sources.append({'source': 'HDFILME.NET', 'quality': '1080p', 'language': 'de', 'url': urlparse.urljoin(url_stream[0], stream), 'direct': True, 'debridonly': False})
+                elif "720" in qualitys[x]:
+                    sources.append({'source': 'HDFILME.NET', 'quality': '720p', 'language': 'de', 'url': urlparse.urljoin(url_stream[0], stream), 'direct': True, 'debridonly': False})
+                else:
+                    sources.append({'source': 'HDFILME.NET', 'quality': 'SD', 'language': 'de', 'url': urlparse.urljoin(url_stream[0], stream), 'direct': True, 'debridonly': False})
             return sources
+            
         except:
             source_faultlog.logFault(__name__, source_faultlog.tagScrape)
             return sources
@@ -141,21 +143,20 @@ class source:
 
             titles = [cleantitle.get(i) for i in set(titles) if i]
 
+            cache.cache_clear()
             searchResult = cache.get(self.scraper.get, 4, query).content
-
-            resultTitles = dom_parser.parse_dom(searchResult, 'div', attrs={'class': 'popover-title'})
-            resultTitles = dom_parser.parse_dom(resultTitles, 'span', attrs={'class': 'name'})
-            resultLinks = dom_parser.parse_dom(searchResult, 'div', attrs={'class': 'box-product'})
-
+            results = re.findall(r'<div class="title-product">\n<a href="(.*?)">((?s).*?)</a>', searchResult)
+        
             usedIndex = 0
             #Find result with matching name and season
-            for resulttitle in resultTitles:
-                title = cleantitle.get(resulttitle.content)
+            for x in range(0, len(results)):
+                title = cleantitle.get(results[x][1])
+
                 if any(i in title for i in titles):
                     if season == "0" or ("staffel" in title and ("0"+str(season) in title or str(season) in title)):
                         #We have the suspected link!
-                        link = dom_parser.parse_dom(resultLinks[usedIndex], 'a')
-                        return source_utils.strip_domain(link[0].attrs["href"])
+                        
+                        return source_utils.strip_domain(results[x][0])
                 usedIndex += 1
 
             return
