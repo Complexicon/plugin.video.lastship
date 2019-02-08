@@ -4,7 +4,7 @@
         <setting type="lsep" label="Allgemeines" />
         <setting id="appearance.alt" type="action" label="Erscheinungsbild" default="-" option="close" action="RunPlugin(plugin://plugin.video.lastship/?action=artwork)" visible="!System.HasAddon(script.lastship.artwork)" />
         <setting id="appearance.1" type="select" label="Erscheinungsbild" values="Lastship|Lastship2|Exodus|Exuary|Eigene" default="Lastship" visible="System.HasAddon(script.lastship.artwork)" />
-        <setting id="scrapers.timeout.1" type="slider" label="Zeitlimit für Indexseiten" default="20" range="10,60" option="int" />
+        <setting id="scrapers.timeout.1" type="slider" label="Zeitlimit für Indexseiten" default="20" range="10,120" option="int" />
         <setting id="trakt.user" type="text" label="Benutzer" default="" visible="false"/>
         <setting id="indicators.alt" type="enum" label="Gesehen / Fortsetzungspunkte" values="Lokal|Trakt" default="1" visible="!eq(-1,)" />
         <setting id="indicators" type="enum" label="Gesehen / Fortsetzungspunkte" values="Lokal" default="0" visible="eq(-2,)" enable="!eq(-2,)" />
