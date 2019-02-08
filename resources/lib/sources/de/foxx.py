@@ -100,11 +100,22 @@ class source:
 
             if "m3u8File" in r:
                 domain = re.findall("urlVideo\s=\s'(.*streamservice.online)", r)[0]
-                link = '%s/public/dist/index.html?id=%s' % (domain, phrase)
-                valid, hoster = source_utils.is_host_valid(link, hostDict)
-                if valid:
-                    sources.append({'source': hoster, 'quality': '720p', 'language': 'de', 'url': link, 'direct': False,
-                         'debridonly': False})
+                link = domain + '/hls/' + phrase + '/' + phrase + '.playlist.m3u8'
+                moviesources = cache.get(self.scraper.get, 4, link)
+                streams = re.findall(r'/drive(.*?)\n', moviesources.content)
+                qualitys = re.findall(r'RESOLUTION=(.*?)\n', moviesources.content)
+
+                
+
+                for x in range(0, len(qualitys)):
+                    stream = ('/drive' + streams[x])
+                    if "1080" in qualitys[x]:
+                        sources.append({'source': 'streamservice.online', 'quality': '1080p', 'language': 'de', 'url': urlparse.urljoin(link, stream), 'direct': True, 'debridonly': False})
+                    elif "720" in qualitys[x]:
+                        sources.append({'source': 'streamservice.online', 'quality': '720p', 'language': 'de', 'url': urlparse.urljoin(link, stream), 'direct': True, 'debridonly': False})
+                    else:
+                        sources.append({'source': 'streamservice.online', 'quality': 'SD', 'language': 'de', 'url': urlparse.urljoin(link, stream), 'direct': True, 'debridonly': False})
+                return sources
             else:
                 links = json.loads(base64.b64decode(phrase))
                 [sources.append({'source': 'CDN', 'quality': i['label'] if i['label'] in ['720p', '1080p'] else 'SD',
