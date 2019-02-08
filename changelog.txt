@@ -1,3 +1,6 @@
+[B]3.0.8~nightly8[/B]
+- Fix Foxx
+
 [B]3.0.8~nightly7[/B]
 - Update settings.xml
 
