@@ -85,15 +85,15 @@ class source:
             quality = dom_parser.parse_dom(r, 'span', attrs={'id': 'release_text'})[0].content.split('&nbsp;')[0]
             quality, info = source_utils.get_release_quality(quality)
 
+            
             r = dom_parser.parse_dom(r, 'ul', attrs={'class': 'currentStreamLinks'})
-            r = [(dom_parser.parse_dom(i, 'p', attrs={'class': 'hostName'}), dom_parser.parse_dom(i, 'a', attrs={'class': 'stream-src'}, req='data-id')) for i in r]
-            r = [(re.sub(' hd$', '', i[0][0].content.lower()), [x.attrs['data-id'] for x in i[1]]) for i in r if i[0] and i[1]]
+            r = [(dom_parser.parse_dom(i, 'p', attrs={'class': 'hostName'}), re.findall(r' href="(.*?)">', i.content)) for i in r]
+            r = [(re.sub('\shd', '', i[0][0].content.lower()), i[1][0]) for i in r if i[0] and i[1]]
 
             for hoster, id in r:
                 valid, hoster = source_utils.is_host_valid(hoster, hostDict)
                 if not valid: continue
-
-                sources.append({'source': hoster, 'quality': quality, 'language': 'de', 'info': ' | '.join(info + ['' if len(id) == 1 else 'multi-part']), 'url': id, 'direct': False, 'debridonly': False, 'checkquality': True})
+                sources.append({'source': hoster, 'quality': quality, 'language': 'de', 'info': '', 'url': id, 'direct': False, 'debridonly': False, 'checkquality': True})
 
             if len(sources) == 0:
                 raise Exception()
@@ -103,24 +103,10 @@ class source:
             return sources
 
     def resolve(self, url):
-        try:
-            h_url = []
-
-            for id in url:
-                query = urlparse.urljoin(self.base_link, self.stream_link % id)
-                r = cache.get(self.scraper.get, 4, query, XHR=True, post=urllib.urlencode({'streamID': id})).content
-                r = json.loads(r)
-                if 'error' in r and r['error'] == '0' and 'url' in r:
-                    h_url.append(r['url'])
-
-            h_url = h_url[0] if len(h_url) == 1 else 'stack://' + ' , '.join(h_url)
-
-            return h_url
-        except:
-            source_faultlog.logFault(__name__,source_faultlog.tagResolve)
-            return
+        return str(url)
 
     def __search(self, isSerieSearch, titles):
+        
         try:
             t = [cleantitle.get(i) for i in set(titles) if i]
 
@@ -129,11 +115,16 @@ class source:
                 query = urlparse.urljoin(self.base_link, query)
 
                 r = cache.get(self.scraper.get, 4, query).content
-
+                
                 r = dom_parser.parse_dom(r, 'article')
                 r = dom_parser.parse_dom(r, 'a', attrs={'class': 'rb'}, req='href')
                 r = [(i.attrs['href'], i.content) for i in r]
-                r = [i[0] for i in r if cleantitle.get(i[1]) in t and not isSerieSearch or cleantitle.get(re.findall('(.*?)S\d', i[1])[0]) and isSerieSearch]
+
+                if isSerieSearch:
+                    r = [i[0] for i in r if cleantitle.get(i[1]) in t and not isSerieSearch or cleantitle.get(re.findall('(.*?)S\d', i[1])[0]) and isSerieSearch]
+                else:
+                    r = [i[0] for i in r if cleantitle.get(i[1]) in t and not isSerieSearch]
+                
 
                 if len(r) > 0:
                     return source_utils.strip_domain(r[0])
