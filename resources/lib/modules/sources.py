@@ -22,7 +22,7 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-import sys,re,json,urllib,urlparse,random,datetime,time
+import sys,re,json,urllib,urlparse,random,datetime,time,xbmcaddon
 
 from resources.lib.modules import trakt
 from resources.lib.modules import tvmaze
@@ -45,6 +45,8 @@ except: pass
 try: import xbmc
 except: pass
 
+this_addon =  xbmcaddon.Addon()
+
 class sources:
     def __init__(self):
         self.getConstants()
@@ -57,7 +59,6 @@ class sources:
             control.moderator()
             
             items = self.getSources(title, year, imdb, tvdb, season, episode, tvshowtitle, premiered)
-
             select = control.setting('hosts.mode') if select == None else select
 
             title = tvshowtitle if not tvshowtitle == None else title
@@ -213,7 +214,6 @@ class sources:
             tvdb = meta['tvdb'] if 'tvdb' in meta else None
 
             next = [] ; prev = [] ; total = []
-
             for i in range(1,1000):
                 try:
                     u = control.infoLabel('ListItem(%s).FolderPath' % str(i))
@@ -237,7 +237,6 @@ class sources:
 
             items = json.loads(source)
             items = [i for i in items+next+prev][:40]
-
             header = control.addonInfo('name')
             header2 = header.upper()
 
@@ -255,7 +254,6 @@ class sources:
                         progressDialog.update(int((100 / float(len(items))) * i), str(header2), str(items[i]['label']))
 
                     if items[i]['source'] == block: raise Exception()
-
                     w = workers.Thread(self.sourcesResolve, items[i])
                     w.start()
 
@@ -320,7 +318,10 @@ class sources:
 
         sourceDict = self.sourceDict
         
-        progressDialog.update(0, "Quellen werden vorbereitet")
+        if this_addon.getSetting('hosts.mode') != '2':
+            progressDialog.update(0, "Quellen werden vorbereitet")
+        else:
+            progressDialog.update(0, "Bitte warten")
 
         content = 'movie' if tvshowtitle == None else 'episode'
         if content == 'movie':
@@ -534,16 +535,24 @@ class sources:
                                 line1 = '|'.join(pdiag_format[3:]) % (source_sd_label, str(string4), source_total_label)
 
                         if debrid_status:
-                            if len(info) > 6: line3 = string3 % (str(len(info)))
-                            elif len(info) > 0: line3 = string3 % (', '.join(info))
-                            else: break
+                            if this_addon.getSetting('hosts.mode') != '2':
+                                if len(info) > 6: line3 = string3 % (str(len(info)))
+                                elif len(info) > 0: line3 = string3 % (', '.join(info))
+                                else: break
+                            else:
+                                line2 = ''
+                                line1 = ''
                             percent = int(100 * float(i) / (2 * timeout) + 0.5)
                             if not progressDialog == control.progressDialogBG: progressDialog.update(max(1, percent), line1, line2, line3)
                             else: progressDialog.update(max(1, percent), line1, line3)
                         else:
-                            if len(info) > 6: line2 = string3 % (str(len(info)))
-                            elif len(info) > 0: line2 = string3 % (', '.join(info))
-                            else: break
+                            if this_addon.getSetting('hosts.mode') != '2':
+                                if len(info) > 6: line2 = string3 % (str(len(info)))
+                                elif len(info) > 0: line2 = string3 % (', '.join(info))
+                                else: break
+                            else:
+                                line2 = ''
+                                line1 = ''
                             percent = int(100 * float(i) / (2 * timeout) + 0.5)
                             progressDialog.update(max(1, percent), line1, line2)
                     except Exception as e:
@@ -913,13 +922,11 @@ class sources:
 
             d = item['debrid'] ; direct = item['direct']
             local = item.get('local', False)
-
             provider = item['provider']
             call = [i[1] for i in self.sourceDict if i[0] == provider][0]
             if 'captcha' in item and item['captcha']:
                 call.setRecapInfo(item['label'])
             url = call.resolve(url)
-
             if url == None or (not '://' in str(url) and not local): raise Exception()
 
             if not local:
