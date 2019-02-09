@@ -1,3 +1,6 @@
+[B]3.0.8~nightly9[/B]
+- Fix Filmpalast
+
 [B]3.0.8~nightly8[/B]
 - Fix Foxx
 
