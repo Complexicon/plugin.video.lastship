@@ -1,3 +1,6 @@
+[B]3.0.8~nightly10[/B]
+- Bei aktiviertem Autoplay werden bei der Suche die Hosternamen etc. nicht mehr angezeigt.
+
 [B]3.0.8~nightly9[/B]
 - Fix Filmpalast
 
