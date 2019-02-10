@@ -69,13 +69,13 @@ class source:
 
             links = dom_parser.parse_dom(result, 'div', attrs={'id': 'playeroptions'})
             links = dom_parser.parse_dom(links, 'li')
-            links = [(i.attrs['data-post'], i.attrs['data-nume'], dom_parser.parse_dom(i, 'span', attrs={'class': 'server'})[0].content) for i in links if 'trailer' not in i.attrs['data-nume']]
+            links = [(i.attrs['data-post'], i.attrs['data-nume'], i.attrs['data-type'], dom_parser.parse_dom(i, 'span', attrs={'class': 'server'})[0].content) for i in links if 'trailer' not in i.attrs['data-nume']]
 
-            for post, nume, hoster in links:
+            for post, nume, typ, hoster in links:
                 valid, hoster = source_utils.is_host_valid(hoster, hostDict)
                 if not valid: continue
 
-                sources.append({'source': hoster, 'quality': '720p' if 'unlimited' in hoster else 'SD', 'language': 'de', 'url': (post, nume), 'direct': False, 'debridonly': False, 'checkquality': False})
+                sources.append({'source': hoster, 'quality': '720p' if 'unlimited' in hoster else 'SD', 'language': 'de', 'url': (post, nume, typ), 'direct': False, 'debridonly': False, 'checkquality': False})
 
 
             return sources
@@ -84,14 +84,15 @@ class source:
             return sources
 
     def resolve(self, url):
-        post, nume = url
+        post, nume, typ = url
 
         url = urlparse.urljoin(self.base_link, self.get_hoster)
 
         params ={
             'action': 'doo_player_ajax',
             'post': post,
-            'nume': nume
+            'nume': nume,
+            'type': typ
         }
 
         result = cache.get(client.request, 4, url, post=params)
