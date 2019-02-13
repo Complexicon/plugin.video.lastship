@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.lastship" version="3.0.8~nightly11" name="Lastship" provider-name="Lastship">
+<addon id="plugin.video.lastship" version="3.0.8" name="Lastship" provider-name="Lastship">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="repository.lastship" version="1.0.2" />
@@ -33,9 +33,11 @@ kinoger, cine, stream-to laufen mit dem neuen cfscrape
 - Update cfscrape
 - Fix Schnelle Suche
 - Fix HDFilme
-- Update settings.xml
 - Fix Foxx
 - Fix Filmpalast
+- Fix Kino.cx
+- Bei aktiviertem Autoplay werden bei der Suche die Hosternamen etc. nicht mehr angezeigt
+- Update settings.xml
 		</news>
 	</extension>
 </addon>
