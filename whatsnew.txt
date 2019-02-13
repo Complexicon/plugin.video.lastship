@@ -7,9 +7,7 @@ Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby
 Die Gründer und auch die Entwickler von Lastship sind nur in unserem Lastship Forum anzutreffen
 
 [B][COLOR blue]Aktuelles[/COLOR][/B]
-03.02.2019
-Es gab anscheinden mit v3.0.6 einige Problem bezüglich verfügbarer Streams. Daher erfolgt mit v3.0.7 ein Downgrade auf Stand v.3.0.5 
-Ursache des Fehlers ist uns noch nicht bekannt
+zur Zeit nichts
 
 [B]INFO Allgemein:[/B]
 Für die Seite Serienstream (s.to) ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (kann auch Wegwerf E-Mailadresse sein)
@@ -21,6 +19,21 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
 [COLOR orange]-------------------------------------------------------------------------------------------------------[/COLOR]
 
 [B][COLOR lime]Changelog plugin.video.lastship[/COLOR][/B]
+
+[B]3.0.8[/B]
+  13.02.2019
+- Fix Kino.cx 
+- Bei aktiviertem Autoplay werden bei der Suche die Hosternamen etc. nicht mehr angezeigt.
+- Fix Filmpalast
+- Fix Foxx
+- Update settings.xml
+- Fix HDFilme
+- QuickSearch und normale Suche (Listview) funktionieren beide wieder
+- Update cfscrape
+- Fix nach Personen suchen im QuickSearch Dialog
+- Anzeigen, auch englischer Streams von s.to
+- Fix für cfscrape 
+kinoger, cine, stream-to laufen mit dem neuen cfscrape
 
 [B]3.0.7[/B]
   03.02.2019
@@ -47,23 +60,6 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
   Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
   Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
 NUR Serien!
-
-[B]3.0.5[/B]
-  28.01.2019
-- Downloadfunktion Bugfix (Benennung auf Deutsch und Umlaute)
-- Fix Amazon (deutsche Tonspur)
-
-[B]3.0.4[/B]
-  13.01.2019
-- Hompagelink aktualisiert
-- Fix Trailer abspiel Probleme
-- Beliebige IMDB Listen hinzufügen (lastship.py, movies.py, navigator.py, settings.xml)
-	Es ist nun möglich beliebige IMDB-Listen mit ihren IDs (z.B. ls123456789) unter Einstellungen einzutragen und zu 
-	benennen
-	Der Punkt „IMDB-Listen“ erscheint dann in der Kategorienübersicht der Filme. Standardsortierung ist immer die Sortierung 
-	der Liste
-	Die Einstellung befindet sich unter „Allgemein“ und ist Standardmäßig deaktiviert
-	
 
 [COLOR orange]-------------------------------------------------------------------------------------------------------[/COLOR] 
   
