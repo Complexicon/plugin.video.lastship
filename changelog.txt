@@ -1,34 +1,15 @@
-[B]3.0.8~nightly11[/B]
+[B]3.0.8[/B]
+  13.02.2019
 - Fix Kino.cx 
-
-[B]3.0.8~nightly10[/B]
 - Bei aktiviertem Autoplay werden bei der Suche die Hosternamen etc. nicht mehr angezeigt.
-
-[B]3.0.8~nightly9[/B]
 - Fix Filmpalast
-
-[B]3.0.8~nightly8[/B]
 - Fix Foxx
-
-[B]3.0.8~nightly7[/B]
 - Update settings.xml
-
-[B]3.0.8~nightly6[/B]
 - Fix HDFilme
-
-[B]3.0.8~nightly5[/B]
 - QuickSearch und normale Suche (Listview) funktionieren beide wieder
-
-[B]3.0.8~nightly4[/B]
 - Update cfscrape
-
-[B]3.0.8~nightly3[/B]
 - Fix nach Personen suchen im QuickSearch Dialog
-
-[B]3.0.8~nightly2[/B]
 - Anzeigen, auch englischer Streams von s.to
-
-[B]3.0.8~nightly1[/B]
 - Fix für cfscrape 
 kinoger, cine, stream-to laufen mit dem neuen cfscrape
 
