@@ -20,6 +20,11 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
 
 [B][COLOR lime]Changelog plugin.video.lastship[/COLOR][/B]
 
+[B]3.0.8.1[/B]
+  14.02.2019
+- Bug Fix s.to (es werden zu wenig HD-Streams angezeigt)
+- Das ausblenden der Hosternamen etc. bei aktiviertem Autoplay ist jetzt einstellbar
+
 [B]3.0.8[/B]
   13.02.2019
 - Fix Kino.cx 
