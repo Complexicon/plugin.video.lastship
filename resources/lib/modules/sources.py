@@ -318,10 +318,10 @@ class sources:
 
         sourceDict = self.sourceDict
         
-        if this_addon.getSetting('hosts.mode') != '2':
-            progressDialog.update(0, "Quellen werden vorbereitet")
-        else:
+        if this_addon.getSetting('hosts.mode') == '2' and this_addon.getSetting('autoplay.mode') == 'true':
             progressDialog.update(0, "Bitte warten")
+        else:
+            progressDialog.update(0, "Quellen werden vorbereitet")
 
         content = 'movie' if tvshowtitle == None else 'episode'
         if content == 'movie':
@@ -535,24 +535,26 @@ class sources:
                                 line1 = '|'.join(pdiag_format[3:]) % (source_sd_label, str(string4), source_total_label)
 
                         if debrid_status:
-                            if this_addon.getSetting('hosts.mode') != '2':
-                                if len(info) > 6: line3 = string3 % (str(len(info)))
-                                elif len(info) > 0: line3 = string3 % (', '.join(info))
-                                else: break
-                            else:
+                            if this_addon.getSetting('hosts.mode') == '2' and this_addon.getSetting('autoplay.mode') == 'true':
                                 line2 = ''
                                 line1 = ''
+                            else:
+                                if len(info) > 6 line3 = string3 % (str(len(info)))
+                                elif len(info) > 0: line3 = string3 % (', '.join(info))
+                                else: break
+
                             percent = int(100 * float(i) / (2 * timeout) + 0.5)
                             if not progressDialog == control.progressDialogBG: progressDialog.update(max(1, percent), line1, line2, line3)
                             else: progressDialog.update(max(1, percent), line1, line3)
                         else:
-                            if this_addon.getSetting('hosts.mode') != '2':
+                            if this_addon.getSetting('hosts.mode') == '2' and this_addon.getSetting('autoplay.mode') == 'true':
+                                line2 = ''
+                                line1 = ''
+                            else:
                                 if len(info) > 6: line2 = string3 % (str(len(info)))
                                 elif len(info) > 0: line2 = string3 % (', '.join(info))
                                 else: break
-                            else:
-                                line2 = ''
-                                line1 = ''
+
                             percent = int(100 * float(i) / (2 * timeout) + 0.5)
                             progressDialog.update(max(1, percent), line1, line2)
                     except Exception as e:
