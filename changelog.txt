@@ -1,3 +1,6 @@
+[B]3.0.9~nightly1[/B]
+-  Das ausblenden der Hosternamen etc. bei aktiviertem Autoplay ist jetzt einstellbar.
+
 [B]3.0.8[/B]
   13.02.2019
 - Fix Kino.cx 
