@@ -539,7 +539,7 @@ class sources:
                                 line2 = ''
                                 line1 = ''
                             else:
-                                if len(info) > 6 line3 = string3 % (str(len(info)))
+                                if len(info) > 6: line3 = string3 % (str(len(info)))
                                 elif len(info) > 0: line3 = string3 % (', '.join(info))
                                 else: break
 
