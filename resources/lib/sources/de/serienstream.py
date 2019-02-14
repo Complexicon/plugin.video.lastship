@@ -88,10 +88,11 @@ class source:
             r = [(i.attrs['data-link-target'], dom_parser.parse_dom(i, 'h4'),
                   'subbed' if i.attrs['data-lang-key'] == '3' else '' if i.attrs['data-lang-key'] == '1' else 'subbed' if i.attrs['data-lang-key'] == '2' else '') for i
                  in r]
-            r = [(i[0], i[1][0].content, 'HD' if 'hd' in i[1][0][1].lower() else 'SD', i[2]) for i in r]
+            r = [(i[0], re.sub('\s(.*)', '', i[1][0].content), 'HD' if 'hd' in i[1][0][1].lower() else 'SD', i[2]) for i in r]
 
             for link, host, quality, info in r:
-                if 'HD' in quality: host = re.findall('(.+?)\s*<br', host)[0]
+                print host
+                #if 'HD' in quality: host = re.findall('(.+?)\s*<br', host)[0]
                 valid, host = source_utils.is_host_valid(host, hostDict)
                 if not valid: continue
 
