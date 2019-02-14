@@ -1,8 +1,9 @@
-[B]3.0.9~nightly2[/B]
--  Fix s.to
-
 [B]3.0.9~nightly1[/B]
--  Das ausblenden der Hosternamen etc. bei aktiviertem Autoplay ist jetzt einstellbar.
+
+[B]3.0.8.1[/B]
+  14.02.2019
+- Bug Fix s.to (es werden zu wenig HD-Streams angezeigt)
+- Das ausblenden der Hosternamen etc. bei aktiviertem Autoplay ist jetzt einstellbar
 
 [B]3.0.8[/B]
   13.02.2019
