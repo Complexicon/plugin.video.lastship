@@ -118,6 +118,7 @@ class movies:
 
         self.added_link  = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&num_votes=500,&production_status=released&release_date=%s,%s&sort=release_date,desc&count=20&start=1' % (self.year_date, self.today_date)
         self.trending_link = 'http://api.trakt.tv/movies/trending?limit=40&page=1'
+        self.anticipated_link = 'http://api.trakt.tv/movies/anticipated?limit=100?page=1'
         self.traktlists_link = 'http://api.trakt.tv/users/me/lists'
         self.traktlikedlists_link = 'http://api.trakt.tv/users/likes/lists?limit=1000000'
         self.traktlist_link = 'http://api.trakt.tv/users/%s/lists/%s/items'

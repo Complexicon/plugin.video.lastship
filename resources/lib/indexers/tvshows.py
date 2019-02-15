@@ -89,6 +89,7 @@ class tvshows:
         
         self.trending_link = 'http://api.trakt.tv/shows/trending?limit=40&page=1'
         self.traktlists_link = 'http://api.trakt.tv/users/me/lists'
+        self.anticipated_link = 'http://api.trakt.tv/shows/anticipated?limit=100?page=1'
         self.traktlikedlists_link = 'http://api.trakt.tv/users/likes/lists?limit=1000000'
         self.traktlist_link = 'http://api.trakt.tv/users/%s/lists/%s/items'
         self.traktcollection_link = 'http://api.trakt.tv/users/me/collection/shows'
