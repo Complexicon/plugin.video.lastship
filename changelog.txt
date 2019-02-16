@@ -1,3 +1,6 @@
+[B]3.0.9~nightly3[/B]
+-amazon Suche verbessert
+
 [B]3.0.9~nightly2[/B]
 updates/fixes 
 
