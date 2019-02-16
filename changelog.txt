@@ -1,5 +1,5 @@
 [B]3.0.9~nightly2[/B]
-updates/fixes
+updates/fixes 
 
 [B]3.0.9~nightly1[/B]
 - Add Bald verfügbar Kategorie (tvshows/movies/navigator.py)
