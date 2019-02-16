@@ -1,4 +1,9 @@
 [B]3.0.9~nightly1[/B]
+- Add Bald verfügbar Kategorie (tvshows/movies/navigator.py)
+Unter "Bald verfügbar" findet man eine Vorschau von Filmen/Serien die
+bald veröffentlicht werden (maximal 100, über Trakt realisiert). Zu
+beachten ist dass es bei sehr neuen Veröffentlichungen sein kann dass
+noch keine Informationen verfügbar sind.
 
 [B]3.0.8.1[/B]
   14.02.2019
