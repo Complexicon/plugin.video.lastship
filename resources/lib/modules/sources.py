@@ -257,7 +257,7 @@ class sources:
                     w = workers.Thread(self.sourcesResolve, items[i])
                     w.start()
 
-                    offset = 60 * 2 if items[i].get('source') in self.hostcapDict else 0
+                    offset = 60 * 2 if items[i].get('source') in self.hostpairDict else 0
 
                     waiting_time = 30
                     while waiting_time > 0:
@@ -760,8 +760,8 @@ class sources:
         quality = control.setting('hosts.quality')
         if quality == '': quality = '0'
 
-        captcha = control.setting('hosts.captcha')
-        if captcha == '': captcha = 'true'
+        pairing = control.setting('hosts.pairing')
+        if pairing == '': pairing = 'true'
 
         HEVC = control.setting('HEVC')
 
@@ -830,8 +830,8 @@ class sources:
         filter += [i for i in self.sources if i['quality'] in ['SD', 'SCR', 'CAM']]
         self.sources = filter
 
-        if not captcha == 'true':
-            filter = [i for i in self.sources if i['source'].lower() in self.hostcapDict and not 'debrid' in i]
+        if not pairing == 'true':
+            filter = [i for i in self.sources if i['source'].lower() in self.hostpairDict and not 'debrid' in i]
             self.sources = [i for i in self.sources if not i in filter]
 
         #removing debrid only function, re-use for  https://github.com/lastship/plugin.video.lastship/issues/120
@@ -926,7 +926,7 @@ class sources:
             local = item.get('local', False)
             provider = item['provider']
             call = [i[1] for i in self.sourceDict if i[0] == provider][0]
-            if 'captcha' in item and item['captcha']:
+            if 'pairing' in item and item['pairing']:
                 call.setRecapInfo(item['label'])
             url = call.resolve(url)
             if url == None or (not '://' in str(url) and not local): raise Exception()
@@ -1051,7 +1051,7 @@ class sources:
 
 
     def sourcesDirect(self, items):
-        filter = [i for i in items if i['source'].lower() in self.hostcapDict and i['debrid'] == '']
+        filter = [i for i in items if i['source'].lower() in self.hostpairDict and i['debrid'] == '']
         items = [i for i in items if not i in filter]
 
         filter = [i for i in items if i['source'].lower() in self.hostblockDict and i['debrid'] == '']
@@ -1159,7 +1159,7 @@ class sources:
 
         self.hostprDict = ['1fichier.com', 'oboom.com', 'rapidgator.net', 'rg.to', 'uploaded.net', 'uploaded.to', 'ul.to', 'filefactory.com', 'nitroflare.com', 'turbobit.net', 'uploadrocket.net']
 
-        self.hostcapDict = ['flashx.tv', 'flashx.to', 'flashx.sx', 'flashx.bz', 'flashx.cc', 'hugefiles.net', 'kingfiles.net', 'openload.io', 'openload.co', 'oload.tv', 'thevideo.me', 'vidup.me', 'streamin.to', 'torba.se']
+        self.hostpairDict = ['flashx.tv', 'flashx.to', 'flashx.sx', 'flashx.bz', 'flashx.cc', 'hugefiles.net', 'kingfiles.net', 'openload.io', 'openload.co', 'oload.tv', 'thevideo.me', 'vidup.me', 'streamin.to', 'torba.se']
 
         self.hosthqDict = ['bitporno.com', 'cloudvideo.tv', 'filez.tv', 'fruitadblock.net', 'fruitstreams.com', 'google.com', 'gvideo', 'oload.download', 'oload.stream', 'oload.tv', 'oload.tv', 'oload.win', 'openload.co', 'openload.io', 'rapidvideo.com', 'rapidvideo.ws', 'raptu.com', 'streamango.com', 'streamcherry.com', 'thevideo.me', 'uptobox.com', 'uptostream.com', 'vidoza.net', 'vivo.sx']
 
