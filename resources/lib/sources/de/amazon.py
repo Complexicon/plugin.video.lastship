@@ -32,7 +32,6 @@ import simplejson
 
 import difflib
 
-
 from resources.lib.modules import control
 from resources.lib.modules import source_utils
 from resources.lib.modules import cleantitle
@@ -166,41 +165,45 @@ class source:
         ## Ende JSON ReponseObjekt ##
 
         ## 1. korrekten Titel bestimmen ##
+        streams = []
 
         for i in data['message']['body']['titles']:            
             #jahr=str(i['releaseOrFirstAiringDate']['valueFormatted'])
             #print "print AP Titel &Jahr, Jahr Trakt",jahr,i['title'],year
             #amazontitle=str(i['title'])
             ### Release Date stimmt nicht immer ueberein!! ##
+            stream = {'amazontitle' : '', 'ratio' : '', 'asin' : ''}
             try:
                 amazontitle =re.sub("\[dt.\/OV\]","",str(i['title']))
+                amazontitle = unicode(cleantitle.getsearch(amazontitle))
                 ratio=difflib.SequenceMatcher(None, localtitle, amazontitle).ratio()
+                stream['amazontitle'] = amazontitle
+                stream['ratio'] = ratio
                 #print "print AP Title ratio",amazontitle,ratio
             except:
                 continue
-        
-            
-            
 
-            
-                
-            
             #if str(year)==jahr[0:4]:
-            if float(ratio) > float(0.5):       
-                
-                
+            #if float(ratio) > float(0.5):       
+                 
 
-                ## 2. bestimmen ob im Prime Abo ##
-                prime=i['formats'][0]['offers'][0]['offerType']
-                
-                if prime == "SUBSCRIPTION":                    
-                    asin = i['titleId']#data['message']['body']['titles'][0]['titleId']
-                    #print "print AP search asin",asin
-                
-                ## break Release Date ##
-                break;
+            ## 2. bestimmen ob im Prime Abo ##
+            prime=i['formats'][0]['offers'][0]['offerType']
             
-        return asin
+            if prime == "SUBSCRIPTION":                    
+                asin = i['titleId']#data['message']['body']['titles'][0]['titleId']
+                stream['asin'] = asin
+                #print "print AP search asin",asin
+            
+            ## break Release Date ##
+            #break;
+            streams.append(stream)
+
+        
+        streams = sorted(streams, key = lambda i: i['ratio'])   
+        best_asin = streams[len(streams)-1]['asin']
+
+        return best_asin
 
     
 
