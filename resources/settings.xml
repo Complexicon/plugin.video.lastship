@@ -97,7 +97,7 @@
         <setting id="autoplay.sd" type="bool" label="Nur SD-Anbieter in Auto-Play" default="false" />
         <setting id="sources.extrainfo" type="bool" label="Zusatzinfo für Quellen anzeigen" default="true" />
         <setting id="HEVC" type="bool" label="HEVC" default="true" />
-        <setting id="hosts.captcha" type="bool" label="Hoster mit Pairing" default="true" />
+        <setting id="hosts.pairing" type="bool" label="Hoster mit Pairing" default="true" />
         <setting id="hosts.sort.provider" type="bool" label="Nach Indexseiten sortieren" default="false" />
         <setting id="no.subbed" type="bool" label="Filtere Streams mit Untertitel" default="false" />
         <setting type="lsep" label="Bei Wiedergabe-Start..." />
@@ -133,7 +133,7 @@
         <setting id="provider.foxx" type="bool" label="FOXX.TO" default="true" />
         <setting id="provider.hdfilme" type="bool" label="HDFILME.NET" default="true" />
         <setting id="provider.hdkino" type="bool" label="HDKINO.TO" default="true" />
-        <setting id="provider.hdstreams" type="bool" label="HD-STREAMS.ORG" default="false" />
+        <setting id="provider.hdstreams" type="bool" label="HD-STREAMS.ORG (ReCaptcha)" default="false" />
         <setting id="provider.iload" type="bool" label="ILOAD.TO" default="true" />
         <setting id="provider.kinoger" type="bool" label="KINOGER.COM" default="true" />
         <setting id="provider.kino-cx" type="bool" label="KINO.CX" default="true" />
@@ -175,7 +175,7 @@
         <setting id="open_smu_settings" type="action" label="URLResolver-Einstellungen" enable="true" option="close" action="RunPlugin(plugin://plugin.video.lastship/?action=urlResolver)" />
         <setting type="lsep" label="SerienStream.to" />
         <setting id="serienstream.user" type="text" label="e-Mail" default="" />
-        <setting id="serienstream.pass" type="text" label="Passwort" default="" />
+        <setting id="serienstream.pass" type="text" option="hidden" label="Passwort" default="" />
         <setting type="text" label="[COLOR blue]Geschützter Link:[/COLOR]" />
         <setting type="text" label="[COLOR blue]Diese Meldung kann trotz eingetragener Kontodaten erfolgen.[/COLOR]" />
         <setting type="text" label="[COLOR blue]Ursache kann das schnelle Abrufen mehrerer Streams von s.to sein.[/COLOR]" />
@@ -191,7 +191,7 @@
         <setting id="Recaptcha2.TimeOut" type="slider" label="TimeOut" default="180" range="60,300" option="int" />
         <setting type="lsep" label="MyJDownloader"/>
         <setting id="MyJDownloader.user" type="text" label="E-Mail" default="" />
-        <setting id="MyJDownloader.pass" type="text" label="Passwort" default="" />
+        <setting id="MyJDownloader.pass" type="text" option="hidden" label="Passwort" default="" />
         <setting type="lsep" label="Captcha9KW"/>
         <setting id="Captcha9kw.ApiKey" type="text" label="API-Key" default="" />
         <setting id="Captcha9kw.SolveType" type="bool" label="Nur eigene Captchas lösen (SelfSolve)" default="true" />
