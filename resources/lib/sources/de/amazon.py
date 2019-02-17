@@ -166,43 +166,36 @@ class source:
 
         ## 1. korrekten Titel bestimmen ##
         streams = []
-
         for i in data['message']['body']['titles']:            
-            #jahr=str(i['releaseOrFirstAiringDate']['valueFormatted'])
-            #print "print AP Titel &Jahr, Jahr Trakt",jahr,i['title'],year
-            #amazontitle=str(i['title'])
-            ### Release Date stimmt nicht immer ueberein!! ##
             stream = {'amazontitle' : '', 'ratio' : '', 'asin' : ''}
             try:
                 amazontitle =re.sub("\[dt.\/OV\]","",str(i['title']))
                 amazontitle = unicode(cleantitle.getsearch(amazontitle))
                 ratio=difflib.SequenceMatcher(None, localtitle, amazontitle).ratio()
+
+                amazonyear = int(str(i['releaseOrFirstAiringDate']['valueFormatted'])[0:4])
+                year = int(year)
+                year_ok = False
+                for x in range(year-1, year+1):
+                    if amazonyear == x:
+                        year_ok = True
                 stream['amazontitle'] = amazontitle
                 stream['ratio'] = ratio
-                #print "print AP Title ratio",amazontitle,ratio
             except:
                 continue
-
-            #if str(year)==jahr[0:4]:
-            #if float(ratio) > float(0.5):       
-                 
-
+            #if float(ratio) > float(0.5):
             ## 2. bestimmen ob im Prime Abo ##
             prime=i['formats'][0]['offers'][0]['offerType']
             
             if prime == "SUBSCRIPTION":                    
-                asin = i['titleId']#data['message']['body']['titles'][0]['titleId']
+                asin = i['titleId']
                 stream['asin'] = asin
-                #print "print AP search asin",asin
             
-            ## break Release Date ##
-            #break;
-            streams.append(stream)
+            if year_ok == True:
+                streams.append(stream)
 
-        
         streams = sorted(streams, key = lambda i: i['ratio'])   
         best_asin = streams[len(streams)-1]['asin']
-
         return best_asin
 
     
