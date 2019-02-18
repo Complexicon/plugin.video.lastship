@@ -92,20 +92,33 @@
         <setting id="prem.identify" type="enum" label="Textfarbe für Premium-Links" values="Blau|Rot|Gelb|Altrosa|Cyan|Grasgrün|Gold|Magenta|Gelbgrün|Ohne Farbe" default="0" />
         <setting id="preemptive.termination" type="bool" label="Streamsuche vorzeitig abbrechen" default="False" />
         <setting id="preemptive.limit" type="slider" label="Abbruch-Limit Streamsuche" default="10" range="1,50" option="int" />
-        <setting type="lsep" label="Dateinanbieter-Filter" />
-        <setting id="hosts.quality" type="enum" label="Höchste Qualität" values="4K|1440p|1080p|720p|480p" default="0" />
-        <setting id="autoplay.sd" type="bool" label="Nur SD-Anbieter in Auto-Play" default="false" />
-        <setting id="sources.extrainfo" type="bool" label="Zusatzinfo für Quellen anzeigen" default="true" />
-        <setting id="HEVC" type="bool" label="HEVC" default="true" />
-        <setting id="hosts.pairing" type="bool" label="Hoster mit Pairing" default="true" />
-        <setting id="hosts.sort.provider" type="bool" label="Nach Indexseiten sortieren" default="false" />
-        <setting id="no.subbed" type="bool" label="Filtere Streams mit Untertitel" default="false" />
         <setting type="lsep" label="Bei Wiedergabe-Start..." />
         <setting id="bookmarks" type="bool" label="Fortsetzen" default="true" />
         <setting id="bookmarks.trakt" type="bool" label="Trakt-Fortsetzungspunkt" default="false" enable="!eq(-1,false)" />
         <setting id="bookmarks.auto" type="bool" label="Automatisch Fortsetzen" default="false" enable="!eq(-2,false)" />
         <setting type="lsep" label="Bei Wiedergabe-Ende..." />
         <setting id="crefresh" type="bool" label="Verzeichnis neu laden" default="false" />
+        <setting type="lsep" label="Dateinanbieter-Filter" />
+        <setting id="hosts.quality" type="enum" label="Höchste Qualität" values="4K|1440p|1080p|720p|480p" default="0" />
+        <setting id="autoplay.sd" type="bool" label="Nur SD-Anbieter in Auto-Play" default="false" />
+        <setting id="sources.extrainfo" type="bool" label="Zusatzinfo für Quellen anzeigen" default="true" />
+        <setting id="HEVC" type="bool" label="HEVC" default="true" />
+        <setting id="hosts.sort.provider" type="bool" label="Nach Indexseiten sortieren" default="false" />
+        <setting id="no.subbed" type="bool" label="Filtere Streams mit Untertitel" default="false" />
+        <setting id="hosts.pairing" type="bool" label="Hoster mit Pairing" default="true" />
+        <setting id="hosts.blocking" type="bool" label="Hoster ausschließen" default="false" />
+        <setting id="HosterBlockingList1" type="text" label="Hoster 1" visible="eq(-1,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList2" type="text" label="Hoster 2" visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList3" type="text" label="Hoster 3" visible="eq(-3,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList4" type="text" label="Hoster 4" visible="eq(-4,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList5" type="text" label="Hoster 5" visible="eq(-5,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList6" type="text" label="Hoster 6" visible="eq(-6,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList7" type="text" label="Hoster 7" visible="eq(-7,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList8" type="text" label="Hoster 8" visible="eq(-8,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList9" type="text" label="Hoster 9" visible="eq(-9,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList10" type="text" label="Hoster 10" visible="eq(-10,true)" enable="true" default=""/>
+        <setting type="text" label="[COLOR blue]Hoster im Format name.domain eingeben.[/COLOR]" visible="eq(-11,true)" />
+        <setting type="text" label="[COLOR blue]Bei mehreren Domains eines Hosters muss für jede Domain eine neue Zeile verwendet werden.[/COLOR]" visible="eq(-12,true)" />
     </category>
     <category label="Indexseiten">
         <setting type="lsep" label="Datenbanken" />

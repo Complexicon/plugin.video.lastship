@@ -762,6 +762,10 @@ class sources:
 
         pairing = control.setting('hosts.pairing')
         if pairing == '': pairing = 'true'
+        
+        blocking = control.setting('hosts.blocking')
+        if blocking == '': blocking = 'false'
+
 
         HEVC = control.setting('HEVC')
 
@@ -833,13 +837,15 @@ class sources:
         if not pairing == 'true':
             filter = [i for i in self.sources if i['source'].lower() in self.hostpairDict and not 'debrid' in i]
             self.sources = [i for i in self.sources if not i in filter]
+            
+        if not blocking == 'false':
+            filter = [i for i in self.sources if i['source'].lower() in self.hostblockingDict and not 'debrid' in i]
+            self.sources = [i for i in self.sources if not i in filter]
 
         #removing debrid only function, re-use for  https://github.com/lastship/plugin.video.lastship/issues/120
         if no_subbed == 'true': 
             filter = [i for i in self.sources if  'info' in i and 'subbed' in i['info']]     
             self.sources = [i for i in self.sources if not i in filter]
-        
-        
         
         multi = [i['language'] for i in self.sources]
         multi = [x for y,x in enumerate(multi) if x not in multi[:y]]
@@ -1162,8 +1168,25 @@ class sources:
         self.hostpairDict = ['flashx.tv', 'flashx.to', 'flashx.sx', 'flashx.bz', 'flashx.cc', 'hugefiles.net', 'kingfiles.net', 'openload.io', 'openload.co', 'oload.tv', 'thevideo.me', 'vidup.me', 'streamin.to', 'torba.se']
 
         self.hosthqDict = ['bitporno.com', 'cloudvideo.tv', 'filez.tv', 'fruitadblock.net', 'fruitstreams.com', 'google.com', 'gvideo', 'oload.download', 'oload.stream', 'oload.tv', 'oload.tv', 'oload.win', 'openload.co', 'openload.io', 'rapidvideo.com', 'rapidvideo.ws', 'raptu.com', 'streamango.com', 'streamcherry.com', 'thevideo.me', 'uptobox.com', 'uptostream.com', 'vidoza.net', 'vivo.sx']
+        
+        self.HosterBlockingList = control.setting('hosts.blocking')
+        if self.HosterBlockingList == "true":
+            self.HosterBlockingList1 = control.setting('HosterBlockingList1')
+            self.HosterBlockingList2 = control.setting('HosterBlockingList2')
+            self.HosterBlockingList3 = control.setting('HosterBlockingList3')
+            self.HosterBlockingList4 = control.setting('HosterBlockingList4')
+            self.HosterBlockingList5 = control.setting('HosterBlockingList5')
+            self.HosterBlockingList6 = control.setting('HosterBlockingList6')
+            self.HosterBlockingList7 = control.setting('HosterBlockingList7')
+            self.HosterBlockingList8 = control.setting('HosterBlockingList8')
+            self.HosterBlockingList9 = control.setting('HosterBlockingList9')
+            self.HosterBlockingList10 = control.setting('HosterBlockingList10')
+            
+            self.hostblockingDict = [self.HosterBlockingList1, self.HosterBlockingList2, self.HosterBlockingList3, self.HosterBlockingList4, self.HosterBlockingList5, self.HosterBlockingList6, self.HosterBlockingList7, self.HosterBlockingList8, self.HosterBlockingList9, self.HosterBlockingList10]
+        else:
+            pass
 
-        self.hostblockDict = []
+        self.hostblockDict = [] #Altbestand. Wofür?
 
     def getPremColor(self, n):
         if n == '0': n = 'blue'
