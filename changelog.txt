@@ -1,15 +1,20 @@
+[B]3.0.9~nightly4[/B]
+- Option "Hoster ausschließen" hinzugefügt
+	Die Option ermöglicht es einzelne Hoster auszuschließen ohne Einstellungen im URL-Resolver zu ändern
+	Filter wird nicht auf Debrid-Dienste angewandt
+
 [B]3.0.9~nightly3[/B]
--amazon Suche verbessert
+- Amazon Suche verbessert
 
 [B]3.0.9~nightly2[/B]
-updates/fixes 
+- updates/fixes (sourcespy, settings.xml, 
 
 [B]3.0.9~nightly1[/B]
 - Add Bald verfügbar Kategorie (tvshows/movies/navigator.py)
-Unter "Bald verfügbar" findet man eine Vorschau von Filmen/Serien die
-bald veröffentlicht werden (maximal 100, über Trakt realisiert). Zu
-beachten ist dass es bei sehr neuen Veröffentlichungen sein kann dass
-noch keine Informationen verfügbar sind.
+	Unter "Bald verfügbar" findet man eine Vorschau von Filmen/Serien die
+	bald veröffentlicht werden (maximal 100, über Trakt realisiert). Zu
+	beachten ist dass es bei sehr neuen Veröffentlichungen sein kann dass
+	noch keine Informationen verfügbar sind.
 
 [B]3.0.8.1[/B]
   14.02.2019
