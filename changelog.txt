@@ -1,3 +1,6 @@
+[B]3.0.9~nightly5[/B]
+- Update Openload Pairing Hoster (sources.py)
+
 [B]3.0.9~nightly4[/B]
 - Option "Hoster ausschließen" hinzugefügt
 	Die Option ermöglicht es einzelne Hoster auszuschließen ohne Einstellungen im URL-Resolver zu ändern
