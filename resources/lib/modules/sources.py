@@ -1165,7 +1165,7 @@ class sources:
 
         self.hostprDict = ['1fichier.com', 'oboom.com', 'rapidgator.net', 'rg.to', 'uploaded.net', 'uploaded.to', 'ul.to', 'filefactory.com', 'nitroflare.com', 'turbobit.net', 'uploadrocket.net']
 
-        self.hostpairDict = ['flashx.tv', 'flashx.to', 'flashx.sx', 'flashx.bz', 'flashx.cc', 'hugefiles.net', 'kingfiles.net', 'openload.io', 'openload.co', 'oload.tv', 'oload.stream', 'oload.win', 'oload.download', 'oload.info', 'oload.icu', 'oload.fu'", 'openload.pw', 'thevideo.me', 'vidup.me', 'streamin.to', 'torba.se']
+        self.hostpairDict = ['flashx.tv', 'flashx.to', 'flashx.sx', 'flashx.bz', 'flashx.cc', 'hugefiles.net', 'kingfiles.net', 'openload.io', 'openload.co', 'oload.tv', 'thevideo.me', 'vidup.me', 'streamin.to', 'torba.se']
 
         self.hosthqDict = ['bitporno.com', 'cloudvideo.tv', 'filez.tv', 'fruitadblock.net', 'fruitstreams.com', 'google.com', 'gvideo', 'oload.download', 'oload.stream', 'oload.tv', 'oload.tv', 'oload.win', 'openload.co', 'openload.io', 'rapidvideo.com', 'rapidvideo.ws', 'raptu.com', 'streamango.com', 'streamcherry.com', 'thevideo.me', 'uptobox.com', 'uptostream.com', 'vidoza.net', 'vivo.sx']
         
