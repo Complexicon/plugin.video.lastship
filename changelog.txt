@@ -1,6 +1,8 @@
+[B]3.0.9~nightly7[/B]
+-  Openload Pairing update Rückgängig gemacht
+
 [B]3.0.9~nightly6[/B]
 - Bugfix addon.xml
-
 
 [B]3.0.9~nightly5[/B]
 - Update Openload Pairing Hoster (sources.py)
