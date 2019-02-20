@@ -32,5 +32,6 @@
 - AddOption "Hoster ausschließen" 
 - Update Amazon Suche
 - Update Openload Pairing Hoster (sources.py)
+		</news>
 	</extension>
 </addon>
