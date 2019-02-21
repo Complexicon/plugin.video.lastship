@@ -1,3 +1,6 @@
+[B]3.0.9~nightly9[/B]
+-  Neues Update Amazon Suche 
+
 [B]3.0.9~nightly8[/B]
 - Neues Update Openload Pairing Hoster (sources.py)
 
