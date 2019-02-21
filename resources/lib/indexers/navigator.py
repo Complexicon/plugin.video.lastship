@@ -55,7 +55,7 @@ class navigator:
 
     def root(self):
         
-        self.addDirectoryItem('[COLOR=lime]Infos und Updates[/COLOR]', 'newsNavigator', 'news_paper.png', 'DefaultAddonProgram.png') #news_paper.png sieht vor allem mit Exuary-Skin von Lastship nicht gut aus.
+        self.addDirectoryItem('[COLOR=lime]Infos und Updates[/COLOR]', 'newsNavigator', 'news_paper.png', 'DefaultAddonProgram.png')
         self.addDirectoryItem("Suche", 'searchNavigator', 'search.png', 'DefaultFolder.png', isFolder=not self.quickSearchActivated())
         self.addDirectoryItem("Filme", 'movieNavigator', 'movies.png', 'DefaultMovies.png')
         self.addDirectoryItem("TV-Serien", 'tvNavigator', 'tvshows.png', 'DefaultTVShows.png')
@@ -340,7 +340,7 @@ class navigator:
 
     def infoCheck(self, version):
         try:
-            control.infoDialog('lastship.square7.ch/forum/', "HILFE", time=5000,
+            control.infoDialog('lastship.ch/forum/', "HILFE", time=5000,
                                sound=False)
             return '1'
         except:
