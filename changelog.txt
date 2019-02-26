@@ -1,30 +1,14 @@
-[B]3.0.9~nightly9[/B]
--  Neues Update Amazon Suche 
+[B]3.0.10~nightly1[/B]
 
-[B]3.0.9~nightly8[/B]
-- Neues Update Openload Pairing Hoster (sources.py)
 
-[B]3.0.9~nightly7[/B]
--  Openload Pairing update Rückgängig gemacht
-
-[B]3.0.9~nightly6[/B]
-- Bugfix addon.xml
-
-[B]3.0.9~nightly5[/B]
+[B]3.0.9[/B]
+  26.02.2019
 - Update Openload Pairing Hoster (sources.py)
-
-[B]3.0.9~nightly4[/B]
 - Option "Hoster ausschließen" hinzugefügt
 	Die Option ermöglicht es einzelne Hoster auszuschließen ohne Einstellungen im URL-Resolver zu ändern
 	Filter wird nicht auf Debrid-Dienste angewandt
-
-[B]3.0.9~nightly3[/B]
 - Amazon Suche verbessert
-
-[B]3.0.9~nightly2[/B]
-- updates/fixes (sourcespy, settings.xml, 
-
-[B]3.0.9~nightly1[/B]
+- Updates/Fixes (sources.py, settings.xml)
 - Add Bald verfügbar Kategorie (tvshows/movies/navigator.py)
 	Unter "Bald verfügbar" findet man eine Vorschau von Filmen/Serien die
 	bald veröffentlicht werden (maximal 100, über Trakt realisiert). Zu
