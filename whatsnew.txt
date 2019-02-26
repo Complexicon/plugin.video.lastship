@@ -20,6 +20,20 @@ Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos da
 
 [B][COLOR lime]Changelog plugin.video.lastship[/COLOR][/B]
 
+[B]3.0.9[/B]
+  26.02.2019
+- Update Openload Pairing Hoster (sources.py)
+- Option "Hoster ausschließen" hinzugefügt
+	Die Option ermöglicht es einzelne Hoster auszuschließen ohne Einstellungen im URL-Resolver zu ändern
+	Filter wird nicht auf Debrid-Dienste angewandt
+- Amazon Suche verbessert
+- Updates/Fixes (sources.py, settings.xml)
+- Add Bald verfügbar Kategorie (tvshows/movies/navigator.py)
+	Unter "Bald verfügbar" findet man eine Vorschau von Filmen/Serien die
+	bald veröffentlicht werden (maximal 100, über Trakt realisiert). Zu
+	beachten ist dass es bei sehr neuen Veröffentlichungen sein kann dass
+	noch keine Informationen verfügbar sind.
+
 [B]3.0.8.1[/B]
   14.02.2019
 - Bug Fix s.to (es werden zu wenig HD-Streams angezeigt)
