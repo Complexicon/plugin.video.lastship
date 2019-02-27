@@ -109,8 +109,7 @@ class source:
                 streamlink = dom_parser.parse_dom(moviecontent.content, 'a', attrs={'class': 'new'})
                 r = (r[0],streamlink[int(r[1])-1].attrs['_episode'])
 
-            moviesource = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.get_link % r))
-
+            moviesource = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.get_link % r), headers={'referer': urlparse.urljoin(self.base_link, url)})
             foundsource = re.findall(r'window.urlVideo = (\".*?\");', moviesource.content)
             sourcejson = json.loads(foundsource[0])
 
