@@ -86,7 +86,7 @@ class source:
 
             if season and episode:
                 r = urllib.urlencode({'imdbid': data['imdb'], 'language': 'de', 'season': season, 'episode': episode})
-                r = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.hoster_link), XHR=True, post=r)
+                r = cache.get(self.scraper.post, 4, urlparse.urljoin(self.base_link, self.hoster_link), data = { 'episode' :  episode, 'season': season , 'imdbid': data['imdb'], 'language': "de"})
             else:
                 r = cache.get(self.scraper.get, 4, url)
             
