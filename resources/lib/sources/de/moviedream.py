@@ -31,7 +31,7 @@ from resources.lib.modules import client
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
-
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
@@ -41,7 +41,8 @@ class source:
         self.base_link = 'https://moviedream.ws'
         self.search_link = '/searchy.php?ser=%s'
         self.hoster_link = '/episodeholen3.php'
-
+        self.scraper = cfscrape.create_scraper()
+        
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             imdb = re.sub('[^0-9]', '', imdb)
@@ -79,25 +80,27 @@ class source:
 
             data = urlparse.parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
-            url = urlparse.urljoin(self.base_link, data.get('url'))
+            url = urlparse.urljoin(self.base_link, data['url'])
             season = data.get('season')
             episode = data.get('episode')
 
             if season and episode:
                 r = urllib.urlencode({'imdbid': data['imdb'], 'language': 'de', 'season': season, 'episode': episode})
-                r = cache.get(client.request, 4, urlparse.urljoin(self.base_link, self.hoster_link), XHR=True, post=r)
+                r = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.hoster_link), XHR=True, post=r)
             else:
-                r = cache.get(client.request, 4, url)
+                r = cache.get(self.scraper.get, 4, url)
+            
+            r = re.findall(r'<a href=\"https(.*?)\" targe(.*?)<img class=\"(.*?)linkbutton\"', r.content)
 
-            r = dom_parser.parse_dom(r, 'div', attrs={'class': 'linkbox'})[0].content
-            r = re.compile('(<a.+?/a>)', re.DOTALL).findall(r)
-            r = [(dom_parser.parse_dom(i, 'a', req='href'), dom_parser.parse_dom(i, 'img', attrs={'class': re.compile('.*linkbutton')}, req='class')) for i in r]
-            r = [(i[0][0].attrs['href'], i[1][0].attrs['class'].lower()) for i in r if i[0] and i[1]]
-            r = [(i[0].strip(), 'HD' if i[1].startswith('hd') else 'SD') for i in r]
-
-            for link, quli in r:
+            for link, nothing, quli in r:
+                link = 'https' + link
                 valid, host = source_utils.is_host_valid(link, hostDict)
                 if not valid: continue
+                
+                if quli == "hd":
+                    quli = '720p'
+                else:
+                    quli = 'SD'
 
                 sources.append({'source': host, 'quality': quli, 'language': 'de', 'url': link, 'direct': False, 'debridonly': False})
 
@@ -113,14 +116,13 @@ class source:
 
     def __search(self, imdb):
         try:
-            r = cache.get(client.request, 4, urlparse.urljoin(self.base_link, self.search_link % imdb))
-            r = dom_parser.parse_dom(r, 'a', req='href')
-            r = [i.attrs['href'] for i in r if i]
+            r = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.search_link % imdb))
+            r = re.findall(r'href=\'(.*?)\' style', r.content)
 
             url = None
             if len(r) > 1:
                 for i in r:
-                    data = cache.get(client.request, 4, urlparse.urljoin(self.base_link, i))
+                    data = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, i))
                     data = re.compile('(imdbid\s*[=|:]\s*"%s"\s*,)' % imdb, re.DOTALL).findall(data)
 
                     if len(data) >= 1:
