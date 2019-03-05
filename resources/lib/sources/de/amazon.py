@@ -4,6 +4,7 @@ import re
 import requests
 import difflib
 from resources.lib.modules import cleantitle
+from resources.lib.modules import control
 
 BaseUrl = 'https://www.amazon.de'
 ATVUrl = 'https://atv-ps-eu.amazon.de'
@@ -88,12 +89,12 @@ class source:
             if not url:
                 return sources
 
-            if control.setting('provider.amazon-vod') == 'true':
+            if control.setting('provider.amazonapp') == '0':
                 sources.append({'source': 'Prime', 'quality': '1080p', 'language': 'de', 'url':'plugin://plugin.video.amazon-test/?mode=PlayVideo&asin='+url , 'info': '', 'direct': True,'local': True, 'debridonly': False})
-            if control.setting('provider.amazon') == 'true':
+            if control.setting('provider.amazonapp') == '1':
                 sources.append({'source': 'Prime', 'quality': '1080p', 'language': 'de', 'url':'plugin://plugin.video.amazon/?sitemode=PLAYVIDEO&mode=play&asin='+url , 'info': '', 'direct': True,'local': True, 'debridonly': False})
             return sources 
-                        
+
         except:
             return sources
 

@@ -177,9 +177,9 @@ class sources:
                 if "amazon" in label.lower():
                     item.setProperty('IsPlayable', 'true')                    
                     aid=re.search(r'asin%3D(.*?)%22%2C', sysurl)
-                    if control.setting('provider.amazon-vod') == 'true':
+                    if control.setting('provider.amazonapp') == '0':
                         sysurl='plugin://plugin.video.amazon-test/?mode=PlayVideo&asin=' + aid.group(1)
-                    if control.setting('provider.amazon') == 'true':
+                    if control.setting('provider.amazonapp') == '1':
                         sysurl='plugin://plugin.video.amazon/?sitemode=PLAYVIDEO&mode=play&asin=' + aid.group(1)
          
                                       
