@@ -177,8 +177,12 @@ class sources:
                 if "amazon" in label.lower():
                     item.setProperty('IsPlayable', 'true')                    
                     aid=re.search(r'asin%3D(.*?)%22%2C', sysurl)
-                    sysurl='plugin://plugin.video.amazon-test/?mode=PlayVideo&asin=' + aid.group(1)
-                                       
+                    if control.setting('provider.amazon-vod') == 'true':
+                        sysurl='plugin://plugin.video.amazon-test/?mode=PlayVideo&asin=' + aid.group(1)
+                    if control.setting('provider.amazon') == 'true':
+                        sysurl='plugin://plugin.video.amazon/?sitemode=PLAYVIDEO&mode=play&asin=' + aid.group(1)
+         
+                                      
                 ## Netflix Scraper Details ##
                 if "netflix" in label.lower():
                     item.setProperty('IsPlayable', 'true')

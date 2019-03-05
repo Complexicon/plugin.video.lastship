@@ -87,10 +87,13 @@ class source:
         try:
             if not url:
                 return sources
-                         
-            sources.append({'source': 'Prime', 'quality': '1080p', 'language': 'de', 'url':'plugin://plugin.video.amazon-test/?mode=PlayVideo&asin='+url , 'info': '', 'direct': True,'local': True, 'debridonly': False})
-            
-            return sources
+
+            if control.setting('provider.amazon-vod') == 'true':
+                sources.append({'source': 'Prime', 'quality': '1080p', 'language': 'de', 'url':'plugin://plugin.video.amazon-test/?mode=PlayVideo&asin='+url , 'info': '', 'direct': True,'local': True, 'debridonly': False})
+            if control.setting('provider.amazon') == 'true':
+                sources.append({'source': 'Prime', 'quality': '1080p', 'language': 'de', 'url':'plugin://plugin.video.amazon/?sitemode=PLAYVIDEO&mode=play&asin='+url , 'info': '', 'direct': True,'local': True, 'debridonly': False})
+            return sources 
+                        
         except:
             return sources
 

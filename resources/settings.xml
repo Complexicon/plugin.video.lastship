@@ -126,6 +126,7 @@
         <setting id="provider.emby" type="bool" label="EMBY" default="false" />
         <setting id="provider.feedme" type="bool" label="FEEDME (DB)" default="false" />
         <setting type="lsep" label="Premium (Abonnement vorausgesetzt)" />
+        <setting id="provider.amazon-vod" type="bool" label="AMAZON.DE-VOD" default="false" />
         <setting id="provider.amazon" type="bool" label="AMAZON.DE" default="false" />
         <setting id="provider.maxdome" type="bool" label="MAXDOME.DE" default="false" />
         <setting id="provider.netflix" type="bool" label="NETFLIX (Kodi18 Only)" default="false" />
