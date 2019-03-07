@@ -1,3 +1,6 @@
+[B]3.0.10~nightly4[/B]
+- Fix moviedream.ws - jetzt aber entgültig
+
 [B]3.0.10~nightly3[/B]
 - Fix moviedream.ws
 
