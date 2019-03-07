@@ -93,7 +93,7 @@ class source:
             r = re.findall(r'<a href=\"https(.*?)\" targe(.*?)<img class=\"(.*?)linkbutton\"', r.content)
 
             for link, nothing, quli in r:
-                link = 'https' + link
+                link = 'https' + link.replace("\r", "")
                 valid, host = source_utils.is_host_valid(link, hostDict)
                 if not valid: continue
                 
