@@ -127,9 +127,10 @@
         <setting id="provider.feedme" type="bool" label="FEEDME (DB)" default="false" />
         <setting type="lsep" label="Premium (Abonnement vorausgesetzt)" />
         <setting id="provider.amazon" type="bool" label="AMAZON.DE" default="false" />
-        <setting id="provider.amazonapp" type="enum" label="Welche Amazon APP" visible="eq(-1,true)" values="AmazonVOD|Amazon" default="0" />
+        <setting id="provider.amazonapp" type="enum" label="Verwendetes Amazon-Plugin" visible="eq(-1,true)" values="AmazonVOD|Amazon" default="0" />
         <setting id="provider.maxdome" type="bool" label="MAXDOME.DE" default="false" />
-        <setting id="provider.netflix" type="bool" label="NETFLIX (Kodi18 Only)" default="false" />
+        <setting id="provider.netflix" type="bool" label="NETFLIX" default="false" />
+        <setting type="text" label="[COLOR blue]Netflix ist nur mit Kodi 18+ möglich.[/COLOR]" />
         <setting type="lsep" label="Mediatheken" />
         <setting id="provider.horrorkino" type="bool" label="FLIMMERSTUBE.COM" default="true" />
         <setting id="provider.netzkino" type="bool" label="NETZKINO.DE" default="true" />
