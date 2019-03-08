@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.lastship" version="3.0.10~nightly4" name="Lastship" provider-name="Lastship">
+<addon id="plugin.video.lastship" version="3.0.10~nightly5" name="Lastship" provider-name="Lastship">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="repository.lastship" version="1.0.2" />
@@ -27,10 +27,9 @@
     			<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
 		</assets>
 		<news>
-- Update Openload Pairing Hoster
-- Option "Hoster ausschließen" 
-- Amazon Suche verbessert
-- Neu Kategorie (Bald verfuegbar)
+- Update HDFilme
+- Update Moviedreams
+- Add Amazon Addon Auswahl		
 		</news>
 	</extension>
 </addon>
