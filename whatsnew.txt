@@ -10,9 +10,9 @@ Die Gründer und auch die Entwickler von Lastship sind nur in unserem Lastship F
 zur Zeit nichts
 
 [B]INFO Allgemein:[/B]
-Für die Seite Serienstream (s.to) ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (kann auch Wegwerf E-Mailadresse sein)
+Für die Seite Serienstream (s.to) ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (Wegwerf-E-Mailadresse möglich)
 
-Amazon und Netflix nur mit einem gültigen Abo des Betreibers nutzbar, Infos dazu siehe FAQ
+Amazon, Netflix und Maxdome sind nur mit einem gültigen Abo des Betreibers nutzbar, Infos dazu in der FAQ
 
 Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos dazu stehen in der FAQ
 
