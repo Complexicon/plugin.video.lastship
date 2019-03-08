@@ -1,3 +1,6 @@
+[B]3.0.10~nightly5[/B]
+- Update zu Amazon: Es nun möglich, im Menü zu wählen, ob das Amazon VOD oder das Amazon Addon durchsucht/verwendet werden soll
+
 [B]3.0.10~nightly4[/B]
 - Fix moviedream.ws - jetzt aber entgültig
 
