@@ -50,7 +50,7 @@ class source:
         return tv_show_id
 
     def episode(self, tvshowid, imdb, tvdb, title, premiered, season, episode):        
-        url = "http://api.vodster.de/avogler/links.php?api_key=&format=json&tvdb=%s&season=%s&episode=%s" % (self.vodster_api_key, tvdb, season, episode)
+        url = "http://api.vodster.de/avogler/links.php?api_key=%s&format=json&tvdb=%s&season=%s&episode=%s" % (self.vodster_api_key, tvdb, season, episode)
         episode_id = self.get_netflix_id(url)
 
         return episode_id
