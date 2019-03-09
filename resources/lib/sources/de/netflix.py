@@ -34,35 +34,26 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
+        self.vodster_api_key = "ea469466-1fa9-420c-994e-42bdbbb32a38"
         
 
     def movie(self, imdb, title, localtitle, aliases, year):
-        try:            
-            titles = [localtitle] + source_utils.aliases_to_array(aliases)
-            result = duckduckgo.search(titles, year, 'netflix.com',  '(.*?)\|\sNetflix')
-            result=re.findall('(\d+)', result)[0]
-            
-            return result
-        except:
-            return result
+        url = "http://api.vodster.de/avogler/links.php?api_key=%s&format=json&imdb=%s" % (self.vodster_api_key, imdb)
+        movie_id = self.get_netflix_id(url)
+
+        return movie_id
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):        
-        titles = [localtvshowtitle] + source_utils.aliases_to_array(aliases)        
-        result = duckduckgo.search(titles, year, 'netflix.com',  '(.*?)\|\sNetflix')        
-        tvshowid=re.findall('(\d+)', result)[0]
-        #print "print NF tvshowid",tvshowid
-        return tvshowid
+        url = "http://api.vodster.de/avogler/links.php?api_key=%s&format=json&tvdb=%s" % (self.vodster_api_key, tvdb)
+        tv_show_id = self.get_netflix_id(url)
+
+        return tv_show_id
 
     def episode(self, tvshowid, imdb, tvdb, title, premiered, season, episode):        
-        
-        url="https://www.netflix.com/api/shakti/57e85dca/metadata?movieid="+str(tvshowid)
-        s = requests.Session()
-        ## get netflix session cookies for api call
-        data = s.get("https://www.netflix.com")
-        data = s.get(url).json()
-        episodeid=data['video']['seasons'][int(season)-1]['episodes'][int(episode)-1]['episodeId']
-        url=str(episodeid)
-        return url
+        url = "http://api.vodster.de/avogler/links.php?api_key=&format=json&tvdb=%s&season=%s&episode=%s" % (self.vodster_api_key, tvdb, season, episode)
+        episode_id = self.get_netflix_id(url)
+
+        return episode_id
 
 
 
@@ -82,4 +73,14 @@ class source:
     def resolve(self, url):
         return url
 
+    def get_netflix_id(self, url):
+        id = 0
+        data = requests.get(url).json()
+        
+        for provider in data:
+            if (provider["provider"] == "Netflix"):
+                id = re.findall('(\d+)', provider["url"])[0]
+                break
+
+        return id
 
