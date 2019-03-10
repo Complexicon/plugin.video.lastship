@@ -32,7 +32,7 @@ from resources.lib.modules import client
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
-
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
@@ -43,6 +43,7 @@ class source:
         self.search_link = '/search/%s'
         self.stream_link = '/embed.php?video_id=%s&provider=%s'
         self.year_link = self.base_link + '/index.php?a=year&q=%s&page=%s'
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -62,9 +63,9 @@ class source:
 
             query = urlparse.urljoin(self.base_link, url)
 
-            r = cache.get(client.request, 4, query)
+            r = cache.get(self.scraper.get, 4, query)
 
-            links = re.findall('data-video-id="(.*?)"\sdata-provider="(.*?)"', r)
+            links = re.findall('data-video-id="(.*?)"\sdata-provider="(.*?)"', r.content)
 
             for id, hoster in links:
                 valid, hoster = source_utils.is_host_valid(hoster, hostDict)
@@ -83,9 +84,9 @@ class source:
         try:
             link = self.stream_link % (url[0], url[1])
             link = urlparse.urljoin(self.base_link, link)
-            content = cache.get(client.request, 4, link)
-            return dom_parser.parse_dom(content, 'iframe')[0].attrs['src']
-
+            content = cache.get(self.scraper.get, 4, link)
+            stream =  re.findall('src=\"(.*?)" /></body>', content.content)[0]
+            return stream
         except:
             source_faultlog.logFault(__name__, source_faultlog.tagResolve)
             return
@@ -95,20 +96,20 @@ class source:
             t = [cleantitle.get(i) for i in set(titles) if i]
 
             link = self.year_link % (year, "%s")
-
+            stream = ""
             for i in range(1, 100, 1):
-                content = cache.get(client.request, 4, link % str(i))
-
-                links = dom_parser.parse_dom(content, 'div', attrs={'class': 'search_frame'})
+                content = cache.get(self.scraper.get, 4, link % str(i))
+                x = content.content
+                links = re.findall(r'<a href=\"(.*?)\"(.*?)alt=\"(.*?)\"', content.content)
                 if len(links) == 0: return
-                links = [dom_parser.parse_dom(i, 'a') for i in links]
-                links = [(i[1], i[2]) for i in links]
-                links = [(i[0].attrs['href'], re.findall('>(.*?)<', i[0].content)[0], i[1].content) for i in links]
-                links = sorted(links, key=lambda i: int(i[2]), reverse=True)  # with year > no year
-                links = [i[0] for i in links if cleantitle.get(i[1]) in t and year == i[2]]
 
-                if len(links) > 0:
-                    return source_utils.strip_domain(links[0])
+                for x in range(0, len(links) -1):
+                    title = cleantitle.get(links[x][2])
+                    if t[1] in title:
+                        stream = links[x][0]
+
+                if len(stream) > 0:
+                    return source_utils.strip_domain(stream)
             return
         except:
             try:
