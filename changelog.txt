@@ -1,3 +1,11 @@
+[B]3.0.10~nightly8[/B]
+- Fix HDKino
+- Kurz FAQ im Einstellungs Menü (settings.xml)
+
+[B]3.0.10~nightly7[/B]
+- Update settings.xml
+- Update Netflix
+
 [B]3.0.10~nightly6[/B]
 - TMovie entfernt, Offline
 
