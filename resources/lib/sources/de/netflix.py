@@ -26,6 +26,7 @@ import re
 import urllib
 import requests
 import json
+import base64
 
 from resources.lib.modules import source_utils
 from resources.lib.modules import duckduckgo
@@ -34,7 +35,7 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
-        self.vodster_api_key = "ea469466-1fa9-420c-994e-42bdbbb32a38"
+        self.vodster_api_key = base64.b64decode("ZWE0Njk0NjYtMWZhOS00MjBjLTk5NGUtNDJiZGJiYjMyYTM4")
         
 
     def movie(self, imdb, title, localtitle, aliases, year):
