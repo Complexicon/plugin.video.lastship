@@ -1,4 +1,9 @@
-[B]3.0.10~nightly10B]
+[B]3.0.10~nightly11[/B]
+- Fix Trakt Bugfix (Benutzerauthorisierung wird nicht angezeigt)
+	Der Trakt Benutzer wird nun korrekt angezeigt.
+	ACHTUNG: ES IST ZWINGEND NOTWENDIG DASS JEDER BENUTZER TRAKT NEU AUTORISIERT! WIRD DIES NICHT GEMACHT WERDEN EINIGE 		TRAKT-OPTIONEN FEHLERHAFT SEIN!
+
+[B]3.0.10~nightly10[/B]
  - New Indexpage: Movie-stream.eu
 
 [B]3.0.10~nightly9[/B]
