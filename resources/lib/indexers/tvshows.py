@@ -1275,6 +1275,7 @@ class tvshows:
 
         control.content(syshandle, 'tvshows')
         control.directory(syshandle, cacheToDisc=True)
+        control.sleep(200)
         views.setView('tvshows', {'skin.estuary': 55, 'skin.confluence': 500})
 
 

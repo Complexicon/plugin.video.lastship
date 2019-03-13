@@ -541,6 +541,7 @@ class seasons:
 
         control.content(syshandle, 'seasons')
         control.directory(syshandle, cacheToDisc=True)
+        control.sleep(200)
         views.setView('seasons', {'skin.estuary': 55, 'skin.confluence': 500})
 
 

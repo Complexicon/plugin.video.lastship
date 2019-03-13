@@ -982,6 +982,12 @@ class movies:
                 if self.tm_user == '': raise Exception()
 
                 art2 = client.request(self.tm_art_link % imdb, timeout='10', error=True)
+
+                ## fix to avoid empty art2 (tmdb fanart) due to rate limit
+                while 'over the allowed limit' in art2:
+                    art2 = client.request(self.tm_art_link % imdb, timeout='10', error=True)
+                    control.sleep(500)
+
                 art2 = json.loads(art2)
             except:
                 pass
@@ -1161,6 +1167,7 @@ class movies:
 
         control.content(syshandle, 'movies')
         control.directory(syshandle, cacheToDisc=True)
+        control.sleep(200)
         views.setView('movies', {'skin.estuary': 55, 'skin.confluence': 500})
 
 
