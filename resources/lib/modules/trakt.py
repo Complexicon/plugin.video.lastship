@@ -142,6 +142,7 @@ def authTrakt():
         user = result['username']
 
         control.setSetting(id='trakt.user', value=user)
+        control.setSetting(id='trakt.user2', value=user) #Notwendig für korrekte settings.xml
         control.setSetting(id='trakt.token', value=token)
         control.setSetting(id='trakt.refresh', value=refresh)
         raise Exception()

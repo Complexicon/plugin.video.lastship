@@ -5,7 +5,7 @@
         <setting id="appearance.alt" type="action" label="Erscheinungsbild" default="-" option="close" action="RunPlugin(plugin://plugin.video.lastship/?action=artwork)" visible="!System.HasAddon(script.lastship.artwork)" />
         <setting id="appearance.1" type="select" label="Erscheinungsbild" values="Lastship|Lastship2|Exodus|Exuary|Eigene" default="Lastship" visible="System.HasAddon(script.lastship.artwork)" />
         <setting id="scrapers.timeout.1" type="slider" label="Zeitlimit für Indexseiten" default="20" range="10,120" option="int" />
-        <setting id="trakt.user" type="text" label="Benutzer" default="" visible="false"/>
+        <setting id="trakt.user2" type="text" label="Benutzer" visible="false" enable="false" default=""/>
         <setting id="indicators.alt" type="enum" label="Gesehen / Fortsetzungspunkte" values="Lokal|Trakt" default="1" visible="!eq(-1,)" />
         <setting id="indicators" type="enum" label="Gesehen / Fortsetzungspunkte" values="Lokal" default="0" visible="eq(-2,)" enable="!eq(-2,)" />
         <setting id="api.language" type="select" label="Sprache für Informationen" values="AUTO|Bulgarian|Chinese|Croatian|Czech|Danish|Dutch|English|Finnish|French|German|Greek|Hebrew|Hungarian|Italian|Japanese|Korean|Norwegian|Polish|Portuguese|Romanian|Russian|Serbian|Slovak|Slovenian|Spanish|Swedish|Thai|Turkish|Ukrainian" default="German" visible="false" />
@@ -157,11 +157,11 @@
         <setting id="provider.movie4k" type="bool" label="MOVIE4K.TO" default="true" />
         <setting id="provider.movie4k-lt" type="bool" label="MOVIE4K.LT" default="true" />
         <setting id="provider.movie-gg" type="bool" label="MOVIE-GG" default="true" />
-        <setting id="provider.moviedream" type="bool" label="MOVIEDREAM.WS" default="true" />
         <setting id="provider.moviestream" type="bool" label="MOVIESTREAM.EU" default="true" />
         <setting id="provider.movietown" type="bool" label="MOVIETOWN.ORG" default="true" />
         <setting id="provider.nanime" type="bool" label="NANIME.TO" default="false" />
         <setting id="provider.proxer" type="bool" label="PROXER.ME" default="true" />
+        <setting id="provider.moviedream" type="bool" label="MOVIEDREAM.WS" default="true" />
         <setting id="provider.serienstream" type="bool" label="SERIENSTREAM.TO" default="false" />
         <setting id="provider.streamit" type="bool" label="STREAMIT.WS" default="true" />
         <setting id="provider.streamworld" type="bool" label="STREAMWORLD.TO (ReCaptcha)" default="false" />
