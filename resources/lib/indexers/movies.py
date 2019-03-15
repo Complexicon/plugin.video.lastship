@@ -355,7 +355,7 @@ class movies:
         
     def award(self):
             awards = [
-#             Folgende 2 Punkte werden nicht gefiltert!
+            #Folgende 2 Punkte werden nicht gefiltert!
             ('Meistbewertet', self.views_link, False, 'most-voted.png'),
             ('Aktive Betrachter', self.trending_link, False, 'people-watching.png'),
             ('Bestes Einspielergebnis', self.boxoffice_link, False, 'box-office.png'),
@@ -1019,13 +1019,14 @@ class movies:
 
             if artmeta == False: raise Exception()
 
-            meta = {'imdb': imdb, 'tmdb': tmdb, 'tvdb': '0', 'lang': self.lang, 'user': self.user, 'item': item}
+            meta = {'imdb': imdb, 'tmdb': tmdb, 'tvdb': '0', 'lang': self.lang, 'user': self.user, 'item': item,'poster':'0','background':'0'}
             self.meta.append(meta)
         except:
             pass
 
 
     def movieDirectory(self, items):
+        self.list = metacache.fetch(self.list, self.lang, self.user)
         if items == None or len(items) == 0: control.idle() ; sys.exit()
 
         sysaddon = sys.argv[0]
@@ -1079,8 +1080,43 @@ class movies:
                 try: meta.update({'genre': cleangenre.lang(meta['genre'], self.lang)})
                 except: pass
 
-                poster = [i[x] for x in ['poster3', 'poster', 'poster2'] if i.get(x, '0') != '0']
-                poster = poster[0] if poster else addonPoster
+                 # Poster FanArt select ##
+                posterdb=metacache.fetchfanart(meta['imdb'],"poster")                
+                backgroundb=metacache.fetchfanart(meta['imdb'],"background")
+                                
+                # required for hand-off to RunPlugin #
+                poster_amazon = i.get("poster","0")
+                poster_fanart = i.get("poster2","0")
+                poster_tmdb = i.get("poster3","0")
+                    
+                # Return Values 0=TMDB,1=Fanart.tv,2=Amazon
+
+                #besser wäre, ermitteln wieviel verfügbar von jeden, dann nummer übergeben anstelle URL, liste aufrufen ##
+                
+                if posterdb== '2':                        
+                    poster=poster_amazon
+                elif posterdb == '1':                        
+                    poster=poster_fanart
+                else:                        
+                    poster=poster_tmdb
+                
+                # required for Dialog to RunPlugin #
+                background_fanart = i.get("fanart","0")
+                background_tmdb = i.get("fanart2","0")
+                # Return Values 0=TMDB,1=Fanart.tv
+                    
+                if backgroundb== '1':                        
+                    background=background_fanart
+                else:
+                    background=background_tmdb
+
+
+                ## Fallback ##
+                if background == "0": background="addonFanart"
+                if poster == "0": poster="addonPoster"
+                
+                ## /Poster FanArt select ##     
+
                 meta.update({'poster': poster})
 
                 sysmeta = urllib.quote_plus(json.dumps(meta))
@@ -1088,10 +1124,12 @@ class movies:
                 url = '%s?action=play&title=%s&year=%s&imdb=%s&meta=%s&t=%s' % (sysaddon, systitle, year, imdb, sysmeta, self.systime)
                 sysurl = urllib.quote_plus(url)
 
-                cm = []
-                cm.append(("Finde Ähnliches", 'ActivateWindow(10025,%s?action=movies&url=https://api.trakt.tv/movies/%s/related,return)' % (sysaddon, imdb)))
-                cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
-                
+                cm = [(queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon)]
+
+                # Select Fanart
+                cm.append(("Select Poster Fanart",  'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&amazonid=%s&tmdbid=%s&fanartid=%s)' % (sysaddon,"poster",imdb,poster_amazon,poster_tmdb,poster_fanart)))
+                cm.append(("Select Background Fanart", 'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&amazonid=%s&tmdbid=%s&fanartid=%s)' % (sysaddon,"background",imdb,"0",background_tmdb,background_fanart)))
+              
                 try:
                     overlay = int(playcount.getMovieOverlay(indicators, imdb))
                     if overlay == 7:
@@ -1129,13 +1167,14 @@ class movies:
                 if 'clearart' in i and not i['clearart'] == '0':
                     art.update({'clearart': i['clearart']})
 
-
-                if settingFanart == 'true' and 'fanart2' in i and not i['fanart2'] == '0':
-                    item.setProperty('Fanart_Image', i['fanart2'])
-                elif settingFanart == 'true' and 'fanart' in i and not i['fanart'] == '0':
-                    item.setProperty('Fanart_Image', i['fanart'])
-                elif not addonFanart == None:
-                    item.setProperty('Fanart_Image', addonFanart)
+                item.setProperty('Fanart_Image', background)
+                ## Background FanArt Select
+                #if settingFanart == 'true' and not background_tmdb == '0':
+                    #item.setProperty('Fanart_Image', i['fanart2'])
+                #elif settingFanart == 'true' and not background_fanart == '0':
+                    #item.setProperty('Fanart_Image', i['fanart'])
+                #elif not addonFanart == None:
+                    #item.setProperty('Fanart_Image', addonFanart)
 
                 item.setArt(art)
                 item.addContextMenuItems(cm)
@@ -1201,6 +1240,7 @@ class movies:
                 cm = []
 
                 cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=movie&url=%s)' % (sysaddon, urllib.quote_plus(i['url']))))
+
 
                 if queue == True:
                     cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))

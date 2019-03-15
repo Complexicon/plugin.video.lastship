@@ -1,3 +1,8 @@
+[B]3.0.10~nightly13[/B]
+-  Fanart/Poster Quelle Auswahlmöglichkeit hinzugefügt (control.py, movies.py, lastship.py, metacache.py):
+     Es ist bei Filmen nach der Suche möglich, über das Kontexmenü die Fanart/Poster Quelle zu ändern
+     Ist bei der gewählten Quelle nichts verfügbar, so wird kein Icon angezeigt
+
 [B]3.0.10~nightly12[/B]
 - Fix View Typ (Ansichten werden nun auch auf den Folgeseiten korrekt angezeigt)
 

@@ -137,6 +137,7 @@ def autoTraktSubscription(tvshowtitle, year, imdb, tvdb):
      from . import libtools
      libtools.libtvshows().add(tvshowtitle, year, imdb, tvdb)
 
+## Hardcoded, should use query Addon Name instead ##
 def addonIcon():
     theme = appearance() ; art = artPath()
     if not (art == None and theme in ['-', '']): return os.path.join(art, 'icon.png')
@@ -209,6 +210,26 @@ def appearance():
 
 def artwork():
     execute('RunPlugin(plugin://script.lastship.artwork)')
+
+def select_fanart(arttype,imdb,amazonid,tmdbid,fanartid):
+    try:
+        from resources.lib.modules import metacache
+        
+        posterlist=[]        
+        if not tmdbid=="0": posterlist.append("TMDB")
+        if not fanartid=="0": posterlist.append("Fanart.tv")
+        if not amazonid=="0" : posterlist.append("Amazon")
+        
+        ## Es muss noch geprüft werden, welcher wirklich zurück gegeben wird anhand der Liste ein Dict erstellen"
+        ## Aktuell geht man davon aus das tmdb=0,fanart=1,amazonid=2    
+        
+        dbfanartid=selectDialog(posterlist,heading="FanArtSelect")
+        
+        if not dbfanartid ==-1:            
+            metacache.setfanart(arttype,imdb,dbfanartid)        
+            refresh()
+    except:
+        return 
 
 
 def infoDialog(message, heading=addonInfo('name'), icon='', time=3000, sound=False):

@@ -30,6 +30,33 @@ except: from pysqlite2 import dbapi2 as database
 from resources.lib.modules import control
 
 
+def fetchfanart(imdb,arttype):
+    try:        
+        dbcon = database.connect(control.metacacheFile)
+        dbcur = dbcon.cursor()
+        dbcur.execute("SELECT poster,background FROM meta WHERE imdb = '%s'" % imdb)
+        result = dbcur.fetchone()
+        match = [x[0] for x in result]        
+        if arttype == "poster":            
+            return str(match[0])
+        elif arttype == "background":            
+            return str(match[1])
+    except:
+        return
+
+def setfanart(arttype,imdb,fanartid):
+    try:        
+        dbcon = database.connect(control.metacacheFile)        
+        dbcur = dbcon.cursor()        
+        if arttype=="poster":            
+            dbcur.execute("update meta set poster='%s' WHERE imdb = '%s'" % (fanartid,imdb))
+        elif arttype=="background":            
+            dbcur.execute("update meta set background='%s' WHERE imdb = '%s'" % (fanartid,imdb))
+        dbcon.commit()        
+    except:
+        return
+    
+
 def fetch(items, lang='de', user=''):
     try:
         t2 = int(time.time())
@@ -63,7 +90,7 @@ def insert(meta):
         control.makeFile(control.dataPath)
         dbcon = database.connect(control.metacacheFile)
         dbcur = dbcon.cursor()
-        dbcur.execute("CREATE TABLE IF NOT EXISTS meta (""imdb TEXT, ""tvdb TEXT, ""lang TEXT, ""user TEXT, ""item TEXT, ""time TEXT, ""UNIQUE(imdb, tvdb, lang, user)"");")
+        dbcur.execute("CREATE TABLE IF NOT EXISTS meta (""imdb TEXT, ""tvdb TEXT, ""lang TEXT, ""user TEXT, ""poster TEXT,""background TEXT, ""item TEXT, ""time TEXT, ""UNIQUE(imdb, tvdb, lang, user)"");")
         t = int(time.time())
         for m in meta:
             try:
@@ -72,7 +99,7 @@ def insert(meta):
                 i = repr(m['item'])
                 try: dbcur.execute("DELETE * FROM meta WHERE (imdb = '%s' and lang = '%s' and user = '%s' and not imdb = '0') or (tvdb = '%s' and lang = '%s' and user = '%s' and not tvdb = '0')" % (m['imdb'], m['lang'], m['user'], m['tvdb'], m['lang'], m['user']))
                 except: pass
-                dbcur.execute("INSERT INTO meta Values (?, ?, ?, ?, ?, ?)", (m['imdb'], m['tvdb'], m['lang'], m['user'], i, t))
+                dbcur.execute("INSERT INTO meta Values (?, ?, ?, ?, ?, ?, ?, ?)", (m['imdb'], m['tvdb'], m['lang'], m['user'],m['poster'],m['background'], i, t))
             except:
                 pass
 

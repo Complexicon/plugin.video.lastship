@@ -52,6 +52,12 @@ url = params.get('url')
 
 image = params.get('image')
 
+## Select_Fanart ##
+amazonid=params.get('amazonid')
+tmdbid=params.get('tmdbid')
+fanartid=params.get('fanartid')
+arttype=params.get('arttype')
+## Select_Fanart ##
 meta = params.get('meta')
 
 select = params.get('select')
@@ -340,6 +346,10 @@ elif action == 'openSettings':
 elif action == 'artwork':
     from resources.lib.modules import control
     control.artwork()
+
+elif action == 'select_fanart':    
+    from resources.lib.modules import control
+    control.select_fanart(arttype,imdb,amazonid,tmdbid,fanartid)
 
 elif action == 'addView':
     from resources.lib.modules import views
