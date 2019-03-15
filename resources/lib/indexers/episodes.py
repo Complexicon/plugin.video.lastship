@@ -440,13 +440,11 @@ class seasons:
 
         unwatchedMenu = "In Trakt [I]Ungesehen[/I]" if trakt.getTraktIndicatorsInfo() == True else "In Lastship [I]Ungesehen[/I]"
 
-        queueMenu = "Eintrag zur Warteschlange hinzufügen"
+        queueMenu = "Zur Warteschlange hinzufügen"
 
         traktManagerMenu = "[B]Trakt-Manager[/B]"
 
         labelMenu = "Staffel"
-
-        playRandom = "Zufallswiedergabe"
 
         addToLibrary = "Zur Bibliothek hinzufügen"
 
@@ -485,22 +483,26 @@ class seasons:
                 url = '%s?action=episodes&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s&season=%s' % (sysaddon, systitle, year, imdb, tvdb, season)
 
                 cm = []
-                
-                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=episode&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s&season=%s)' % (sysaddon, urllib.quote_plus(systitle), urllib.quote_plus(year), urllib.quote_plus(imdb), urllib.quote_plus(tvdb), urllib.quote_plus(season))))
-
-                cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
+                if control.setting('cm.addtolybrary') == 'true':
+                    cm.append((addToLibrary, 'RunPlugin(%s?action=tvshowToLibrary&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, systitle, year, imdb, tvdb)))
+                else:
+                    pass
+                if control.setting('cm.queue') == 'true':
+                    cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
+                else:
+                    pass
 
                 cm.append((watchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&season=%s&query=7)' % (sysaddon, systitle, imdb, tvdb, season)))
 
                 cm.append((unwatchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&season=%s&query=6)' % (sysaddon, systitle, imdb, tvdb, season)))
 
-                if traktCredentials == True:
-                    cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&tvdb=%s&content=tvshow)' % (sysaddon, sysname, tvdb)))
-
+                if control.setting('cm.traktmanager') == 'true':
+                    if traktCredentials == True:
+                        cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&tvdb=%s&content=tvshow)' % (sysaddon, sysname, tvdb)))
+                else:
+                    pass
                 if isOld == True:
                     cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
-
-                cm.append((addToLibrary, 'RunPlugin(%s?action=tvshowToLibrary&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, systitle, year, imdb, tvdb)))
 
                 item = control.item(label=label)
 
@@ -1424,13 +1426,13 @@ class episodes:
 
         isFolder = False if not sysaction == 'episodes' else True
 
-        playbackMenu = "Abspielen mit..." if control.setting('hosts.mode') == '2' else "Auto-Play"
+        playbackMenu = "Abspielen mit..." if control.setting('hosts.mode') == '2' else "Autoplay"
 
         watchedMenu = "In Trakt [I]Gesehen[/I]" if trakt.getTraktIndicatorsInfo() == True else "In Lastship [I]Gesehen[/I]"
 
         unwatchedMenu = "In Trakt [I]Ungesehen[/I]" if trakt.getTraktIndicatorsInfo() == True else "In Lastship [I]Ungesehen[/I]"
 
-        queueMenu = "Eintrag zur Warteschlange hinzufügen"
+        queueMenu = "Zur Warteschlange hinzufügen"
 
         traktManagerMenu = "[B]Trakt-Manager[/B]"
 
@@ -1487,8 +1489,14 @@ class episodes:
                     url = '%s?action=episodes&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s&season=%s&episode=%s' % (sysaddon, systvshowtitle, year, imdb, tvdb, season, episode)
 
                 cm = []
-
-                cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
+                if control.setting('cm.addtolibrary') == 'true':
+                    cm.append((addToLibrary, 'RunPlugin(%s?action=tvshowToLibrary&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, systvshowtitle, year, imdb, tvdb)))
+                else:
+                    pass
+                if control.setting('cm.queue') == 'true':
+                    cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
+                else:
+                    pass
 
                 if multi == True:
                     cm.append((tvshowBrowserMenu, 'Container.Update(%s?action=seasons&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s,return)' % (sysaddon, systvshowtitle, year, imdb, tvdb)))
@@ -1503,17 +1511,19 @@ class episodes:
                         meta.update({'playcount': 0, 'overlay': 6})
                 except:
                     pass
-
-                if traktCredentials == True:
-                    cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&tvdb=%s&content=tvshow)' % (sysaddon, systvshowtitle, tvdb)))
-
-                if isFolder == False:
-                    cm.append((playbackMenu, 'RunPlugin(%s?action=alterSources&url=%s&meta=%s)' % (sysaddon, sysurl, sysmeta)))
-
+                    
+                if control.setting('cm.traktmanager') == 'true':
+                    if traktCredentials == True:
+                        cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&tvdb=%s&content=tvshow)' % (sysaddon, systvshowtitle, tvdb)))
+                else:
+                    pass
+                if control.setting('cm.playback') == 'true':
+                    if isFolder == False:
+                        cm.append((playbackMenu, 'RunPlugin(%s?action=alterSources&url=%s&meta=%s)' % (sysaddon, sysurl, sysmeta)))
+                else:
+                    pass
                 if isOld == True:
                     cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
-
-                cm.append((addToLibrary, 'RunPlugin(%s?action=tvshowToLibrary&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, systvshowtitle, year, imdb, tvdb)))
 
                 item = control.item(label=label)
 
@@ -1571,7 +1581,7 @@ class episodes:
 
         addonFanart, addonThumb, artPath = control.addonFanart(), control.addonThumb(), control.artPath()
 
-        queueMenu = "Eintrag zur Warteschlange hinzufügen"
+        queueMenu = "Zur Warteschlange hinzufügen"
 
         for i in items:
             try:

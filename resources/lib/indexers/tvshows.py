@@ -1152,13 +1152,11 @@ class tvshows:
 
         unwatchedMenu = "In Trakt [I]Ungesehen[/I]" if trakt.getTraktIndicatorsInfo() == True else "In Lastship [I]Ungesehen[/I]"
 
-        queueMenu = "Eintrag zur Warteschlange hinzufügen"
+        queueMenu = "Zur Warteschlange hinzufügen"
 
         traktManagerMenu = "[B]Trakt-Manager[/B]"
 
         nextMenu = "Nächste Seite"
-
-        playRandom = "Zufallswiedergabe"
 
         addToLibrary = "Zur Bibliothek hinzufügen"
 
@@ -1195,23 +1193,36 @@ class tvshows:
 
                 cm = []
                 
-                cm.append(("Finde Ähnliches", 'ActivateWindow(10025,%s?action=tvshows&url=https://api.trakt.tv/shows/%s/related,return)' % (sysaddon, imdb)))
-                
-                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=season&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, urllib.quote_plus(systitle), urllib.quote_plus(year), urllib.quote_plus(imdb), urllib.quote_plus(tvdb))))
-                
-                cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
+                if control.setting('cm.addtolibrary') == 'true':
+                    cm.append((addToLibrary, 'RunPlugin(%s?action=tvshowToLibrary&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, systitle, year, imdb, tvdb)))
+                else:
+                    pass
+                if control.setting('cm.queue') == 'true':
+                    cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
+                else:
+                    pass
 
                 cm.append((watchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&query=7)' % (sysaddon, systitle, imdb, tvdb)))
 
                 cm.append((unwatchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&query=6)' % (sysaddon, systitle, imdb, tvdb)))
-
-                if traktCredentials == True:
-                    cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&tvdb=%s&content=tvshow)' % (sysaddon, sysname, tvdb)))
-
+                
+                if control.setting('cm.similiar') == 'true':
+                    cm.append(("Finde Ähnliches", 'ActivateWindow(10025,%s?action=tvshows&url=https://api.trakt.tv/shows/%s/related,return)' % (sysaddon, imdb)))
+                else:
+                    pass
+                
+                
+                #Hier Fanart und Poster KONTEXTMENÜ (!) einfügen.
+                
+                
+                
+                if control.setting('cm.traktmanager') == 'true':
+                    if traktCredentials == True:
+                        cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&tvdb=%s&content=tvshow)' % (sysaddon, sysname, tvdb)))
+                else:
+                    pass
                 if isOld == True:
                     cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
-
-                cm.append((addToLibrary, 'RunPlugin(%s?action=tvshowToLibrary&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, systitle, year, imdb, tvdb)))
 
                 item = control.item(label=label)
 
@@ -1290,8 +1301,6 @@ class tvshows:
 
         queueMenu = "Zur Warteschlange hinzufügen"
 
-        playRandom = "Zufallswiedergabe"
-
         addToLibrary = "Zur Bibliothek hinzufügen"
 
         for i in items:
@@ -1307,8 +1316,6 @@ class tvshows:
                 except: pass
 
                 cm = []
-
-                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=show&url=%s)' % (sysaddon, urllib.quote_plus(i['url']))))
 
                 if queue == True:
                     cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))

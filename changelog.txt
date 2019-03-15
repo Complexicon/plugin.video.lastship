@@ -1,3 +1,9 @@
+[B]3.0.10~nightly14[/B]
+- Kontextmenü-Einträge lassen sich nun unter Einstellungen/Allgemein verwalten.
+- Bugfixes Nightly 13
+- Vereinheitlichung
+- Zufallswiedergabe entfernt
+     
 [B]3.0.10~nightly13[/B]
 -  Fanart/Poster Quelle Auswahlmöglichkeit hinzugefügt (control.py, movies.py, lastship.py, metacache.py):
      Es ist bei Filmen nach der Suche möglich, über das Kontexmenü die Fanart/Poster Quelle zu ändern
@@ -9,7 +15,7 @@
 [B]3.0.10~nightly11[/B]
 - Fix Trakt Bugfix (Benutzerauthorisierung wird nicht angezeigt)
     Der Trakt Benutzer wird nun korrekt angezeigt.
-    ACHTUNG: ES IST ZWINGEND NOTWENDIG DASS JEDER BENUTZER TRAKT NEU AUTORISIERT! WIRD DIES NICHT GEMACHT WERDEN EINIGE 		TRAKT-OPTIONEN FEHLERHAFT SEIN!
+    ACHTUNG: ES IST ZWINGEND NOTWENDIG DASS JEDER BENUTZER TRAKT NEU AUTORISIERT! WIRD DIES NICHT GEMACHT WERDEN EINIGE TRAKT-OPTIONEN FEHLERHAFT SEIN!
 
 [B]3.0.10~nightly10[/B]
  - New Indexpage: Movie-stream.eu

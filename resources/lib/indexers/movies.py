@@ -1046,13 +1046,13 @@ class movies:
 
         indicators = playcount.getMovieIndicators(refresh=True) if action == 'movies' else playcount.getMovieIndicators()
 
-        playbackMenu = "Abspielen mit..." if control.setting('hosts.mode') == '2' else "Auto-Play"
+        playbackMenu = "Abspielen mit..." if control.setting('hosts.mode') == '2' else "Autoplay"
 
         watchedMenu = "In Trakt [I]Gesehen[/I]" if trakt.getTraktIndicatorsInfo() == True else "In Lastship [I]Gesehen[/I]"
 
         unwatchedMenu = "In Trakt [I]Ungesehen[/I]" if trakt.getTraktIndicatorsInfo() == True else "In Lastship [I]Ungesehen[/I]"
 
-        queueMenu = "Eintrag zur Warteschlange hinzufügen"
+        queueMenu = "Zur Warteschlange hinzufügen"
 
         traktManagerMenu = "[B]Trakt-Manager[/B]"
 
@@ -1079,7 +1079,8 @@ class movies:
                 except: pass
                 try: meta.update({'genre': cleangenre.lang(meta['genre'], self.lang)})
                 except: pass
-
+                
+                	                
                  # Poster FanArt select ##
                 posterdb=metacache.fetchfanart(meta['imdb'],"poster")                
                 backgroundb=metacache.fetchfanart(meta['imdb'],"background")
@@ -1123,13 +1124,18 @@ class movies:
 
                 url = '%s?action=play&title=%s&year=%s&imdb=%s&meta=%s&t=%s' % (sysaddon, systitle, year, imdb, sysmeta, self.systime)
                 sysurl = urllib.quote_plus(url)
+                
+                cm = []
 
-                cm = [(queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon)]
-
-                # Select Fanart
-                cm.append(("Select Poster Fanart",  'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&amazonid=%s&tmdbid=%s&fanartid=%s)' % (sysaddon,"poster",imdb,poster_amazon,poster_tmdb,poster_fanart)))
-                cm.append(("Select Background Fanart", 'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&amazonid=%s&tmdbid=%s&fanartid=%s)' % (sysaddon,"background",imdb,"0",background_tmdb,background_fanart)))
-              
+                if control.setting('cm.addtolibrary') == 'true':
+                    cm.append((addToLibrary, 'RunPlugin(%s?action=movieToLibrary&name=%s&title=%s&year=%s&imdb=%s&tmdb=%s)' % (sysaddon, sysname, systitle, year, imdb, tmdb)))
+                else:
+                    pass
+                if control.setting('cm.queue') == 'true':
+                    cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
+                else:
+                    pass
+                     
                 try:
                     overlay = int(playcount.getMovieOverlay(indicators, imdb))
                     if overlay == 7:
@@ -1141,15 +1147,30 @@ class movies:
                 except:
                     pass
 
-                if traktCredentials == True:
-                    cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&imdb=%s&content=movie)' % (sysaddon, sysname, imdb)))
-
-                cm.append((playbackMenu, 'RunPlugin(%s?action=alterSources&url=%s&meta=%s)' % (sysaddon, sysurl, sysmeta)))
+                if control.setting('cm.similiar') == 'true':
+                    cm.append(("Finde Ähnliches", 'ActivateWindow(10025,%s?action=movies&url=https://api.trakt.tv/movies/%s/related,return)' % (sysaddon, imdb)))
+                else:
+                    pass
+                if control.setting('cm.poster') == 'true':
+                    cm.append(("Poster-Quelle auswählen",  'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&amazonid=%s&tmdbid=%s&fanartid=%s)' % (sysaddon,"poster",imdb,poster_amazon,poster_tmdb,poster_fanart)))
+                else:
+                    pass
+                if control.setting('cm.fanart') == 'true':
+                    cm.append(("Fanart-Quelle auswählen", 'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&amazonid=%s&tmdbid=%s&fanartid=%s)' % (sysaddon,"background",imdb,"0",background_tmdb,background_fanart)))
+                else:
+                    pass
+                if control.setting('cm.traktmanager') == 'true':
+                    if traktCredentials == True:
+                        cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&imdb=%s&content=movie)' % (sysaddon, sysname, imdb)))
+                else:
+                    pass
+                if control.setting('cm.playback') == 'true':
+                    cm.append((playbackMenu, 'RunPlugin(%s?action=alterSources&url=%s&meta=%s)' % (sysaddon, sysurl, sysmeta)))
+                else:
+                    pass
 
                 if isOld == True:
                     cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
-
-                cm.append((addToLibrary, 'RunPlugin(%s?action=movieToLibrary&name=%s&title=%s&year=%s&imdb=%s&tmdb=%s)' % (sysaddon, sysname, systitle, year, imdb, tmdb)))
 
                 item = control.item(label=label)
 
@@ -1219,9 +1240,7 @@ class movies:
 
         addonFanart, addonThumb, artPath = control.addonFanart(), control.addonThumb(), control.artPath()
 
-        queueMenu = "Eintrag zur Warteschlange hinzufügen"
-
-        playRandom = "Zufallswiedergabe"
+        queueMenu = "Zur Warteschlange hinzufügen"
 
         addToLibrary = "Zur Bibliothek hinzufügen"
 
@@ -1238,9 +1257,6 @@ class movies:
                 except: pass
 
                 cm = []
-
-                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=movie&url=%s)' % (sysaddon, urllib.quote_plus(i['url']))))
-
 
                 if queue == True:
                     cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
