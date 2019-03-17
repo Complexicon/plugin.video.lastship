@@ -1069,8 +1069,8 @@ class sources:
 
         items = [i for i in items if ('autoplay' in i and i['autoplay'] == True) or not 'autoplay' in i]
 
-        if control.setting('autoplay.sd') == 'true':
-            items = [i for i in items if not i['quality'] in ['4K', '1440p', '1080p', 'HD']]
+        if control.setting('autoplay.sd') == 'false':
+            items = [i for i in items if not i['quality'] in ['4K', '1440p', '1080p', '720p', 'HD']]
 
         u = None
 

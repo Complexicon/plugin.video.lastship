@@ -206,7 +206,7 @@
         <setting type="lsep" label="Emby" />
         <setting id="emby.user" type="text" label="Benutzer" default="" />
         <setting id="emby.pass" type="text" label="Passwort" option="hidden" default="" />
-        <setting id="emby.serverip" type="ipaddress" label="Emby Server-IP" default="" />
+        <setting id="emby.serverip" type="text" label="Emby Server-Adresse" default="" />
         <setting id="emby.port" type="number" label="Emby Server-Port" default="" />
         <setting id="emby.name" type="text" label="Emby Server-Name" default="Server" />
         <setting type="lsep" label="Captcha-Einstellungen" />
