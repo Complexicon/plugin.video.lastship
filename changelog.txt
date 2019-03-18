@@ -1,3 +1,6 @@
+[B]3.0.10~nightly16[/B]
+- Fix SD-Autoplay Filter 
+
 [B]3.0.10~nightly15[/B]
 - Doppelter Verfügbarkeits-Check für Netflix
 
