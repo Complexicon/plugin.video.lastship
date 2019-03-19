@@ -70,11 +70,13 @@ def fetch(items, lang='de', user=''):
             dbcur.execute("SELECT * FROM meta WHERE (imdb = '%s' and lang = '%s' and user = '%s' and not imdb = '0') or (tvdb = '%s' and lang = '%s' and user = '%s' and not tvdb = '0')" % (items[i]['imdb'], lang, user, items[i]['tvdb'], lang, user))
             match = dbcur.fetchone()
 
-            t1 = int(match[5])
+            
+            ## Vorsicht Hardcoded match[] werte, mÃ¼ssen mit TB Tabelle item & zeit Ã¼bereinstimmen##
+            t1 = int(match[7])
             update = (abs(t2 - t1) / 3600) >= 720
             if update == True: raise Exception()
 
-            item = eval(match[4].encode('utf-8'))
+            item = eval(match[6].encode('utf-8'))
             item = dict((k,v) for k, v in item.iteritems() if not v == '0')
 
             items[i].update(item)
@@ -92,7 +94,7 @@ def insert(meta):
         dbcur = dbcon.cursor()
         dbcur.execute("CREATE TABLE IF NOT EXISTS meta (""imdb TEXT, ""tvdb TEXT, ""lang TEXT, ""user TEXT, ""poster TEXT,""background TEXT, ""item TEXT, ""time TEXT, ""UNIQUE(imdb, tvdb, lang, user)"");")
         t = int(time.time())
-        for m in meta:
+        for m in meta:            
             try:
                 if not "user" in m: m["user"] = ''
                 if not "lang" in m: m["lang"] = 'de'

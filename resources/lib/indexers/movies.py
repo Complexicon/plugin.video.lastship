@@ -1026,7 +1026,6 @@ class movies:
 
 
     def movieDirectory(self, items):
-        self.list = metacache.fetch(self.list, self.lang, self.user)
         if items == None or len(items) == 0: control.idle() ; sys.exit()
 
         sysaddon = sys.argv[0]
@@ -1113,8 +1112,8 @@ class movies:
 
 
                 ## Fallback ##
-                if background == "0": background="addonFanart"
-                if poster == "0": poster="addonPoster"
+                if background == "0": background=addonFanart
+                if poster == "0": poster=addonPoster
                 
                 ## /Poster FanArt select ##     
 

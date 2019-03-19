@@ -1,3 +1,6 @@
+[B]3.0.10~nightly19[/B]
+- Artwork-Bugfix
+
 [B]3.0.10~nightly18[/B]
 - Gitignore sinnvoll erweitert
 - Textanpassungen (Schreibweise, Sprachliches, Formatierung)
