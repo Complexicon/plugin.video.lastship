@@ -23,6 +23,7 @@
 # Addon Provider: LastShip
 
 import urlparse,sys,urllib
+from resources.lib.modules import control
 
 params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
 
@@ -70,6 +71,17 @@ content = params.get('content')
 
 windowedtrailer = params.get('windowedtrailer')
 windowedtrailer = int(windowedtrailer) if windowedtrailer in ("0","1") else 0
+
+if action == None:
+    from resources.lib.indexers import navigator
+    from resources.lib.modules import cache
+    run = control.setting('first.info')
+    if run == '': run = 'true'
+    if cache._find_cache_version(): run = 'true'
+    if run == 'true':
+        navigator.navigator().news()
+    cache.cache_version_check()
+    navigator.navigator().root()
 
 if action == None:
     from resources.lib.modules import cache

@@ -1,3 +1,6 @@
+[B]3.0.10~nightly21[/B]
+- Info-Popup nach Update / Erstinstallation
+
 [B]3.0.10~nightly20[/B]
 - Watchbox Encoding Fix
 
