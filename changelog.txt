@@ -1,6 +1,11 @@
-[B]3.0.10~nightly17[/B]
--Neu: Watchbox
+[B]3.0.10~nightly18[/B]
+- Gitignore sinnvoll erweitert
+- Textanpassungen (Schreibweise, Sprachliches, Formatierung)
+- Hinweis zur notwendigen erneuten Autorisierung von Trakt.tv hinzugefügt.
+- thumbs.db entfernt
 
+[B]3.0.10~nightly17[/B]
+- Neu: Watchbox
 
 [B]3.0.10~nightly16[/B]
 - Fix SD-Autoplay Filter 

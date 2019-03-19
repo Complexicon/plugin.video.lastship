@@ -4,21 +4,21 @@
 FAQ und Hilfe bekommt Ihr in unserem Forum: https://lastship.ch
 Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby
 
-Die Gründer und auch die Entwickler von Lastship sind nur in unserem Lastship Forum anzutreffen
+Die Gründer und Entwickler von Lastship sind in unserem Lastship Forum anzutreffen.
 
-[B][COLOR blue]Aktuelles[/COLOR][/B]
-zur Zeit nichts
+[B][COLOR yellow]Wichtig:[/COLOR][/B]
+Mit der Version 3.0.10 ist zwingend eine neue Autorisierung von Trakt.tv notwendig um Fehler zu vermeiden!
 
-[B]INFO Allgemein:[/B]
-Für die Seite Serienstream (s.to) ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (Wegwerf-E-Mailadresse möglich)
+[B][COLOR blue]Allgemein:[/COLOR][/B]
+Für die Seite Serienstream (s.to) ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (Wegwerf-E-Mailadresse möglich).
 
-Amazon, Netflix und Maxdome sind nur mit einem gültigen Abo des Betreibers nutzbar, Infos dazu in der FAQ
+Amazon, Netflix und Maxdome sind nur mit einem gültigen Abo des Betreibers nutzbar. (Siehe FAQ)
 
-Bei einigen IndexSeiten ist es möglich, Captcha in Lastship zu lösen. Infos dazu stehen in der FAQ
+Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen. (Siehe FAQ)
 
 [COLOR orange]-------------------------------------------------------------------------------------------------------[/COLOR]
 
-[B][COLOR lime]Changelog plugin.video.lastship[/COLOR][/B]
+[B][COLOR lime]Changelog:[/COLOR][/B]
 
 [B]3.0.9[/B]
   26.02.2019

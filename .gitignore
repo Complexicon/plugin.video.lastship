@@ -1,3 +1,4 @@
+# Python
 *.pyo
 .idea/
 third_party/
@@ -31,3 +32,13 @@ pydev_app_engine_debug_startup.py
 pycompletionserver.py
 interpreterInfo.py
 profile_faster*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+*.lnk
+[Dd]esktop.ini
+
+# Recycle Bin (File-Shares)
+$RECYCLE.BIN/
