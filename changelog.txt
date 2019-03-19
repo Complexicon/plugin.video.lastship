@@ -1,3 +1,6 @@
+[B]3.0.10~nightly20[/B]
+- Watchbox Encoding Fix
+
 [B]3.0.10~nightly19[/B]
 - Artwork-Bugfix
 
