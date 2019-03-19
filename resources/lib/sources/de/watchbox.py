@@ -66,21 +66,22 @@ class source:
                 s_nr = int(season)
             if int(season) > 1:
                 s_nr = int(season) -1
-            
-            en_title = cleantitle.replaceUmlaute(title)
+            link = ''
+            en_title = cleantitle.get(title)
             n_url = url + '/staffel-' + str(s_nr) + '/'
     
             req = cache.get(requests.get, 12, n_url)
             data = dom_parser.parse_dom(req.text, 'a', attrs={'class': 'teaser_season-tab'}, req='href')[:-1]
     
             for i in data:
-                tit = cleantitle.replaceUmlaute(i.attrs['data-asset-title'].encode('utf-8'))
+                tit = cleantitle.get(i.attrs['data-asset-title'])
     
                 if tit == en_title or tit[:-1].rstrip() == en_title:
                     link = 'https://www.watchbox.de' + str(i.attrs['href'])
+                    return link
                     break
                          
-            if not link:
+            if link == '':
                 s_nr += 1   
                 n_url = url + '/staffel-' + str(s_nr) + '/'
                 
@@ -88,13 +89,15 @@ class source:
                 data = dom_parser.parse_dom(req.text, 'a', attrs={'class': 'teaser_season-tab'}, req='href')[:-1]
             
                 for i in data:
-                    tit = cleantitle.replaceUmlaute(i.attrs['data-asset-title'].encode('utf-8'))
+                    tit = cleantitle.get(i.attrs['data-asset-title'])
     
                     if tit == en_title or tit[:-1].rstrip() == en_title:
                         link = 'https://www.watchbox.de' + str(i.attrs['href'])
+                        return link
                         break
-    
-            return link        
+
+            
+            return       
         except:
             return
             
