@@ -1,3 +1,6 @@
+[B]3.0.10~nightly22[/B]
+- Info-Popup nach Update / Erstinstallation BUGFIX
+
 [B]3.0.10~nightly21[/B]
 - Info-Popup nach Update / Erstinstallation
 

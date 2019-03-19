@@ -43,7 +43,7 @@
         <setting id="cm.addtolibrary" type="bool" label="Zur Bibliothek hinzufügen" default="true" />
         <setting id="cm.queue" type="bool" label="Zur Warteschlange hinzufügen" default="true" />
         <setting type="lsep" label="Entwicklung / Debugging" />
-        <setting id="first.info" label="Info-Popup nach Update / Erstinstallation" visible="false" type="bool" default="true" />
+        <setting id="first.info" label="Info-Popup nach Update / Erstinstallation" visible="false" type="bool" default="" />
         <setting id="DevUpdate" type="bool" label="Nightly Update" default="false" />
         <setting id="FaultLogger.enabled" type="bool" label="Fehlerhafte Provider erkennen" default="true" />
         <setting id="FaultLogger.numErrors" type="slider" label="Anzahl Errors für Deaktivierung" default="5" range="1,30" visible="eq(-1,true)"  option="int" />

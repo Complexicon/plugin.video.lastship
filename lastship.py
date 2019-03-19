@@ -80,6 +80,7 @@ if action == None:
     if cache._find_cache_version(): run = 'true'
     if run == 'true':
         navigator.navigator().news()
+        control.setSetting(id='first.info', value='false')
     cache.cache_version_check()
     navigator.navigator().root()
 
