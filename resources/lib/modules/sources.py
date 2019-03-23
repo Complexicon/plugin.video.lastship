@@ -905,24 +905,31 @@ class sources:
             label = re.sub('\[I\]\s+\[/I\]', ' ', label)
             label = re.sub('\|\s+\|', '|', label)
             label = re.sub('\|(?:\s+|)$', '', label)
-            
-            if d: 
+
+            if d:
                 if not prem_identify == 'nocolor':
                     self.sources[i]['label'] = ('[COLOR %s]' % (prem_identify)) + label.upper() + '[/COLOR]'
                 else: self.sources[i]['label'] = label.upper()
             else: self.sources[i]['label'] = label.upper()
 
             ## EMBY shown as premium link ##
-            if self.sources[i]['provider']=="emby" or self.sources[i]['provider']=="amazon" or self.sources[i]['provider']=="netflix" or self.sources[i]['provider']=="maxdome":
+            if (self.sources[i]['provider'] == "emby"
+                or self.sources[i]['provider'] == "amazon"
+                or self.sources[i]['provider'] == "netflix"
+                or self.sources[i]['provider'] == "netzkino"
+                or self.sources[i]['provider'] == "maxdome"
+                or self.sources[i]['provider'] == "watchbox"
+                ):
+
                 if not prem_identify == 'nocolor':
                     self.sources[i]['label'] = ('[COLOR %s]' % (prem_identify)) + label.upper() + '[/COLOR]'
-            
-        try: 
+
+        try:
             if not HEVC == 'true': self.sources = [i for i in self.sources if not 'HEVC' in i['label']]
         except: pass
-            
+
         self.sources = [i for i in self.sources if 'label' in i]
-    
+
         return self.sources
 
 

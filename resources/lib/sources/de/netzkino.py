@@ -24,6 +24,8 @@
 
 import json
 import re
+import requests
+import simplejson
 import urllib
 import urlparse
 
@@ -32,7 +34,6 @@ from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
-
 
 class source:
     def __init__(self):
@@ -45,9 +46,29 @@ class source:
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            url = self.__search([localtitle] + source_utils.aliases_to_array(aliases), imdb, year)
-            if not url and title != localtitle: url = self.__search([title] + source_utils.aliases_to_array(aliases), imdb, year)
-            return url
+            title_c = cleantitle.get(title)
+            localtitle_c = cleantitle.get(localtitle)
+            url = 'https://apis.justwatch.com/content/titles/de_DE/popular?body=%7B"languages":"de","content_types":["movie"],"providers":["nfx","wbx","ntz"],"monetization_types":["flatrate","ads","free"],"page":1,"page_size":10,"query":"{}"%7D'.format(localtitle_c)
+            req = cache.get(requests.get, 6, url)
+            data = req.json()
+
+            # Loop through hits
+            for hit in data['items']:
+                # Compare year and title
+                if (hit['original_release_year'] == int(year)
+                        and localtitle_c == cleantitle.get(hit['title'])
+                        or localtitle_c == cleantitle.get(hit['original_title'])
+                        or title_c == cleantitle.get(hit['original_title'])
+                        or title_c == cleantitle.get(hit['title'])):
+
+                    for offer in hit['offers']:
+                        # Netzkino
+                        if offer['provider_id'] == 28:
+                            link = self.__search([localtitle] + source_utils.aliases_to_array(aliases), imdb, year)
+                            if not link and title != localtitle: link = self.__search([title] + source_utils.aliases_to_array(aliases), imdb, year)
+                            break
+                break
+            return link
         except:
             return
 

@@ -1,3 +1,8 @@
+[B]3.0.10~nightly23[/B]
+- höhere Treffergenauigkeit für Netflix, Netzkino und Watchbox
+- Watchbox und Netzkino als Premium markiert
+- weniger Seiten Anfragen dank Nutzung von Justwatch
+
 [B]3.0.10~nightly22[/B]
 - Info-Popup nach Update / Erstinstallation BUGFIX
 
@@ -20,7 +25,7 @@
 - Neu: Watchbox
 
 [B]3.0.10~nightly16[/B]
-- Fix SD-Autoplay Filter 
+- Fix SD-Autoplay Filter
 
 [B]3.0.10~nightly15[/B]
 - Doppelter Verfügbarkeits-Check für Netflix
@@ -30,7 +35,7 @@
 - Bugfixes Nightly 13
 - Vereinheitlichung
 - Zufallswiedergabe entfernt
-     
+
 [B]3.0.10~nightly13[/B]
 -  Fanart/Poster Quelle Auswahlmöglichkeit hinzugefügt (control.py, movies.py, lastship.py, metacache.py):
      Es ist bei Filmen nach der Suche möglich, über das Kontexmenü die Fanart/Poster Quelle zu ändern
@@ -97,7 +102,7 @@
 
 [B]3.0.8[/B]
   13.02.2019
-- Fix Kino.cx 
+- Fix Kino.cx
 - Bei aktiviertem Autoplay werden bei der Suche die Hosternamen etc. nicht mehr angezeigt.
 - Fix Filmpalast
 - Fix Foxx
@@ -107,7 +112,7 @@
 - Update cfscrape
 - Fix nach Personen suchen im QuickSearch Dialog
 - Anzeigen, auch englischer Streams von s.to
-- Fix für cfscrape 
+- Fix für cfscrape
 kinoger, cine, stream-to laufen mit dem neuen cfscrape
 
 [B]3.0.7[/B]
@@ -130,7 +135,7 @@ kinoger, cine, stream-to laufen mit dem neuen cfscrape
   view4u.co, szene-streamz.com, movie2k.st
 - [settings.xml] Menü neu geordnet und neu Strukturiert
 - Fix settings.xml Menü Bug
-- add UpNext Funktion (nur Kodi18) in Lastship 
+- add UpNext Funktion (nur Kodi18) in Lastship
   Das Addon UpNext muss aber seperat installiert werden
   Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
   Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
@@ -146,12 +151,12 @@ NUR Serien!
 - Hompagelink aktualisiert
 - Fix Trailer abspiel Probleme
 - Beliebige IMDB Listen hinzufügen (lastship.py, movies.py, navigator.py, settings.xml)
-	Es ist nun möglich beliebige IMDB-Listen mit ihren IDs (z.B. ls123456789) unter Einstellungen einzutragen und zu 
+	Es ist nun möglich beliebige IMDB-Listen mit ihren IDs (z.B. ls123456789) unter Einstellungen einzutragen und zu
 	benennen
-	Der Punkt „IMDB-Listen“ erscheint dann in der Kategorienübersicht der Filme. Standardsortierung ist immer die Sortierung 
+	Der Punkt „IMDB-Listen“ erscheint dann in der Kategorienübersicht der Filme. Standardsortierung ist immer die Sortierung
 	der Liste
 	Die Einstellung befindet sich unter „Allgemein“ und ist Standardmäßig deaktiviert
-	
+
 [B]3.0.3.0[/B]
   03.01.2019
 - Update fixzipfile (damit das nightly Update auf Android funktioniert)
@@ -191,25 +196,25 @@ NUR Serien!
 
 - movies.py:
   Kategorie „Herkunftsland“ hinzugefügt (dient als sinnvollerer „Ersatz“ für „Sprachen“)
-  Wird von „Filter by Year“ beeinflusst (Anmerkung: Oft gibt es mehrere „Herkunftsländer“ und somit Überschneidungen; Dies ist 
+  Wird von „Filter by Year“ beeinflusst (Anmerkung: Oft gibt es mehrere „Herkunftsländer“ und somit Überschneidungen; Dies ist
   auf IMDB nicht anders)
   Symbole angepasst
-  
-  Alle IMDB-Links aktualisiert/bereinigt, Moviemeter in Links entfernt da von IMDB nicht mehr unterstützt. Alle IMDB-Links 
-  auf „include=adult“ gesetzt und unnötige Teile entfernt. Nahezu alle Ergebnisse der Kategorien werden jetzt, wie standardmäßig  
+
+  Alle IMDB-Links aktualisiert/bereinigt, Moviemeter in Links entfernt da von IMDB nicht mehr unterstützt. Alle IMDB-Links
+  auf „include=adult“ gesetzt und unnötige Teile entfernt. Nahezu alle Ergebnisse der Kategorien werden jetzt, wie standardmäßig
   in IMDB, nach Popularität sortiert
-  
+
   Kategorie „Studios“ hinzugefügt (Filterbar mit „Filter by Years“), Code bereinigt/reduziert
   tvshows.py: Top/Bottom wird zwar von IMDB angeboten aber liefert auch auf der Website keine Ergebnisse
   Über Alternativen, die über IMDB realisierbar sind, wird nachgedacht. Funktion somit deaktiviert
 
 - tvshows.py:
-  Kategorie „Herkunftsland“ hinzugefügt (dient als sinnvollerer „Ersatz“ für „Sprachen“). (Anmerkung: Oft gibt es mehrere „    
+  Kategorie „Herkunftsland“ hinzugefügt (dient als sinnvollerer „Ersatz“ für „Sprachen“). (Anmerkung: Oft gibt es mehrere „
   Herkunftsländer und somit Überschneidungen; Dies ist auf IMDB nicht anders)
-  Emmy und „Golden Globe“ unter „Auszeichnungen & Co“ hinzugefügt. (Anmerkung: Auf Grund der Vielzahl verliehener Preise sehen   
+  Emmy und „Golden Globe“ unter „Auszeichnungen & Co“ hinzugefügt. (Anmerkung: Auf Grund der Vielzahl verliehener Preise sehen
   die Liste auf dem ersten Blick identisch aus, sie sind es aber nicht)
   Symbole angepasst
-  
+
   Populär“ wieder hergestellt als Ersatz für IMDB-Top-Listen
 
 - navigator.py:
@@ -222,10 +227,10 @@ NUR Serien!
 
 - settings.xml:
   Anpassung des Hinweises für „Filter by Year“
-  
+
 - Populär aus „Auszeichnungen & Co“ gelöscht da identisch zu „IMDB Top 1000“
   Links bleiben bestehen wegen Movie Widget
-- Aktive Betrachter wird bei Filter by Year nicht gefiltert (wie vorher) und Boxoffice sowie Meistbewertet wird nun auch   
+- Aktive Betrachter wird bei Filter by Year nicht gefiltert (wie vorher) und Boxoffice sowie Meistbewertet wird nun auch
   gefiltert
 - Icons hinzugefügt
 - Schreibweise zu einer optischen schöneren geändert
@@ -233,14 +238,14 @@ NUR Serien!
 - Übersicht in movies.py, tvshows.py, navigator.py umsortiert
 - Mehr Auszeichnungen und Bewertungen unter einen Punkt vereint um die Übersichtlichkeit zu steigern
 - Bewertungen/Auszeichnungen ergänzt
-- Filter by year für Genres, FSK, Auszeichnungen möglich. Allerdings nicht für populär, boxoffice, aktive Betrachter und   
+- Filter by year für Genres, FSK, Auszeichnungen möglich. Allerdings nicht für populär, boxoffice, aktive Betrachter und
   besten bewertet (hier muss jemand dan der besser Python kann)
 - https einheitlich (in bearbeiteten Dateien) zu http geändert
 - Cleanup von auskommentierten Funktionen und weitere Kleinigkeiten
 
 - [updatemanager.py] Lizenz Update
 - Update downloader.py und settings.xml:
-	- Benennung der Downloads (Dateien und Ordner) in Deutsch ist nun vollständig für Serien und Filme möglich 
+	- Benennung der Downloads (Dateien und Ordner) in Deutsch ist nun vollständig für Serien und Filme möglich
 	  (inkl. Downloadanzeige)
 	  Code übersichtlicher gestaltet (downloader.py, settings.xml)
 - Fake-Genre Superhelden hinzugefügt (movies.py, tvshows.py, cleangenre.py)
@@ -278,9 +283,9 @@ NUR Serien!
 	- movies.py  (Kontexmenü "Finde ähnliche)
 	- libtools.py (24h Verzögerung vor Episoden Imprtierung)
 - settings.xml (24h Verzögerung, Spezial Episoden, Menü neu/übersichtlich angeordnet)
-- [episodes.py] 
+- [episodes.py]
 	- Umstellung auf primär deutsch (außer TVMaze/Kalender da deutsch nicht möglich)
-- [navigator, movies, tvshows.py] 
+- [navigator, movies, tvshows.py]
 	- Kategorie Sprachen entfernt (da nur deutsche Sprache verwendet wird)
 - [cleangenre.py]
 	- Nicht supportete Sprachen entfernt
@@ -302,7 +307,7 @@ NUR Serien!
 - [recaptcha_app.py] Umlaute entfernt
 - [cache.py] Suchverlauf leeren“ aus „Alle Speicher leeren“ entfernt
 - Seriesever Konto entfernt
-- Bereits implementierte Einstellung sichtbar gemacht: "Streamsuche vorzeitig abbrechen" 
+- Bereits implementierte Einstellung sichtbar gemacht: "Streamsuche vorzeitig abbrechen"
 - [downloader.py] DE Übersetzung ergänzt
 
 - UTF-8 code (# -*- coding: UTF-8 -*-) hinzugefügt
@@ -326,10 +331,10 @@ NUR Serien!
 	   - [trakt.py]
 	   - [serienstream.py]
 	   - [navigator.py]
-   
+
 - Rechtschreibung aktualisiert:
    - [captcha9kw.py]
-   - [TwoCaptcha.py] 
+   - [TwoCaptcha.py]
    - [recaptcha_app.py]
 
 [B]3.0.2.6[/B]
@@ -386,11 +391,11 @@ NUR Serien!
 - Fix HDFilme (Fix Serien)
 - Fix Cinemaxx (Fix Serien und Suche)
 - Fix Alleserien (and add duckduckgo search)
-- Fix Foxx 
-- Fix Serienstream 
-- Fix streamworld 
+- Fix Foxx
+- Fix Serienstream
+- Fix streamworld
 - stream.to Debugging entfernt
-- Fix Duckduckgo.py 
+- Fix Duckduckgo.py
 - Add Netflix
 - Update source.py
 - Add MyJdownloader rCaptcher
@@ -444,7 +449,7 @@ NUR Serien!
 
 [B]2.0.8.3[/B]
   15.06.2018
-- TMovie entfernt 
+- TMovie entfernt
 
 [B]2.0.8.2[/B]
   08.06.2018

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.lastship" version="3.0.10~nightly22" name="Lastship" provider-name="Lastship">
+<addon id="plugin.video.lastship" version="3.0.10~nightly23" name="Lastship" provider-name="Lastship">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="repository.lastship" version="1.0.2" />
@@ -19,7 +19,7 @@
 		<platform>all</platform>
 		<forum>https://lastship.ch</forum>
 		<source>https://github.com/lastship/plugin.video.lastship</source>
-		<assets>		
+		<assets>
 			<icon>icon.png</icon>
 			<fanart>fanart.jpg</fanart>
     			<screenshot>resources/screenshots/screenshot-01.jpg</screenshot>
@@ -40,7 +40,7 @@
 - Fanart/Poster Quelle Auswahlmoeglichkeit
 - Kontex-Menue Verwaltung in den Einstellungen moeglich
 - Zufallswiedergabe entfernt
-- Doppelter Netflix Verfuegbarkeitscheck	
+- Doppelter Netflix Verfuegbarkeitscheck
 - Fix SD-Autoplay Filter
 - Neu: watchbox
 		</news>
