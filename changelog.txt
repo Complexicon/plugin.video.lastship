@@ -1,3 +1,6 @@
+[B]3.0.10~nightly24[/B]
+- Fix Error durch Widget im Log
+
 [B]3.0.10~nightly23[/B]
 - höhere Treffergenauigkeit für Netflix, Netzkino und Watchbox
 - Watchbox und Netzkino als Premium markiert

@@ -529,6 +529,18 @@ class seasons:
 
                 item.setArt(art)
                 item.addContextMenuItems(cm)
+                
+                meta.pop('fanart', None)
+                meta.pop('imdb', None)
+                meta.pop('imdb_id', None)
+                meta.pop('label', None)
+                meta.pop('thumb', None)
+                meta.pop('poster', None)
+                meta.pop('banner', None)
+                meta.pop('tvdb', None)
+                meta.pop('tvdb_id', None)
+                meta.pop('unaired', None)
+                
                 item.setInfo(type='Video', infoLabels = meta)
 
                 video_streaminfo = {'codec': 'h264'}
