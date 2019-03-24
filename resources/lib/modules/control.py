@@ -137,7 +137,6 @@ def autoTraktSubscription(tvshowtitle, year, imdb, tvdb):
      from . import libtools
      libtools.libtvshows().add(tvshowtitle, year, imdb, tvdb)
 
-## Hardcoded, should use query Addon Name instead ##
 def addonIcon():
     theme = appearance() ; art = artPath()
     if not (art == None and theme in ['-', '']): return os.path.join(art, 'icon.png')
@@ -211,26 +210,44 @@ def appearance():
 def artwork():
     execute('RunPlugin(plugin://script.lastship.artwork)')
 
-def select_fanart(arttype,imdb,amazonid,tmdbid,fanartid):
-    try:
+## Fanart ##
+def select_fanart(arttype,imdb,count_tmdb,count_fanart):
+    try:        
         from resources.lib.modules import metacache
+
+        posterlist=[]
+
+        ## limit no. of poster to max. 20 need to do more ##
+        if int(count_tmdb)>19:
+            count_tmdb=19
+
+        listitems = []
+        liste=metacache.fetchfanartlist(imdb,arttype)
         
-        posterlist=[]        
-        if not tmdbid=="0": posterlist.append("TMDB")
-        if not fanartid=="0": posterlist.append("Fanart.tv")
-        if not amazonid=="0" : posterlist.append("Amazon")
         
-        ## Es muss noch geprüft werden, welcher wirklich zurück gegeben wird anhand der Liste ein Dict erstellen"
-        ## Aktuell geht man davon aus das tmdb=0,fanart=1,amazonid=2    
+        for index,entry in enumerate(liste):           
+            
+            listitem = xbmcgui.ListItem(str(entry))           
+            if index < int(count_tmdb):                
+                listitem.setLabel("Poster TMDb No. " + str(index))if "poster" in arttype else listitem.setLabel("Background TMDb No. " + str(index))
+            else:
+                listitem.setLabel("Poster FanArt No. " + str(index-int(count_tmdb))) if "poster" in arttype else listitem.setLabel("Background FanArt No. " + str(index-int(count_tmdb)))
+            listitem.setArt({'thumb': str(entry)})
+            listitems.append(listitem)
         
-        dbfanartid=selectDialog(posterlist,heading="FanArtSelect")
-        
+            
+        dbfanartid=xbmcgui.Dialog().select("FanArtSelect", listitems, useDetails=True)
+       
         if not dbfanartid ==-1:            
-            metacache.setfanart(arttype,imdb,dbfanartid)        
+            if dbfanartid < int(count_tmdb):                
+                metacache.setfanart(arttype,imdb,dbfanartid,"tmdb")
+            else:                
+                dbfanartid = dbfanartid-int(count_tmdb)                
+                metacache.setfanart(arttype,imdb,dbfanartid,"fanart")
+                
             refresh()
     except:
         return 
-
 
 def infoDialog(message, heading=addonInfo('name'), icon='', time=3000, sound=False):
     if icon == '': icon = addonIcon()

@@ -22,36 +22,83 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
+
 import time
 
 try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
 
 from resources.lib.modules import control
+import json
 
+def fetchfanartlist(imdb,arttype):
+    try:        
+        dbcon = database.connect(control.metacacheFile)
+        dbcur = dbcon.cursor()
+        dbcur.execute("SELECT item FROM meta WHERE imdb = '%s'" % imdb)
+        result = dbcur.fetchone()
+        
+        import ast
+        
+        if arttype=="poster":
+            
+            try:
+                # use ast import due to unicode. limit each list to max of 20 entries neeid to crosscheck against count_tmdb                
+                plist_tmdb=ast.literal_eval(result[0])['poster3']
+                plist_tmdb=plist_tmdb[:20]
+            except:
+                plist_tmdb=[]
+
+            
+            try:
+                plist_fanart=ast.literal_eval(result[0])['poster2']
+                plist_fanart=plist_fanart[:20]
+            except:                
+                plist_fanart=[]
+            
+        elif arttype=="background":
+            # use ast import due to unicode. limit each list to max of 20 entries neeid to crosscheck against count_tmdb
+            try:
+                plist_tmdb=ast.literal_eval(result[0])['fanart2']
+                plist_tmdb=plist_tmdb[:20]
+            except:
+                plist_tmdb=[]
+            try:
+                plist_fanart=ast.literal_eval(result[0])['fanart']
+                plist_fanart=plist_fanart[:20]
+            except:
+                plist_fanart=[]
+            
+        posterlist=plist_tmdb+plist_fanart
+        
+        return posterlist
+    except:
+        return
 
 def fetchfanart(imdb,arttype):
     try:        
         dbcon = database.connect(control.metacacheFile)
         dbcur = dbcon.cursor()
         dbcur.execute("SELECT poster,background FROM meta WHERE imdb = '%s'" % imdb)
-        result = dbcur.fetchone()
+        result = dbcur.fetchone()        
         match = [x[0] for x in result]        
-        if arttype == "poster":            
-            return str(match[0])
+        if arttype == "poster":
+            return json.loads(result[0])
         elif arttype == "background":            
-            return str(match[1])
+            return json.loads(result[1])
     except:
         return
 
-def setfanart(arttype,imdb,fanartid):
-    try:        
+def setfanart(arttype,imdb,fanartid,scraperinfo):
+    try:
+        # fanartid sollte gleich als string übergeben werden #        
         dbcon = database.connect(control.metacacheFile)        
         dbcur = dbcon.cursor()        
         if arttype=="poster":            
-            dbcur.execute("update meta set poster='%s' WHERE imdb = '%s'" % (fanartid,imdb))
+            dbcur.execute("update meta set poster='%s' WHERE imdb = '%s'" % (json.dumps({scraperinfo:str(fanartid)}),imdb))
         elif arttype=="background":            
-            dbcur.execute("update meta set background='%s' WHERE imdb = '%s'" % (fanartid,imdb))
+            dbcur.execute("update meta set background='%s' WHERE imdb = '%s'" % (json.dumps({scraperinfo:str(fanartid)}),imdb))
+
         dbcon.commit()        
     except:
         return
@@ -71,7 +118,7 @@ def fetch(items, lang='de', user=''):
             match = dbcur.fetchone()
 
             
-            ## Vorsicht Hardcoded match[] werte, mÃ¼ssen mit TB Tabelle item & zeit Ã¼bereinstimmen##
+            ## Vorsicht Hardcoded match[] werte, müssen mit TB Tabelle item & zeit übereinstimmen##
             t1 = int(match[7])
             update = (abs(t2 - t1) / 3600) >= 720
             if update == True: raise Exception()
@@ -96,12 +143,13 @@ def insert(meta):
         t = int(time.time())
         for m in meta:            
             try:
+                # Fanart als Liste fanar.tv/tmdb, posterid,backgroundid
                 if not "user" in m: m["user"] = ''
                 if not "lang" in m: m["lang"] = 'de'
                 i = repr(m['item'])
                 try: dbcur.execute("DELETE * FROM meta WHERE (imdb = '%s' and lang = '%s' and user = '%s' and not imdb = '0') or (tvdb = '%s' and lang = '%s' and user = '%s' and not tvdb = '0')" % (m['imdb'], m['lang'], m['user'], m['tvdb'], m['lang'], m['user']))
                 except: pass
-                dbcur.execute("INSERT INTO meta Values (?, ?, ?, ?, ?, ?, ?, ?)", (m['imdb'], m['tvdb'], m['lang'], m['user'],m['poster'],m['background'], i, t))
+                dbcur.execute("INSERT INTO meta Values (?, ?, ?, ?, ?, ?, ?, ?)", (m['imdb'], m['tvdb'], m['lang'], m['user'],json.dumps(m['poster']),json.dumps(m['background']), i, t))
             except:
                 pass
 

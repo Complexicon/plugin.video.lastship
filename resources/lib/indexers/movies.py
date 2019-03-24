@@ -355,7 +355,7 @@ class movies:
         
     def award(self):
             awards = [
-            #Folgende 2 Punkte werden nicht gefiltert!
+#             Folgende 2 Punkte werden nicht gefiltert!
             ('Meistbewertet', self.views_link, False, 'most-voted.png'),
             ('Aktive Betrachter', self.trending_link, False, 'people-watching.png'),
             ('Bestes Einspielergebnis', self.boxoffice_link, False, 'box-office.png'),
@@ -943,7 +943,14 @@ class movies:
             try:
                 poster2 = art['movieposter']
                 poster2 = [x for x in poster2 if x.get('lang') == self.lang][::-1] + [x for x in poster2 if x.get('lang') == 'en'][::-1] + [x for x in poster2 if x.get('lang') in ['00', '']][::-1]
-                poster2 = poster2[0]['url'].encode('utf-8')
+
+                posterlist_fanarttv = []
+                
+                for index,entry in enumerate(poster2):                    
+                    posterlist_fanarttv.append(entry['url'].encode('utf-8'))
+                
+                poster2 = posterlist_fanarttv                
+                
             except:
                 poster2 = '0'
 
@@ -951,7 +958,15 @@ class movies:
                 if 'moviebackground' in art: fanart = art['moviebackground']
                 else: fanart = art['moviethumb']
                 fanart = [x for x in fanart if x.get('lang') == self.lang][::-1] + [x for x in fanart if x.get('lang') == 'en'][::-1] + [x for x in fanart if x.get('lang') in ['00', '']][::-1]
-                fanart = fanart[0]['url'].encode('utf-8')
+
+                bglist_fanarttv = []                
+
+                for index,entry in enumerate(fanart):                    
+                    bglist_fanarttv.append(entry['url'].encode('utf-8'))
+
+                fanart = bglist_fanarttv
+
+                #fanart = fanart[0]['url'].encode('utf-8')
             except:
                 fanart = '0'
 
@@ -982,12 +997,6 @@ class movies:
                 if self.tm_user == '': raise Exception()
 
                 art2 = client.request(self.tm_art_link % imdb, timeout='10', error=True)
-
-                ## fix to avoid empty art2 (tmdb fanart) due to rate limit
-                while 'over the allowed limit' in art2:
-                    art2 = client.request(self.tm_art_link % imdb, timeout='10', error=True)
-                    control.sleep(500)
-
                 art2 = json.loads(art2)
             except:
                 pass
@@ -997,8 +1006,15 @@ class movies:
                 poster3 = [x for x in poster3 if x.get('iso_639_1') == self.lang] + [x for x in poster3 if x.get('iso_639_1') == 'en'] + [x for x in poster3 if x.get('iso_639_1') not in [self.lang, 'en']]
                 poster3 = [(x['width'], x['file_path']) for x in poster3]
                 poster3 = [(x[0], x[1]) if x[0] < 300 else ('300', x[1]) for x in poster3]
-                poster3 = self.tm_img_link % poster3[0]
-                poster3 = poster3.encode('utf-8')
+
+                posterlist_tmdb = []
+                
+                for indexz,entryz in enumerate(poster3):
+                    posterlist_tmdb.append((self.tm_img_link % entryz).encode('utf-8'))
+                                
+                #poster3 = self.tm_img_link % poster3[0]
+                #poster3 = poster3.encode('utf-8')
+                poster3=posterlist_tmdb                
             except:
                 poster3 = '0'
 
@@ -1008,18 +1024,26 @@ class movies:
                 fanart2 = [x for x in fanart2 if x.get('width') == 1920] + [x for x in fanart2 if x.get('width') < 1920]
                 fanart2 = [(x['width'], x['file_path']) for x in fanart2]
                 fanart2 = [(x[0], x[1]) if x[0] < 1280 else ('1280', x[1]) for x in fanart2]
-                fanart2 = self.tm_img_link % fanart2[0]
-                fanart2 = fanart2.encode('utf-8')
+
+                bglist_tmdb = []
+                
+                for indexz,entryz in enumerate(fanart2):                    
+                    bglist_tmdb.append((self.tm_img_link % entryz).encode('utf-8'))                   
+
+                fanart2 = bglist_tmdb
+                
+                #fanart2 = self.tm_img_link % fanart2[0]
+                #fanart2 = fanart2.encode('utf-8')
             except:
                 fanart2 = '0'
 
             item = {'title': title, 'originaltitle': originaltitle, 'year': year, 'imdb': imdb, 'tmdb': tmdb, 'poster': '0', 'poster2': poster2, 'poster3': poster3, 'banner': banner, 'fanart': fanart, 'fanart2': fanart2, 'clearlogo': clearlogo, 'clearart': clearart, 'premiered': premiered, 'genre': genre, 'duration': duration, 'rating': rating, 'votes': votes, 'mpaa': mpaa, 'director': director, 'writer': writer, 'cast': cast, 'plot': plot, 'tagline': tagline}
             item = dict((k,v) for k, v in item.iteritems() if not v == '0')
-            self.list[i].update(item)
+            self.list[i].update(item)    
 
             if artmeta == False: raise Exception()
 
-            meta = {'imdb': imdb, 'tmdb': tmdb, 'tvdb': '0', 'lang': self.lang, 'user': self.user, 'item': item,'poster':'0','background':'0'}
+            meta = {'imdb': imdb, 'tmdb': tmdb, 'tvdb': '0', 'lang': self.lang, 'user': self.user, 'item': item,'poster':{"tmdb":"0"},'background':{"tmdb":"0"}}
             self.meta.append(meta)
         except:
             pass
@@ -1078,44 +1102,44 @@ class movies:
                 except: pass
                 try: meta.update({'genre': cleangenre.lang(meta['genre'], self.lang)})
                 except: pass
-                
-                	                
+
                  # Poster FanArt select ##
                 posterdb=metacache.fetchfanart(meta['imdb'],"poster")                
                 backgroundb=metacache.fetchfanart(meta['imdb'],"background")
-                                
-                # required for hand-off to RunPlugin #
-                poster_amazon = i.get("poster","0")
-                poster_fanart = i.get("poster2","0")
-                poster_tmdb = i.get("poster3","0")
-                    
-                # Return Values 0=TMDB,1=Fanart.tv,2=Amazon
-
-                #besser wäre, ermitteln wieviel verfügbar von jeden, dann nummer übergeben anstelle URL, liste aufrufen ##
                 
-                if posterdb== '2':                        
-                    poster=poster_amazon
-                elif posterdb == '1':                        
-                    poster=poster_fanart
-                else:                        
-                    poster=poster_tmdb
+                poster_fanart = i.get("poster2","")
+                poster_tmdb = i.get("poster3","")
                 
-                # required for Dialog to RunPlugin #
-                background_fanart = i.get("fanart","0")
-                background_tmdb = i.get("fanart2","0")
-                # Return Values 0=TMDB,1=Fanart.tv
-                    
-                if backgroundb== '1':                        
-                    background=background_fanart
-                else:
-                    background=background_tmdb
+                poster_count_fanart=len(poster_fanart)
+                poster_count_tmdb=len(poster_tmdb)
 
+                background_fanart = i.get("fanart","")
+                background_tmdb = i.get("fanart2","")
+
+                bg_count_fanart=len(background_fanart)
+                bg_count_tmdb=len(background_tmdb)
+
+                for key, value in posterdb.iteritems():
+                    if key=='tmdb':                        
+                        poster=poster_tmdb[int(posterdb['tmdb'])]
+
+                    if key=='fanart':                        
+                        poster=poster_fanart[int(posterdb['fanart'])]
+                    
+                
+                for key, value in backgroundb.iteritems():
+                    if key=='tmdb':                        
+                        background=background_tmdb[int(backgroundb['tmdb'])]
+
+                    if key=='fanart':                        
+                        background=background_fanart[int(backgroundb['fanart'])]
+    
 
                 ## Fallback ##
                 if background == "0": background=addonFanart
                 if poster == "0": poster=addonPoster
                 
-                ## /Poster FanArt select ##     
+                ## /Poster FanArt select ##                
 
                 meta.update({'poster': poster})
 
@@ -1123,7 +1147,7 @@ class movies:
 
                 url = '%s?action=play&title=%s&year=%s&imdb=%s&meta=%s&t=%s' % (sysaddon, systitle, year, imdb, sysmeta, self.systime)
                 sysurl = urllib.quote_plus(url)
-                
+
                 cm = []
 
                 if control.setting('cm.addtolibrary') == 'true':
@@ -1151,11 +1175,11 @@ class movies:
                 else:
                     pass
                 if control.setting('cm.poster') == 'true':
-                    cm.append(("Poster-Quelle auswählen",  'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&amazonid=%s&tmdbid=%s&fanartid=%s)' % (sysaddon,"poster",imdb,poster_amazon,poster_tmdb,poster_fanart)))
+                    cm.append(("Poster auswählen",  'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&count_tmdb=%s&count_fanart=%s)' % (sysaddon,"poster",imdb,poster_count_tmdb,poster_count_fanart)))
                 else:
                     pass
                 if control.setting('cm.fanart') == 'true':
-                    cm.append(("Fanart-Quelle auswählen", 'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&amazonid=%s&tmdbid=%s&fanartid=%s)' % (sysaddon,"background",imdb,"0",background_tmdb,background_fanart)))
+                    cm.append(("Fanart auswählen", 'RunPlugin(%s?action=select_fanart&arttype=%s&imdb=%s&count_tmdb=%s&count_fanart=%s)' % (sysaddon,"background",imdb,bg_count_tmdb,bg_count_fanart)))
                 else:
                     pass
                 if control.setting('cm.traktmanager') == 'true':
@@ -1172,7 +1196,6 @@ class movies:
                     cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
 
                 item = control.item(label=label)
-
                 art = {}
                 art.update({'icon': poster, 'thumb': poster, 'poster': poster})
 
@@ -1188,31 +1211,21 @@ class movies:
                     art.update({'clearart': i['clearart']})
 
                 item.setProperty('Fanart_Image', background)
-                ## Background FanArt Select
-                #if settingFanart == 'true' and not background_tmdb == '0':
-                    #item.setProperty('Fanart_Image', i['fanart2'])
-                #elif settingFanart == 'true' and not background_fanart == '0':
-                    #item.setProperty('Fanart_Image', i['fanart'])
-                #elif not addonFanart == None:
-                    #item.setProperty('Fanart_Image', addonFanart)
-
                 item.setArt(art)
                 item.addContextMenuItems(cm)
                 item.setProperty('IsPlayable', isPlayable)
                 
-                meta.pop('fanart', None)
+                meta.pop('fanart2', None)
                 meta.pop('imdb', None)
                 meta.pop('imdb_id', None)
-                meta.pop('label', None)
-                meta.pop('thumb', None)
+                meta.pop('metacache', None)
+                meta.pop('next', None)
                 meta.pop('poster', None)
-                meta.pop('banner', None)
-                meta.pop('tvdb', None)
-                meta.pop('tvdb_id', None)
-                meta.pop('unaired', None)
+                meta.pop('poster3', None)
+                meta.pop('tmdb', None)
+                meta.pop('tmdb_id', None)
                 
                 item.setInfo(type='Video', infoLabels = meta)
-
                 video_streaminfo = {'codec': 'h264'}
                 item.addStreamInfo('video', video_streaminfo)
 
@@ -1238,7 +1251,6 @@ class movies:
 
         control.content(syshandle, 'movies')
         control.directory(syshandle, cacheToDisc=True)
-        control.sleep(200)
         views.setView('movies', {'skin.estuary': 55, 'skin.confluence': 500})
 
 

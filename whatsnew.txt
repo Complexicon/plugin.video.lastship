@@ -1,22 +1,20 @@
-[B][COLOR red]Lastship Infos und Updates[/COLOR][/B]
-[B]Hier findet Ihr aktuelle Informationen zu Lastship, den Changelog usw.[/B]
-
-FAQ und Hilfe bekommt Ihr in unserem Forum: https://lastship.ch
-Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby
-
-Die Gründer und Entwickler von Lastship sind in unserem Lastship Forum anzutreffen.
 
 [B][COLOR yellow]Wichtig:[/COLOR][/B]
-Mit der Version 3.0.10 ist zwingend eine neue Autorisierung von Trakt.tv notwendig um Fehler zu vermeiden!
+Mit der Version 3.1.0 ist zwingend eine neue Autorisierung von Trakt.tv
+sowie das Löschen des Metacaches notwendig um Fehler zu vermeiden!
 
 [B][COLOR blue]Allgemein:[/COLOR][/B]
-Für die Seite Serienstream (s.to) ist ein Benutzerkonto auf der jeweiligen Betreiberseite erforderlich (Wegwerf-E-Mailadresse möglich).
+- Für die Seite Serienstream (s.to) ist ein Benutzerkonto erforderlich.
+  (Beachtet den Hinweis zu "Geschützter Link" in den Einstellungen!)
+- Amazon, Netflix und Maxdome sind nur mit einem gültigen Abo des Betreibers nutzbar.
+- Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen.
 
-Amazon, Netflix und Maxdome sind nur mit einem gültigen Abo des Betreibers nutzbar. (Siehe FAQ)
+[B][COLOR red]Anleitungen zu den Funktionen sind im Forum verfügbar.[/COLOR][/B]
 
-Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen. (Siehe FAQ)
+[B]Unser Forum:    https://www.lastship.ch[/B]
+[B]Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby[/B]
 
-[COLOR orange]-------------------------------------------------------------------------------------------------------[/COLOR]
+[COLOR orange]_________________________________________________________________________[/COLOR]
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
@@ -24,15 +22,16 @@ Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen. (Siehe F
   26.02.2019
 - Update Openload Pairing Hoster (sources.py)
 - Option "Hoster ausschließen" hinzugefügt
-	Die Option ermöglicht es einzelne Hoster auszuschließen ohne Einstellungen im URL-Resolver zu ändern
-	Filter wird nicht auf Debrid-Dienste angewandt
+  Die Option ermöglicht es einzelne Hoster auszuschließen ohne Einstellungen im
+  URL-Resolver zu ändern.
+  Filter wird nicht auf Debrid-Dienste angewandt
 - Amazon Suche verbessert
 - Updates/Fixes (sources.py, settings.xml)
 - Add Bald verfügbar Kategorie (tvshows/movies/navigator.py)
-	Unter "Bald verfügbar" findet man eine Vorschau von Filmen/Serien die
-	bald veröffentlicht werden (maximal 100, über Trakt realisiert). Zu
-	beachten ist dass es bei sehr neuen Veröffentlichungen sein kann dass
-	noch keine Informationen verfügbar sind.
+  Unter "Bald verfügbar" findet man eine Vorschau von Filmen/Serien die
+  bald veröffentlicht werden (maximal 100, über Trakt realisiert). Zu
+  beachten ist dass es bei sehr neuen Veröffentlichungen sein kann dass
+  noch keine Informationen verfügbar sind.
 
 [B]3.0.8.1[/B]
   14.02.2019
@@ -42,7 +41,8 @@ Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen. (Siehe F
 [B]3.0.8[/B]
   13.02.2019
 - Fix Kino.cx 
-- Bei aktiviertem Autoplay werden bei der Suche die Hosternamen etc. nicht mehr angezeigt.
+- Bei aktiviertem Autoplay werden bei der Suche die Hosternamen etc.
+  nicht mehr angezeigt.
 - Fix Filmpalast
 - Fix Foxx
 - Update settings.xml
@@ -52,33 +52,6 @@ Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen. (Siehe F
 - Fix nach Personen suchen im QuickSearch Dialog
 - Anzeigen, auch englischer Streams von s.to
 - Fix für cfscrape 
-kinoger, cine, stream-to laufen mit dem neuen cfscrape
 
-[B]3.0.7[/B]
-  03.02.2019
-- Downgrade auf Stand von v3.0.5 (Da sich wahrscheinlich ein Fehler in v3.0.6 eingeschlichen hat)
-- Offline Seiten entfernt
-  view4u.co, szene-streamz.com, movie2k.st
-- [settings.xml] Menü neu geordnet und neu Strukturiert
-- Fix settings.xml Menü Bug
-- Update source_faultlog Url
-
-  Entfernt:
-  - UpNext Funktion im Lastship Menue
-  - Anzeigen, auch englischer Streams von s.to
-
-[B]3.0.6[/B]
-  01.02.2019
-- Anzeigen, auch englischer Streams von s.to
-- Offline Seiten entfernt
-  view4u.co, szene-streamz.com, movie2k.st
-- [settings.xml] Menü neu geordnet und neu Strukturiert
-- Fix settings.xml Menü Bug
-- add UpNext Funktion (nur Kodi18) in Lastship 
-  Das Addon UpNext muss aber seperat installiert werden
-  Funktioniert wie das alte NextUp Notification. Einstellung angelegt auf 90sek. Restzeit
-  Im UpNext Addon müssen Wiedergabelisten aktiviert sein und Serien müssen per "Ab hier abspielen" gestartet werden
-NUR Serien!
-
-[COLOR orange]-------------------------------------------------------------------------------------------------------[/COLOR] 
-  
+[COLOR orange]_________________________________________________________________________[/COLOR]
+Editierhinweise: Keine Tabulatoren. Text darf nicht länger als die Linie sein.

@@ -125,11 +125,20 @@ class sources:
         elif 'year' in meta:
             sysname += urllib.quote_plus(' (%s)' % meta['year'])
 
-        poster = meta['poster3'] if 'poster3' in meta else '0'
-        if poster == '0': poster = meta['poster'] if 'poster' in meta else '0'
+        ## Fanart Feature problematik - hier wird db item übergeben, aber nicht die auswahl ##
+        ## GGf. sollte man überlegen, die Auswahl in meta.items reinzuschreiben
+        
+        poster = json.dumps(meta['poster3']) if 'poster3' in meta else '0'
+        if poster == '0': poster = json.dumps(meta['poster']) if 'poster' in meta else '0'
 
-        fanart = meta['fanart2'] if 'fanart2' in meta else '0'
-        if fanart == '0': fanart = meta['fanart'] if 'fanart' in meta else '0'
+        poster=json.loads(poster)[0]
+        
+        fanart = json.dumps(meta['fanart2']) if 'fanart2' in meta else '0'
+        if fanart == '0': fanart = json.dumps(meta['fanart']) if 'fanart' in meta else '0'
+
+        fanart=json.loads(fanart)[0]
+
+        ## /Fanart Feature problematik ##
 
         thumb = meta['thumb'] if 'thumb' in meta else '0'
         if thumb == '0': thumb = poster
@@ -171,18 +180,16 @@ class sources:
                 item.addContextMenuItems(cm)
                 item.setInfo(type='Video', infoLabels= meta)
 
-                ## Notwendig für Library Exporte ##
+                ## Notwendig fÃ¼r Library Exporte ##
                 
                 ## Amazon Scraper Details ##
                 if "amazon" in label.lower():
                     item.setProperty('IsPlayable', 'true')                    
                     aid=re.search(r'asin%3D(.*?)%22%2C', sysurl)
-                    if control.setting('provider.amazonapp') == '0':
-                        sysurl='plugin://plugin.video.amazon-test/?mode=PlayVideo&asin=' + aid.group(1)
-                    if control.setting('provider.amazonapp') == '1':
-                        sysurl='plugin://plugin.video.amazon/?sitemode=PLAYVIDEO&mode=play&asin=' + aid.group(1)
-         
-                                      
+                    sysurl='plugin://plugin.video.amazon-test/?mode=PlayVideo&asin=' + aid.group(1)
+                        
+
+
                 ## Netflix Scraper Details ##
                 if "netflix" in label.lower():
                     item.setProperty('IsPlayable', 'true')
@@ -609,7 +616,7 @@ class sources:
 
 
     def getMovieSource(self, title, localtitle, aliases, year, imdb, source, call):
-    
+    ## Note: Kein Provider Cache fuer Emby. Siehe --> if not "emby" in source:  
         try:
             dbcon = database.connect(self.sourceFile)
             dbcur = dbcon.cursor()
@@ -650,7 +657,7 @@ class sources:
             if url == None: url = call.movie(imdb, title, localtitle, aliases, year)
             if url == None: raise Exception()
             dbcur.execute("DELETE FROM rel_url WHERE source = '%s' AND imdb_id = '%s' AND season = '%s' AND episode = '%s'" % (source, imdb, '', ''))
-            dbcur.execute("INSERT INTO rel_url Values (?, ?, ?, ?, ?)", (source, imdb, '', '', repr(url)))
+            if not "emby" in source:dbcur.execute("INSERT INTO rel_url Values (?, ?, ?, ?, ?)", (source, imdb, '', '', repr(url)))
             dbcon.commit()
         except:
             pass
@@ -662,7 +669,7 @@ class sources:
             for i in sources: i.update({'provider': source})
             self.sources.extend(sources)
             dbcur.execute("DELETE FROM rel_src WHERE source = '%s' AND imdb_id = '%s' AND season = '%s' AND episode = '%s'" % (source, imdb, '', ''))
-            dbcur.execute("INSERT INTO rel_src Values (?, ?, ?, ?, ?, ?)", (source, imdb, '', '', repr(sources), datetime.datetime.now().strftime("%Y-%m-%d %H:%M")))
+            if not "emby" in source:dbcur.execute("INSERT INTO rel_src Values (?, ?, ?, ?, ?, ?)", (source, imdb, '', '', repr(sources), datetime.datetime.now().strftime("%Y-%m-%d %H:%M")))
             dbcon.commit()
         except:
             pass
@@ -905,31 +912,24 @@ class sources:
             label = re.sub('\[I\]\s+\[/I\]', ' ', label)
             label = re.sub('\|\s+\|', '|', label)
             label = re.sub('\|(?:\s+|)$', '', label)
-
-            if d:
+            
+            if d: 
                 if not prem_identify == 'nocolor':
                     self.sources[i]['label'] = ('[COLOR %s]' % (prem_identify)) + label.upper() + '[/COLOR]'
                 else: self.sources[i]['label'] = label.upper()
             else: self.sources[i]['label'] = label.upper()
 
             ## EMBY shown as premium link ##
-            if (self.sources[i]['provider'] == "emby"
-                or self.sources[i]['provider'] == "amazon"
-                or self.sources[i]['provider'] == "netflix"
-                or self.sources[i]['provider'] == "netzkino"
-                or self.sources[i]['provider'] == "maxdome"
-                or self.sources[i]['provider'] == "watchbox"
-                ):
-
+            if self.sources[i]['provider']=="emby" or self.sources[i]['provider']=="amazon" or self.sources[i]['provider']=="netflix" or self.sources[i]['provider']=="maxdome":
                 if not prem_identify == 'nocolor':
                     self.sources[i]['label'] = ('[COLOR %s]' % (prem_identify)) + label.upper() + '[/COLOR]'
-
-        try:
+            
+        try: 
             if not HEVC == 'true': self.sources = [i for i in self.sources if not 'HEVC' in i['label']]
         except: pass
-
+            
         self.sources = [i for i in self.sources if 'label' in i]
-
+    
         return self.sources
 
 
@@ -1115,7 +1115,7 @@ class sources:
         return u
 
     def errorForSources(self):
-        control.infoDialog("Keine Streams verfügbar", sound=False, icon='INFO')
+        control.infoDialog("Keine Streams verfÃ¼gbar", sound=False, icon='INFO')
 
 
     def getLanguage(self):
@@ -1197,7 +1197,7 @@ class sources:
         else:
             pass
 
-        self.hostblockDict = [] #Altbestand. Wofür?
+        self.hostblockDict = [] #Altbestand. WofÃ¼r?
 
     def getPremColor(self, n):
         if n == '0': n = 'blue'

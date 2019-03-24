@@ -1,3 +1,8 @@
+[B]3.0.10~nightly25[/B]
+- Fix des Fixes aus Nightly24
+- Fanart/Poster sind nun auswählbar in den Kategorien
+- Umstrukturierung whatsnew.txt (für Info-Popup)
+
 [B]3.0.10~nightly24[/B]
 - Fix Error durch Widget im Log
 

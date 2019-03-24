@@ -53,12 +53,6 @@ url = params.get('url')
 
 image = params.get('image')
 
-## Select_Fanart ##
-amazonid=params.get('amazonid')
-tmdbid=params.get('tmdbid')
-fanartid=params.get('fanartid')
-arttype=params.get('arttype')
-## Select_Fanart ##
 meta = params.get('meta')
 
 select = params.get('select')
@@ -68,6 +62,12 @@ query = params.get('query')
 source = params.get('source')
 
 content = params.get('content')
+
+## Select_Fanart ##
+count_tmdb=params.get('count_tmdb')
+count_fanart=params.get('count_fanart')
+arttype=params.get('arttype')
+## Select_Fanart ##
 
 windowedtrailer = params.get('windowedtrailer')
 windowedtrailer = int(windowedtrailer) if windowedtrailer in ("0","1") else 0
@@ -137,6 +137,12 @@ elif action == 'libraryNavigator':
 elif action == 'toolNavigator':
     from resources.lib.indexers import navigator
     navigator.navigator().tools()
+
+
+## fanart select ##
+elif action == 'select_fanart':
+    from resources.lib.modules import control
+    control.select_fanart(arttype,imdb,count_tmdb,count_fanart)
 
 elif action == 'searchNavigator':
     from resources.lib.indexers import movies
@@ -359,10 +365,6 @@ elif action == 'openSettings':
 elif action == 'artwork':
     from resources.lib.modules import control
     control.artwork()
-
-elif action == 'select_fanart':    
-    from resources.lib.modules import control
-    control.select_fanart(arttype,imdb,amazonid,tmdbid,fanartid)
 
 elif action == 'addView':
     from resources.lib.modules import views
