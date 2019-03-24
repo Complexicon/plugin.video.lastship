@@ -10,7 +10,6 @@ sowie das Löschen des Metacaches notwendig um Fehler zu vermeiden!
 - Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen.
 
 [B][COLOR red]Anleitungen zu den Funktionen sind im Forum verfügbar.[/COLOR][/B]
-
 [B]Unser Forum:    https://www.lastship.ch[/B]
 [B]Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby[/B]
 
