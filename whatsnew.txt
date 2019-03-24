@@ -4,8 +4,8 @@ Mit der Version 3.1.0 ist zwingend eine neue Autorisierung von Trakt.tv
 sowie das Löschen des Metacaches notwendig um Fehler zu vermeiden!
 
 [B][COLOR blue]Allgemein:[/COLOR][/B]
-- Für die Seite Serienstream (s.to) ist ein Benutzerkonto erforderlich.
-  (Beachtet den Hinweis zu "Geschützter Link" in den Einstellungen!)
+- Für die Seite Serienstream.to (s.to) ist ein Benutzerkonto erforderlich.
+  (Beachte den Hinweis zu "Geschützter Link" in den Einstellungen!)
 - Amazon, Netflix und Maxdome sind nur mit einem gültigen Abo des Betreibers nutzbar.
 - Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen.
 
