@@ -218,8 +218,8 @@ def select_fanart(arttype,imdb,count_tmdb,count_fanart):
         posterlist=[]
 
         ## limit no. of poster to max. 20 need to do more ##
-        if int(count_tmdb)>19:
-            count_tmdb=19
+        if int(count_tmdb)>20:
+            count_tmdb=20
 
         listitems = []
         liste=metacache.fetchfanartlist(imdb,arttype)

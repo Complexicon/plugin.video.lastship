@@ -1,3 +1,6 @@
+[B]3.0.10~nightly26[/B]
+- Korrektur Fanart-Index
+
 [B]3.0.10~nightly25[/B]
 - Fix des Fixes aus Nightly24
 - Fanart/Poster sind nun auswählbar in den Kategorien
