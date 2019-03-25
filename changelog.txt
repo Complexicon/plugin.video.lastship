@@ -1,95 +1,40 @@
-[B]3.0.10~nightly26[/B]
-- Korrektur Fanart-Index
+[B]3.1.1~nightly1[/B]
 
-[B]3.0.10~nightly25[/B]
-- Fix des Fixes aus Nightly24
-- Fanart/Poster sind nun auswählbar in den Kategorien
+
+[B]3.1.0[/B]
+  25.03.2019
 - Umstrukturierung whatsnew.txt (für Info-Popup)
-
-[B]3.0.10~nightly24[/B]
 - Fix Error durch Widget im Log
-
-[B]3.0.10~nightly23[/B]
 - höhere Treffergenauigkeit für Netflix, Netzkino und Watchbox
 - Watchbox und Netzkino als Premium markiert
 - weniger Seiten Anfragen dank Nutzung von Justwatch
-
-[B]3.0.10~nightly22[/B]
-- Info-Popup nach Update / Erstinstallation BUGFIX
-
-[B]3.0.10~nightly21[/B]
 - Info-Popup nach Update / Erstinstallation
-
-[B]3.0.10~nightly20[/B]
 - Watchbox Encoding Fix
-
-[B]3.0.10~nightly19[/B]
-- Artwork-Bugfix
-
-[B]3.0.10~nightly18[/B]
 - Gitignore sinnvoll erweitert
 - Textanpassungen (Schreibweise, Sprachliches, Formatierung)
 - Hinweis zur notwendigen erneuten Autorisierung von Trakt.tv hinzugefügt.
 - thumbs.db entfernt
-
-[B]3.0.10~nightly17[/B]
 - Neu: Watchbox
-
-[B]3.0.10~nightly16[/B]
 - Fix SD-Autoplay Filter
-
-[B]3.0.10~nightly15[/B]
 - Doppelter Verfügbarkeits-Check für Netflix
-
-[B]3.0.10~nightly14[/B]
-- Kontextmenü-Einträge lassen sich nun unter Einstellungen/Allgemein verwalten.
-- Bugfixes Nightly 13
-- Vereinheitlichung
+- Kontextmenü-Einträge lassen sich nun unter Einstellungen/Allgemein verwalten
 - Zufallswiedergabe entfernt
-
-[B]3.0.10~nightly13[/B]
 -  Fanart/Poster Quelle Auswahlmöglichkeit hinzugefügt (control.py, movies.py, lastship.py, metacache.py):
-     Es ist bei Filmen nach der Suche möglich, über das Kontexmenü die Fanart/Poster Quelle zu ändern
-     Ist bei der gewählten Quelle nichts verfügbar, so wird kein Icon angezeigt
-
-[B]3.0.10~nightly12[/B]
+    Es ist bei Filmen nach der Suche möglich, über das Kontexmenü die Fanart/Poster Quelle zu ändern
+    Ist bei der gewählten Quelle nichts verfügbar, so wird kein Icon angezeigt
+- Fanart/Poster sind nun auswählbar in den Kategorien
 - Fix View Typ (Ansichten werden nun auch auf den Folgeseiten korrekt angezeigt)
-
-[B]3.0.10~nightly11[/B]
 - Fix Trakt Bugfix (Benutzerauthorisierung wird nicht angezeigt)
     Der Trakt Benutzer wird nun korrekt angezeigt.
     ACHTUNG: ES IST ZWINGEND NOTWENDIG DASS JEDER BENUTZER TRAKT NEU AUTORISIERT! WIRD DIES NICHT GEMACHT WERDEN EINIGE TRAKT-OPTIONEN FEHLERHAFT SEIN!
-
-[B]3.0.10~nightly10[/B]
- - New Indexpage: Movie-stream.eu
-
-[B]3.0.10~nightly9[/B]
+- New Indexpage: Movie-stream.eu
 - Changed Vodster Key (for Netflix)
-
-[B]3.0.10~nightly8[/B]
 - Fix HDKino
 - Kurz FAQ im Einstellungs Menü (settings.xml)
-
-[B]3.0.10~nightly7[/B]
 - Update settings.xml
 - Update Netflix
-
-[B]3.0.10~nightly6[/B]
 - TMovie entfernt, Offline
-
-[B]3.0.10~nightly5[/B]
 - Update zu Amazon: Es nun möglich, im Menü zu wählen, ob das Amazon VOD oder das Amazon Addon durchsucht/verwendet werden soll
-
-[B]3.0.10~nightly4[/B]
-- Fix moviedream.ws - jetzt aber entgültig
-
-[B]3.0.10~nightly3[/B]
-- Fix moviedream.ws
-
-[B]3.0.10~nightly2[/B]
-- Fix moviedream.ws
-
-[B]3.0.10~nightly1[/B]
 - Fix hdfilme
 
 [B]3.0.9[/B]
