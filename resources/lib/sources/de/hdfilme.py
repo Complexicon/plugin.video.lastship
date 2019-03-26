@@ -89,7 +89,6 @@ class source:
 
     def sources(self, url, hostDict, hostprDict):
         sources = []
-
         try:
             if not url:
                 return sources
@@ -107,7 +106,8 @@ class source:
                 r = (r[0],streamlink[episode-1][0])
             else:
                 streamlink = dom_parser.parse_dom(moviecontent.content, 'a', attrs={'class': 'new'})
-                r = (r[0],streamlink[int(r[1])-1].attrs['_episode'])
+                episode = int(re.findall(r'data-episode-id="(.*?)"', moviecontent.content)[0])
+                r = (r[0],episode)
 
             moviesource = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.get_link % r), headers={'referer': urlparse.urljoin(self.base_link, url)})
             foundsource = re.findall(r'window.urlVideo = (\".*?\");', moviesource.content)
@@ -142,14 +142,14 @@ class source:
 
             titles = [cleantitle.get(i) for i in set(titles) if i]
 
-            cache.cache_clear()
             searchResult = cache.get(self.scraper.get, 4, query).content
-            results = re.findall(r'<div class="title-product">\n<a href="(.*?)">((?s).*?)</a>', searchResult)
+
+            results = re.findall(r'<div class="title-product">\n<a href="(.*?) title="((?s).*?)">\n(.*?)</a>', searchResult)
         
             usedIndex = 0
             #Find result with matching name and season
             for x in range(0, len(results)):
-                title = cleantitle.get(results[x][1])
+                title = cleantitle.get(results[x][2])
 
                 if any(i in title for i in titles):
                     if season == "0" or ("staffel" in title and ("0"+str(season) in title or str(season) in title)):
