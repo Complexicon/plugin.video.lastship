@@ -67,7 +67,7 @@ class source:
                             link = self.__search([localtitle] + source_utils.aliases_to_array(aliases), imdb, year)
                             if not link and title != localtitle: link = self.__search([title] + source_utils.aliases_to_array(aliases), imdb, year)
                             break
-                break
+
             return link
         except:
             return

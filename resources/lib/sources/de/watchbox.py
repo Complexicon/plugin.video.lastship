@@ -36,7 +36,7 @@ class source:
                         if offer['provider_id'] == 171:
                             url = offer['urls']['standard_web']
                             break
-                break
+
             return url
         except:
             return
@@ -57,7 +57,7 @@ class source:
                     show_id = hit['id']
                     return show_id
                     break
-                break
+
 
         except:
             return

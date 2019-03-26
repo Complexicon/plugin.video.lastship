@@ -64,7 +64,7 @@ class source:
 
                             nfx_id = [offer['urls']['standard_web'].split("title/")[-1], 'API Justwatch']
                             break
-                break
+
             return nfx_id
         except:
             try:
