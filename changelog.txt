@@ -1,7 +1,11 @@
+[B]3.1.1~nightly2[/B]
+  26.03.2019
+- Zufallswiedergabe wieder hinzugefügt (Userwunsch)
+
 [B]3.1.1~nightly1[/B]
   26.03.2019
 - Fix Suche für Netflix, Netzkino und Watchbox
-    Die Suche hat bis jetzt nur den ersten treffer genomen
+  Die Suche hat bis jetzt nur den ersten treffer genommen
 
 [B]3.1.0[/B]
   25.03.2019

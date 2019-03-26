@@ -1076,7 +1076,7 @@ class movies:
         unwatchedMenu = "In Trakt [I]Ungesehen[/I]" if trakt.getTraktIndicatorsInfo() == True else "In Lastship [I]Ungesehen[/I]"
 
         queueMenu = "Zur Warteschlange hinzufügen"
-
+        
         traktManagerMenu = "[B]Trakt-Manager[/B]"
 
         nextMenu = "Nächste Seite"
@@ -1193,7 +1193,7 @@ class movies:
                     pass
 
                 if isOld == True:
-                    cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
+                    cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)')) #Zur Bibliothek hinzufügen
 
                 item = control.item(label=label)
                 art = {}
@@ -1262,6 +1262,8 @@ class movies:
         syshandle = int(sys.argv[1])
 
         addonFanart, addonThumb, artPath = control.addonFanart(), control.addonThumb(), control.artPath()
+        
+        playRandom = "Zufallswiedergabe"
 
         queueMenu = "Zur Warteschlange hinzufügen"
 
@@ -1280,6 +1282,8 @@ class movies:
                 except: pass
 
                 cm = []
+                
+                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=movie&url=%s)' % (sysaddon, urllib.quote_plus(i['url']))))
 
                 if queue == True:
                     cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))

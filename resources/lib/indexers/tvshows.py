@@ -1153,6 +1153,8 @@ class tvshows:
         unwatchedMenu = "In Trakt [I]Ungesehen[/I]" if trakt.getTraktIndicatorsInfo() == True else "In Lastship [I]Ungesehen[/I]"
 
         queueMenu = "Zur Warteschlange hinzufügen"
+        
+        playRandom = "Zufallswiedergabe"
 
         traktManagerMenu = "[B]Trakt-Manager[/B]"
 
@@ -1201,6 +1203,10 @@ class tvshows:
                     cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
                 else:
                     pass
+                if control.setting('cm.random') == 'true':
+                    cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=season&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, urllib.quote_plus(systitle), urllib.quote_plus(year), urllib.quote_plus(imdb), urllib.quote_plus(tvdb))))
+                else:
+                    pass
 
                 cm.append((watchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&query=7)' % (sysaddon, systitle, imdb, tvdb)))
 
@@ -1222,7 +1228,7 @@ class tvshows:
                 else:
                     pass
                 if isOld == True:
-                    cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
+                    cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)')) #Zur Bibliothek hinzufügen
 
                 item = control.item(label=label)
 
@@ -1312,6 +1318,8 @@ class tvshows:
         addonFanart, addonThumb, artPath = control.addonFanart(), control.addonThumb(), control.artPath()
 
         queueMenu = "Zur Warteschlange hinzufügen"
+        
+        playRandom = "Zufallswiedergabe"
 
         addToLibrary = "Zur Bibliothek hinzufügen"
 
@@ -1328,6 +1336,8 @@ class tvshows:
                 except: pass
 
                 cm = []
+                
+                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=show&url=%s)' % (sysaddon, urllib.quote_plus(i['url']))))
 
                 if queue == True:
                     cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))

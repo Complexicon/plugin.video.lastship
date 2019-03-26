@@ -443,6 +443,8 @@ class seasons:
         queueMenu = "Zur Warteschlange hinzufügen"
 
         traktManagerMenu = "[B]Trakt-Manager[/B]"
+        
+        playRandom = "Zufallswiedergabe"
 
         labelMenu = "Staffel"
 
@@ -491,7 +493,10 @@ class seasons:
                     cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
                 else:
                     pass
-
+                if control.setting('cm.random') == 'true':
+                    cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=episode&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s&season=%s)' % (sysaddon, urllib.quote_plus(systitle), urllib.quote_plus(year), urllib.quote_plus(imdb), urllib.quote_plus(tvdb), urllib.quote_plus(season))))
+                else:
+                    pass
                 cm.append((watchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&season=%s&query=7)' % (sysaddon, systitle, imdb, tvdb, season)))
 
                 cm.append((unwatchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&season=%s&query=6)' % (sysaddon, systitle, imdb, tvdb, season)))
@@ -502,7 +507,7 @@ class seasons:
                 else:
                     pass
                 if isOld == True:
-                    cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
+                    cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)')) #Zur Bibliothek hinzufügen
 
                 item = control.item(label=label)
 
@@ -1637,5 +1642,3 @@ class episodes:
 
         control.content(syshandle, 'addons')
         control.directory(syshandle, cacheToDisc=True)
-
-
