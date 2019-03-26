@@ -1,3 +1,8 @@
+[B]3.1.1~nightly3[/B]
+  26.03.2019
+- Fix Cloudflare
+- Fic HdFilme.net
+
 [B]3.1.1~nightly2[/B]
   26.03.2019
 - Zufallswiedergabe wieder hinzugefügt (Userwunsch)
