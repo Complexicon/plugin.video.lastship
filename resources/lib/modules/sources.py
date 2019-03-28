@@ -55,9 +55,9 @@ class sources:
     def play(self, title, year, imdb, tvdb, season, episode, tvshowtitle, premiered, meta, select):
         try:
             url = None
-            
+
             control.moderator()
-            
+
             items = self.getSources(title, year, imdb, tvdb, season, episode, tvshowtitle, premiered)
             select = control.setting('hosts.mode') if select == None else select
 
@@ -71,7 +71,7 @@ class sources:
                 if select == '1' and 'plugin' in control.infoLabel('Container.PluginName'):
                     control.window.clearProperty(self.itemProperty)
                     control.window.setProperty(self.itemProperty, json.dumps(items))
-                    
+
                     control.window.clearProperty(self.metaProperty)
                     control.window.setProperty(self.metaProperty, meta)
 
@@ -127,12 +127,12 @@ class sources:
 
         ## Fanart Feature problematik - hier wird db item übergeben, aber nicht die auswahl ##
         ## GGf. sollte man überlegen, die Auswahl in meta.items reinzuschreiben
-        
+
         poster = json.dumps(meta['poster3']) if 'poster3' in meta else '0'
         if poster == '0': poster = json.dumps(meta['poster']) if 'poster' in meta else '0'
 
         poster=json.loads(poster)[0]
-        
+
         fanart = json.dumps(meta['fanart2']) if 'fanart2' in meta else '0'
         if fanart == '0': fanart = json.dumps(meta['fanart']) if 'fanart' in meta else '0'
 
@@ -162,7 +162,7 @@ class sources:
                 syssource = urllib.quote_plus(json.dumps([items[i]]))
 
                 sysurl = '%s?action=playItem&title=%s&source=%s' % (sysaddon, systitle, syssource)
-                
+
                 cm = []
 
                 if downloads == True:
@@ -181,28 +181,30 @@ class sources:
                 item.setInfo(type='Video', infoLabels= meta)
 
                 ## Notwendig fÃ¼r Library Exporte ##
-                
+
                 ## Amazon Scraper Details ##
                 if "amazon" in label.lower():
-                    item.setProperty('IsPlayable', 'true')                    
+                    item.setProperty('IsPlayable', 'true')
                     aid=re.search(r'asin%3D(.*?)%22%2C', sysurl)
-                    sysurl='plugin://plugin.video.amazon-test/?mode=PlayVideo&asin=' + aid.group(1)
-                        
+                    if control.setting('provider.amazonapp') == '0':
+                        sysurl='plugin://plugin.video.amazon-test/?mode=PlayVideo&asin=' + aid.group(1)
+                    if control.setting('provider.amazonapp') == '1':
+                        sysurl='plugin://plugin.video.amazon/?sitemode=PLAYVIDEO&mode=play&asin=' + aid.group(1)
 
 
                 ## Netflix Scraper Details ##
                 if "netflix" in label.lower():
                     item.setProperty('IsPlayable', 'true')
-                    aid=re.search(r'video_id%3D(.*?)%22%2C', sysurl)                    
+                    aid=re.search(r'video_id%3D(.*?)%22%2C', sysurl)
                     sysurl='plugin://plugin.video.netflix/?action=play_video&video_id=' + aid.group(1)
-                    
+
 
                 ## Maxdome Scraper Details ##
                 if "maxdome" in label.lower():
                     item.setProperty('IsPlayable', 'true')
-                    aid=re.search(r'id%3D(.*?)%22%2C', sysurl)                    
+                    aid=re.search(r'id%3D(.*?)%22%2C', sysurl)
                     sysurl='plugin://plugin.video.maxdome/?action=play&id=' + aid.group(1)
-                    
+
 
                 control.addItem(handle=syshandle, url=sysurl, listitem=item, isFolder=False)
             except:
@@ -320,7 +322,7 @@ class sources:
             pass
 
     def getSources(self, title, year, imdb, tvdb, season, episode, tvshowtitle, premiered, quality='HD', timeout=30):
-        
+
         progressDialog = control.progressDialog if control.setting('progress.dialog') == '0' else control.progressDialogBG
         progressDialog.create(control.addonInfo('name'), '')
         progressDialog.update(0)
@@ -328,7 +330,7 @@ class sources:
         self.prepareSources()
 
         sourceDict = self.sourceDict
-        
+
         if this_addon.getSetting('hosts.mode') == '2' and this_addon.getSetting('autoplay.mode') == 'true':
             progressDialog.update(0, "Bitte warten")
         else:
@@ -341,7 +343,7 @@ class sources:
         else:
             sourceDict = [(i[0], i[1], getattr(i[1], 'tvshow', None)) for i in sourceDict]
             genres = trakt.getGenre('show', 'tvdb', tvdb)
-        
+
         sourceDict = [(i[0], i[1], i[2]) for i in sourceDict if not hasattr(i[1], 'genre_filter') or not i[1].genre_filter or any(x in i[1].genre_filter for x in genres)]
         sourceDict = [(i[0], i[1]) for i in sourceDict if not i[2] == None]
 
@@ -395,7 +397,7 @@ class sources:
 
         try: timeout = int(control.setting('scrapers.timeout.1'))
         except: pass
-        
+
         quality = control.setting('hosts.quality')
         if quality == '': quality = '0'
 
@@ -453,7 +455,7 @@ class sources:
                         source_sd = len([e for e in self.sources if e['quality'] == 'SD' and e['debridonly'] == False])
                     else:
                         source_sd = len([e for e in self.sources if e['quality'] == 'SD' and e['debridonly'] == False])
-                    
+
                     total = source_4k + source_1080 + source_720 + source_sd
 
                     if debrid_status:
@@ -480,7 +482,7 @@ class sources:
                         else:
                             for d in debrid_list:
                                 d_source_sd = len([e for e in self.sources if e['quality'] == 'SD' and d.valid_url('', e['source'])])
-                                 
+
                         d_total = d_source_4k + d_source_1080 + d_source_720 + d_source_sd
 
                 if debrid_status:
@@ -589,7 +591,7 @@ class sources:
                             progressDialog.update(max(1, percent), line1, line2)
                     except:
                         break
-                        
+
                 time.sleep(0.5)
             except:
                 pass
@@ -616,7 +618,7 @@ class sources:
 
 
     def getMovieSource(self, title, localtitle, aliases, year, imdb, source, call):
-    ## Note: Kein Provider Cache fuer Emby. Siehe --> if not "emby" in source:  
+    ## Note: Kein Provider Cache fuer Emby. Siehe --> if not "emby" in source:
         try:
             dbcon = database.connect(self.sourceFile)
             dbcur = dbcon.cursor()
@@ -632,7 +634,7 @@ class sources:
             except:
                 pass
         ''' END '''
-        
+
         try:
             dbcur.execute("SELECT * FROM rel_src WHERE source = '%s' AND imdb_id = '%s' AND season = '%s' AND episode = '%s'" % (source, imdb, '', ''))
             match = dbcur.fetchone()
@@ -773,7 +775,7 @@ class sources:
 
         pairing = control.setting('hosts.pairing')
         if pairing == '': pairing = 'true'
-        
+
         blocking = control.setting('hosts.blocking')
         if blocking == '': blocking = 'false'
 
@@ -805,7 +807,7 @@ class sources:
         self.sources = filter
 
         filter = []
-        
+
 
         for d in debrid.debrid_resolvers:
             valid_hoster = set([i['source'] for i in self.sources])
@@ -818,9 +820,9 @@ class sources:
         filter += [i for i in self.sources if not i['source'].lower() in self.hostprDict and i['debridonly'] == False]
 
         self.sources = filter
-      
+
         for i in range(len(self.sources)):
-            q = self.sources[i]['quality']            
+            q = self.sources[i]['quality']
             if q == 'HD': self.sources[i].update({'quality': '720p'})
 
         filter = []
@@ -848,41 +850,41 @@ class sources:
         if not pairing == 'true':
             filter = [i for i in self.sources if i['source'].lower() in self.hostpairDict and not 'debrid' in i]
             self.sources = [i for i in self.sources if not i in filter]
-            
+
         if not blocking == 'false':
             filter = [i for i in self.sources if i['source'].lower() in self.hostblockingDict and not 'debrid' in i]
             self.sources = [i for i in self.sources if not i in filter]
 
         #removing debrid only function, re-use for  https://github.com/lastship/plugin.video.lastship/issues/120
-        if no_subbed == 'true': 
-            filter = [i for i in self.sources if  'info' in i and 'subbed' in i['info']]     
+        if no_subbed == 'true':
+            filter = [i for i in self.sources if  'info' in i and 'subbed' in i['info']]
             self.sources = [i for i in self.sources if not i in filter]
-        
+
         multi = [i['language'] for i in self.sources]
         multi = [x for y,x in enumerate(multi) if x not in multi[:y]]
         multi = True if len(multi) > 1 else False
 
         if multi == True:
             self.sources = [i for i in self.sources if not i['language'] == 'de'] + [i for i in self.sources if i['language'] == 'en']
-        
+
         self.sources = self.sources[:2000]
 
         extra_info = control.setting('sources.extrainfo')
         prem_identify = control.setting('prem.identify')
         if prem_identify == '': prem_identify = 'blue'
-        prem_identify = self.getPremColor(prem_identify)        
-        
+        prem_identify = self.getPremColor(prem_identify)
+
         for i in range(len(self.sources)):
-                       
+
             if extra_info == 'true': t = source_utils.getFileType(self.sources[i]['url'])
             else: t = None
-            
+
             p = self.sources[i]['provider']
 
             q = self.sources[i]['quality']
 
             s = self.sources[i]['source']
-            
+
             s = s.rsplit('.', 1)[0]
 
             l = self.sources[i]['language']
@@ -912,24 +914,30 @@ class sources:
             label = re.sub('\[I\]\s+\[/I\]', ' ', label)
             label = re.sub('\|\s+\|', '|', label)
             label = re.sub('\|(?:\s+|)$', '', label)
-            
-            if d: 
+
+            if d:
                 if not prem_identify == 'nocolor':
                     self.sources[i]['label'] = ('[COLOR %s]' % (prem_identify)) + label.upper() + '[/COLOR]'
                 else: self.sources[i]['label'] = label.upper()
             else: self.sources[i]['label'] = label.upper()
 
             ## EMBY shown as premium link ##
-            if self.sources[i]['provider']=="emby" or self.sources[i]['provider']=="amazon" or self.sources[i]['provider']=="netflix" or self.sources[i]['provider']=="maxdome":
+            if (self.sources[i]['provider']=="emby"
+                or self.sources[i]['provider']=="amazon"
+                or self.sources[i]['provider']=="netflix"
+                or self.sources[i]['provider']=="netzkino"
+                or self.sources[i]['provider']=="maxdome"
+                or self.sources[i]['provider']=="watchbox"
+                    ):
                 if not prem_identify == 'nocolor':
                     self.sources[i]['label'] = ('[COLOR %s]' % (prem_identify)) + label.upper() + '[/COLOR]'
-            
-        try: 
+
+        try:
             if not HEVC == 'true': self.sources = [i for i in self.sources if not 'HEVC' in i['label']]
         except: pass
-            
+
         self.sources = [i for i in self.sources if 'label' in i]
-    
+
         return self.sources
 
 
@@ -991,7 +999,7 @@ class sources:
 
     def sourcesDialog(self, items):
         try:
-            
+
             labels = [i['label'] for i in items]
 
             select = control.selectDialog(labels)
@@ -1123,7 +1131,7 @@ class sources:
         name = control.setting('providers.lang')
         return langDict.get(name, ['en'])
 
-        
+
     def getLocalTitle(self, title, imdb, tvdb, content):
         lang = self._getPrimaryLang()
         if not lang:
@@ -1148,7 +1156,7 @@ class sources:
             return []
 
     def _getPrimaryLang(self):
-        langDict = {'English': 'en', 'German': 'de', 'German+English': 'de', 'French': 'fr', 'French+English': 'fr', 'Portuguese': 'pt', 'Portuguese+English': 'pt', 'Polish': 'pl', 'Polish+English': 'pl', 'Korean': 'ko', 'Korean+English': 'ko', 'Russian': 'ru', 'Russian+English': 'ru', 'Spanish': 'es', 'Spanish+English': 'es', 'Italian': 'it', 'Italian+English': 'it', 'Greek': 'gr', 'Greek+English': 'gr'} 
+        langDict = {'English': 'en', 'German': 'de', 'German+English': 'de', 'French': 'fr', 'French+English': 'fr', 'Portuguese': 'pt', 'Portuguese+English': 'pt', 'Polish': 'pl', 'Polish+English': 'pl', 'Korean': 'ko', 'Korean+English': 'ko', 'Russian': 'ru', 'Russian+English': 'ru', 'Spanish': 'es', 'Spanish+English': 'es', 'Italian': 'it', 'Italian+English': 'it', 'Greek': 'gr', 'Greek+English': 'gr'}
         name = control.setting('providers.lang')
         lang = langDict.get(name)
         return lang
@@ -1179,7 +1187,7 @@ class sources:
         self.hostpairDict = ['flashx.tv', 'flashx.to', 'flashx.sx', 'flashx.bz', 'flashx.cc', 'hugefiles.net', 'kingfiles.net', 'openload.io', 'openload.co', 'oload.tv', 'oload.stream', 'oload.win', 'oload.download', 'oload.info', 'oload.icu', 'oload.fu', 'openload.pw', 'thevideo.me', 'vidup.me', 'streamin.to', 'torba.se']
 
         self.hosthqDict = ['bitporno.com', 'cloudvideo.tv', 'filez.tv', 'fruitadblock.net', 'fruitstreams.com', 'google.com', 'gvideo', 'oload.download', 'oload.stream', 'oload.tv', 'oload.tv', 'oload.win', 'openload.co', 'openload.io', 'rapidvideo.com', 'rapidvideo.ws', 'raptu.com', 'streamango.com', 'streamcherry.com', 'thevideo.me', 'uptobox.com', 'uptostream.com', 'vidoza.net', 'vivo.sx']
-        
+
         self.HosterBlockingList = control.setting('hosts.blocking')
         if self.HosterBlockingList == "true":
             self.HosterBlockingList1 = control.setting('HosterBlockingList1')
@@ -1192,7 +1200,7 @@ class sources:
             self.HosterBlockingList8 = control.setting('HosterBlockingList8')
             self.HosterBlockingList9 = control.setting('HosterBlockingList9')
             self.HosterBlockingList10 = control.setting('HosterBlockingList10')
-            
+
             self.hostblockingDict = [self.HosterBlockingList1, self.HosterBlockingList2, self.HosterBlockingList3, self.HosterBlockingList4, self.HosterBlockingList5, self.HosterBlockingList6, self.HosterBlockingList7, self.HosterBlockingList8, self.HosterBlockingList9, self.HosterBlockingList10]
         else:
             pass
