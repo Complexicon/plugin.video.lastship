@@ -5,66 +5,57 @@ import requests
 import simplejson
 
 from resources.lib.modules import cache
-from resources.lib.modules import cleantitle
-from resources.lib.modules import dom_parser
+from resources.lib.modules import justwatch
 from resources.lib.modules import tvmaze
+
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
+        self.api = 'https://apis.justwatch.com/content/titles/de_DE/popular'
+        self.provider_id = 171
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            title = cleantitle.get(title)
-            localtitle = cleantitle.get(localtitle)
-            url = 'https://apis.justwatch.com/content/titles/de_DE/popular?body=%7B"languages":"de","content_types":["movie"],"providers":["nfx","wbx","ntz"],"monetization_types":["flatrate","ads","free"],"page":1,"page_size":10,"query":"{}"%7D'.format(localtitle)
-            req = cache.get(requests.get, 6, url)
+
+            header = justwatch.get_head()
+            payload = justwatch.get_payload(localtitle, ["movie"], ["ads","free"], ["wbx"])
+
+            req = requests.post(self.api, headers=header, json=payload)
             data = req.json()
 
-            # Loop through hits
-            for hit in data['items']:
-                # Compare year and title
-                if (hit['original_release_year'] == int(year)
-                        and localtitle == cleantitle.get(hit['title'])
-                        or localtitle == cleantitle.get(hit['original_title'])
-                        or title == cleantitle.get(hit['original_title'])
-                        or title == cleantitle.get(hit['title'])):
+            offer = justwatch.get_offer(data['items'], year, title, localtitle, self.provider_id)
 
-                    for offer in hit['offers']:
-                        # Watchbox
-                        if offer['provider_id'] == 171:
-                            url = offer['urls']['standard_web']
-                            break
-
-            return url
+            if offer:
+                url = offer[0]['urls']['standard_web']
+                return url
         except:
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
 
-            url = 'https://apis.justwatch.com/content/titles/de_DE/popular?body=%7B"languages":"de","content_types":["show"],"providers":["wbx"],"monetization_types":["ads","free"],"page":1,"page_size":5,"query":"{}"%7D'.format(localtvshowtitle)
-            req = cache.get(requests.get, 12, url)
-            soup = req.json()
-            tvshowtitle = cleantitle.get(tvshowtitle)
-            localtvshowtitle = cleantitle.get(localtvshowtitle)
-            # Loop through hits
-            for hit in soup['items']:
-                # Compare year
-                if (hit['original_release_year'] == int(year)
-                        and cleantitle.get(hit['title']) == localtvshowtitle or tvshowtitle == cleantitle.get(hit['title'])):
-                    show_id = hit['id']
-                    return show_id
-                    break
+            header = justwatch.get_head()
+            payload = justwatch.get_payload(localtvshowtitle, ["show"], ["ads","free"], ["wbx"])
 
+            req = requests.post(self.api, headers=header, json=payload)
+            data = req.json()
+
+            offer = justwatch.get_offer(data['items'], year, tvshowtitle, localtvshowtitle, self.provider_id)
+
+            if offer:
+                show_id = offer[1]
+                ref = offer[2]
+                return show_id ,ref
 
         except:
             return
 
-    def episode(self, url, imdb, tvdb, title, premiered, season, episode_n):
+    def episode(self, show_id, imdb, tvdb, title, premiered, season, episode_n):
         try:
-            show_id = url
+            header = justwatch.get_head(show_id[1])
+
             link = ''
             e_nr = tvmaze.tvMaze().episodeAbsoluteNumber(tvdb, season, episode_n)
 
@@ -73,15 +64,15 @@ class source:
             if int(season) >= 2:
                 s_nr = int(season) -1
 
-            url = 'https://apis.justwatch.com/content/titles/show/{}/locale/de_DE/'.format(show_id)
-            req = cache.get(requests.get, 6, url)
+            url = 'https://apis.justwatch.com/content/titles/show/{}/locale/de_DE'.format(show_id[0])
+            req = cache.get(requests.get, 6, url, headers=header)
             data = req.json()
 
             while link == '':
                 s_id = data['seasons'][s_nr -1]['id']
                 # 2te anfrage um aus der season id die folge zu bekommen
                 url = 'https://apis.justwatch.com/content/titles/show_season/{}/locale/de_DE'.format(s_id)
-                req = cache.get(requests.get, 6, url)
+                req = cache.get(requests.get, 6, url, headers=header)
                 soup = req.json()
 
                 if soup['max_episode_number'] > int(e_nr):

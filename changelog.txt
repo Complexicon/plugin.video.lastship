@@ -1,3 +1,9 @@
+[B]3.1.1~nightly4[/B]
+  28.03.2019
+- Neues Justwatch Modul
+- Hoffentlich vorerst endgültiger Fix für Netzkino und Netflix
+- Watchbox Serien Defekt (momentan Kampagne TV Now)
+
 [B]3.1.1~nightly3[/B]
   26.03.2019
 - Fix Cloudflare

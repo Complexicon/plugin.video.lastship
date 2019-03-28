@@ -32,45 +32,40 @@ import urlparse
 from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
+from resources.lib.modules import justwatch
 from resources.lib.modules import source_utils
-from resources.lib.modules import source_faultlog
+
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
+        self.api = 'https://apis.justwatch.com/content/titles/de_DE/popular'
+        self.provider_id = 28
         self.domains = ['netzkino.de']
         self.base_link = 'http://netzkino.de'
         self.conf_link = '/adconf/android-new.php'
         self.search_link = 'http://api.netzkino.de.simplecache.net/capi-2.0a/search?q=%s&d=www&l=de-DE&v=unknown-debugBuild'
 
+
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            title_c = cleantitle.get(title)
-            localtitle_c = cleantitle.get(localtitle)
-            url = 'https://apis.justwatch.com/content/titles/de_DE/popular?body=%7B"languages":"de","content_types":["movie"],"providers":["nfx","wbx","ntz"],"monetization_types":["flatrate","ads","free"],"page":1,"page_size":10,"query":"{}"%7D'.format(localtitle_c)
-            req = cache.get(requests.get, 6, url)
+            header = justwatch.get_head()
+            payload = justwatch.get_payload(localtitle, ["movie"], ["ads","free"], ["ntz"])
+
+            req = requests.post(self.api, headers=header, json=payload)
             data = req.json()
 
-            # Loop through hits
-            for hit in data['items']:
-                # Compare year and title
-                if (hit['original_release_year'] == int(year)
-                        and localtitle_c == cleantitle.get(hit['title'])
-                        or localtitle_c == cleantitle.get(hit['original_title'])
-                        or title_c == cleantitle.get(hit['original_title'])
-                        or title_c == cleantitle.get(hit['title'])):
+            offer = justwatch.get_offer(data['items'], year, title, localtitle, self.provider_id)
 
-                    for offer in hit['offers']:
-                        # Netzkino
-                        if offer['provider_id'] == 28:
-                            link = self.__search([localtitle] + source_utils.aliases_to_array(aliases), imdb, year)
-                            if not link and title != localtitle: link = self.__search([title] + source_utils.aliases_to_array(aliases), imdb, year)
-                            break
+            if offer:
+                link = self.__search([localtitle] + source_utils.aliases_to_array(aliases), imdb, year)
+                if not link and title != localtitle: link = self.__search([title] + source_utils.aliases_to_array(aliases), imdb, year)
 
-            return link
+                return link
         except:
             return
+
 
     def sources(self, url, hostDict, hostprDict):
         sources = []
@@ -91,7 +86,6 @@ class source:
 
             return sources
         except:
-            source_faultlog.logFault(__name__,source_faultlog.tagScrape, url)
             return sources
 
     def resolve(self, url):
@@ -118,8 +112,4 @@ class source:
             return ""
 
         except:
-            try:
-                source_faultlog.logFault(__name__, source_faultlog.tagSearch, titles[0])
-            except:
-                return
             return

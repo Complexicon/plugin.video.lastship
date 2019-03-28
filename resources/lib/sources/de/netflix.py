@@ -30,47 +30,38 @@ import simplejson
 from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser
+from resources.lib.modules import justwatch
+
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
+        self.api = 'https://apis.justwatch.com/content/titles/de_DE/popular'
+        self.provider_id = 8
         self.base_link = 'https://www.werstreamt.es'
         self.vodster_api_key = base64.b64decode("ZWE0Njk0NjYtMWZhOS00MjBjLTk5NGUtNDJiZGJiYjMyYTM4")
 
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            title = cleantitle.get(title)
-            localtitle = cleantitle.get(localtitle)
-            url = 'https://apis.justwatch.com/content/titles/de_DE/popular?body=%7B"languages":"de","content_types":["movie"],"providers":["nfx","wbx","ntz"],"monetization_types":["flatrate","ads","free"],"page":1,"page_size":10,"query":"{}"%7D'.format(localtitle)
-            req = cache.get(requests.get, 6, url)
+            header = justwatch.get_head()
+            payload = justwatch.get_payload(localtitle, ["movie"], ["flatrate"], ["nfx"])
+
+            req = requests.post(self.api, headers=header, json=payload)
             data = req.json()
 
-            # Loop through hits
-            for hit in data['items']:
-                # Compare year and title
-                if (hit['original_release_year'] == int(year)
-                        and localtitle == cleantitle.get(hit['title'])
-                        or localtitle == cleantitle.get(hit['original_title'])
-                        or title == cleantitle.get(hit['original_title'])
-                        or title == cleantitle.get(hit['title'])):
+            offer = justwatch.get_offer(data['items'], year, title, localtitle, self.provider_id)
 
-                    for offer in hit['offers']:
-                        # Netflix
-                        if (offer['provider_id'] == 8
-                                and offer['presentation_type'] == 'hd'
-                                and offer['monetization_type'] == 'flatrate'):
+            if offer:
+                nfx_id = str(offer[0]['urls']['standard_web']).split('/')[-1]
+                return nfx_id, 'API Justwatch'
 
-                            nfx_id = [offer['urls']['standard_web'].split("title/")[-1], 'API Justwatch']
-                            break
-
-            return nfx_id
         except:
             try:
                 url = "http://api.vodster.de/avogler/links.php?api_key=%s&format=json&imdb=%s" % (self.vodster_api_key, imdb)
-                nfx_id = [self.get_netflix_id(url), 'API Vodster']
-                return nfx_id
+                nfx_id = self.get_netflix_id(url)
+                return nfx_id, 'API Vodster'
 
             except:
                 return
