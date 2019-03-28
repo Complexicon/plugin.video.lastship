@@ -1,3 +1,8 @@
+[B]3.1.1~nightly6[/B]
+  28.03.2019
+- ZDF Scrapper Beta
+  (nur Serien des letzen Jahres)
+
 [B]3.1.1~nightly5[/B]
   28.03.2019
 - Wiederherstellung der Arbeit aus 3.0.10~nightly 23 (untergegangen wegen bekannten "alte Dateien"-Vorfall (internes, nicht in offiziellen Changelog des nächsten Releases aufnehmen))

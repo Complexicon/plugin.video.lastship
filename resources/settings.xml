@@ -145,6 +145,7 @@
         <setting id="provider.horrorkino" type="bool" label="FLIMMERSTUBE.COM" default="true" />
         <setting id="provider.netzkino" type="bool" label="NETZKINO.DE" default="true" />
         <setting id="provider.watchbox" type="bool" label="WATCHBOX.DE" default="true" />
+        <setting id="provider.zdf" type="bool" label="ZDF.DE" default="false" />
         <setting type="lsep" label="Indexseiten" />
         <setting id="provider.alleserien" type="bool" label="ALLESERIEN.COM" default="true" />
         <setting id="provider.animebase" type="bool" label="ANIMEBASE.NET" default="true" />
