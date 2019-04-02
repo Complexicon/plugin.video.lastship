@@ -26,11 +26,13 @@ import re
 import urllib
 import urlparse
 
+from resources.lib.modules import cache
+from resources.lib.modules import cfscrape
 from resources.lib.modules import cleantitle
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_faultlog
-from resources.lib.modules.handler.requestHandler import cRequestHandler
+
 
 class source:
     def __init__(self):
@@ -39,6 +41,7 @@ class source:
         self.domains = ['iload.to']
         self.base_link = 'http://iload.to'
         self.search_link = '/suche/%s'
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -63,17 +66,10 @@ class source:
 
             query = urlparse.urljoin(self.base_link, url)
 
-            oRequest = cRequestHandler(query)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
-
+            r = cache.get(self.scraper.get, 4, query).content
             r = dom_parser.parse_dom(r, 'td', attrs={'data-title-name': re.compile('Season %02d' % int(season))})
             r = dom_parser.parse_dom(r, 'a', req='href')[0].attrs['href']
-            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, r))
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
+            r = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, r)).content
             r = dom_parser.parse_dom(r, 'td', attrs={'data-title-name': re.compile('Episode %02d' % int(episode))})
             r = dom_parser.parse_dom(r, 'a', req='href')[0].attrs['href']
 
@@ -88,18 +84,12 @@ class source:
                 return sources
 
             query = urlparse.urljoin(self.base_link, url)
-            oRequest = cRequestHandler(query)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            content = oRequest.request()
+            content = cache.get(self.scraper.get, 4, query).content
             quality = dom_parser.parse_dom(content, 'div', attrs={'class': 'tabformat'})
 
             for quali in quality:
                 if len(quality) > 1:
-                    oRequest = cRequestHandler(urlparse.urljoin(self.base_link, dom_parser.parse_dom(quali, 'a')[0].attrs['href']))
-                    oRequest.removeBreakLines(False)
-                    oRequest.removeNewLines(False)
-                    content = oRequest.request()
+                    content = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, dom_parser.parse_dom(quali, 'a')[0].attrs['href'])).content
                 self.__getRelease(sources, content, hostDict)
 
             self.__getRelease(sources, content, hostDict)
@@ -118,10 +108,7 @@ class source:
 
         if len(releases) > 0:
             for release in releases:
-                oRequest = cRequestHandler(urlparse.urljoin(self.base_link, release))
-                oRequest.removeBreakLines(False)
-                oRequest.removeNewLines(False)
-                content = oRequest.request()
+                content = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, release)).content
                 self.__getLinks(sources, content, hostDict, release)
         else:
             self.__getLinks(sources, content, hostDict, dom_parser.parse_dom(content, 'h1')[2].content)
@@ -144,10 +131,7 @@ class source:
 
     def resolve(self, url):
         try:
-            link = urlparse.urljoin(self.base_link, url)
-            oRequest = cRequestHandler(link, caching=False)
-            content = oRequest.request()
-            url = oRequest.getRealUrl()
+            url = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, url)).url
             return url if self.base_link not in url else None
         except:
             return
@@ -158,10 +142,8 @@ class source:
             query = urlparse.urljoin(self.base_link, query)
 
             t = [cleantitle.get(i) for i in set(titles) if i]
-            oRequest = cRequestHandler(query)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
+
+            r = cache.get(self.scraper.get, 4, query).content
 
             r = dom_parser.parse_dom(r, 'div', attrs={'class': 'big-list'})
             r = dom_parser.parse_dom(r, 'table', attrs={'class': 'row'})
@@ -174,10 +156,7 @@ class source:
 
             url = source_utils.strip_domain(r)
 
-            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, url))
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
+            r = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, url)).content
             r = dom_parser.parse_dom(r, 'a', attrs={'href': re.compile('.*/tt\d+.*')}, req='href')
             r = [re.findall('.+?(tt\d+).*?', i.attrs['href']) for i in r]
             r = [i[0] for i in r if i]

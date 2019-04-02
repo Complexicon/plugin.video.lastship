@@ -26,12 +26,14 @@ import urllib
 import urlparse
 import re
 
+from resources.lib.modules import cache
+from resources.lib.modules import cfscrape
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import cleantitle
 from resources.lib.modules import source_faultlog
 from resources.lib.modules import hdgo
-from resources.lib.modules.handler.requestHandler import cRequestHandler
+
 
 class source:
     def __init__(self):
@@ -40,6 +42,7 @@ class source:
         self.domains = ['kinoger.com']
         self.base_link = 'http://kinoger.com/'
         self.search = self.base_link + 'index.php?do=search&subaction=search&search_start=1&full_search=0&result_from=1&story=%s'
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -86,10 +89,7 @@ class source:
             season = data.get('season')
             episode = data.get('episode')
 
-            oRequest = cRequestHandler(url)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            sHtmlContent = oRequest.request()
+            sHtmlContent = cache.get(self.scraper.get, 4, url).content
 
             quality = "SD"
 
@@ -158,10 +158,7 @@ class source:
     def resolve(self, url):
         try:
             if 'kinoger' in url:
-                oRequest = cRequestHandler(url)
-                oRequest.removeBreakLines(False)
-                oRequest.removeNewLines(False)
-                request = oRequest.request()
+                request = cache.get(self.scraper.get, 4, url).content
                 pattern = 'src:  "(.*?)"'
                 request = re.compile(pattern, re.DOTALL).findall(request)
                 return request[0] + '|Referer=' + url
@@ -174,10 +171,8 @@ class source:
         try:
             t = [cleantitle.get(i) for i in set(titles) if i]
             url = self.search % titles[0]
-            oRequest = cRequestHandler(url)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            sHtmlContent = oRequest.request()
+
+            sHtmlContent = cache.get(self.scraper.get, 4, url).content
             search_results = dom_parser.parse_dom(sHtmlContent, 'div', attrs={'class': 'title'})
             search_results = dom_parser.parse_dom(search_results, 'a')
             search_results = [(i.attrs['href'], i.content) for i in search_results]
