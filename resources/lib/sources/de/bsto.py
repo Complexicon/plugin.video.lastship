@@ -23,7 +23,7 @@
 # Addon Provider: LastShip
 
 import urlparse
-
+import web_pdb
 from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser
@@ -31,7 +31,7 @@ from resources.lib.modules import client
 from resources.lib.modules import source_faultlog
 from resources.lib.modules import source_utils
 from resources.lib.modules.recaptcha import recaptcha_app
-
+from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
@@ -54,7 +54,8 @@ class source:
         try:
             if not url:
                 return
-            content = cache.get(client.request, 4, urlparse.urljoin(self.base_link, url) + "/" + season)
+            oRequest = cRequestHandler( urlparse.urljoin(self.base_link, url) + "/" + season)
+            content = oRequest.request()
             link = dom_parser.parse_dom(content, 'table', attrs={'class': 'episodes'})
             link = dom_parser.parse_dom(link, 'a')
             link = [i.attrs['href'] for i in link if i.content == episode]
@@ -69,8 +70,8 @@ class source:
         try:
             if not url:
                 return sources
-
-            content = cache.get(client.request, 4, urlparse.urljoin(self.base_link, url))
+            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, url))
+            content = oRequest.request()
             links = dom_parser.parse_dom(content, 'a')
             links = [i for i in links if 'href' in i.attrs and url in i.attrs['href']]
             links = [(i.attrs['href'], i.attrs['title'].replace('HD', ''), '720p' if 'HD' in i.attrs['href'] else 'SD') for i in links if 'title' in i.attrs]
@@ -88,8 +89,13 @@ class source:
     def resolve(self, url):
         try:
             url = urlparse.urljoin(self.base_link, url)
+            
+            oRequest = cRequestHandler(url, caching=False)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            content = oRequest.request()
             content = client.request(url)
-
+            #web_pdb.set_trace()
             url = dom_parser.parse_dom(content, 'iframe')[0].attrs['src']
 
             recap = recaptcha_app.recaptchaApp()
@@ -99,8 +105,16 @@ class source:
             response = None
             if key != "" and "skipped" not in key.lower():
                 content = client.request(url)
+                content2 = cRequestHandler(url, caching=False).request()
+                #web_pdb.set_trace()
                 s = dom_parser.parse_dom(content, 'input', attrs={'name': 's'})[0].attrs['value']
                 link = client.request(url + '?t=%s&s=%s' % (key, s), output='geturl')
+                oRequest = cRequestHandler(url + '?t=%s&s=%s' % (key, s))
+                links2 = oRequest.getHeaderLocationUrl()
+                links3 = oRequest.request()
+                link3 = oRequest.getHeaderLocationUrl()
+
+                web_pdb.set_trace()
                 return link
             elif not response or "skipped" in key.lower():
                 return
@@ -111,8 +125,8 @@ class source:
     def __search(self, titles, year):
         try:
             t = [cleantitle.get(i) for i in set(titles) if i]
-
-            content = cache.get(client.request, 4, self.search_link)
+            oRequest = cRequestHandler(urlparse.urljoin(self.search_link))
+            content = oRequest.request()
 
             links = dom_parser.parse_dom(content, 'div', attrs={'id': 'seriesContainer'})
             links = dom_parser.parse_dom(links, 'a')

@@ -27,14 +27,14 @@ import json
 import re
 from binascii import unhexlify
 
-from resources.lib.modules import cache
 from resources.lib.modules import cfscrape
 from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_faultlog
 from resources.lib.modules import source_utils
 from resources.lib.modules import utils
-
+from resources.lib.modules.handler.requestHandler import cRequestHandler
+from resources.lib.modules.handler.ParameterHandler import ParameterHandler
 
 class source:
     def __init__(self):
@@ -45,7 +45,6 @@ class source:
         self.movie_link = self.base_link + 'movies?perPage=54'
         self.movie_link = self.base_link + 'seasons?perPage=54'
         self.search = self.base_link + 'search?q=%s&movies=true&seasons=true&actors=false&didyoumean=false'
-        self.scraper = cfscrape.create_scraper()
         self.recapInfo = ""
 
     def movie(self, imdb, title, localtitle, aliases, year):
@@ -95,8 +94,10 @@ class source:
 
             if isinstance(url, tuple):
                 url, episode = url
-
-            r = cache.get(self.scraper.get, 3, url).content
+            oRequest = cRequestHandler(url)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
 
             if "serie" in url:
                 links = self._getSeriesLinks(r, episode)
@@ -118,12 +119,24 @@ class source:
     def __getlinks(self, e, h, url, key):
         try:
             url = url + '/stream'
-
             params = {'e': e, 'h': h, 'lang': 'de', 'q': '', 'grecaptcha': key}
-            r = self.scraper.get(url[:-7])
-            csrf = dom_parser.parse_dom(r.content, "meta", attrs={"name": "csrf-token"})[0].attrs["content"]
-            sHtmlContent = self.scraper.post(url, headers={'X-CSRF-TOKEN': csrf, 'X-Requested-With': 'XMLHttpRequest'}, data=params).content
-
+            oRequest = cRequestHandler(url[:-7])
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
+            csrf = dom_parser.parse_dom(r, "meta", attrs={"name": "csrf-token"})[0].attrs["content"]
+            oRequest = cRequestHandler(url)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            oRequest.addHeaderEntry('X-CSRF-TOKEN', csrf)
+            oRequest.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+            oRequest.addParameters('e', e)
+            oRequest.addParameters('h', h)
+            oRequest.addParameters('lang', 'de')
+            oRequest.addParameters('q', '')
+            oRequest.addParameters('grecaptcha', key)
+            oRequest.setRequestType(1)
+            sHtmlContent = oRequest.request()
             helper = json.loads(sHtmlContent)
 
             mainData = utils.byteify(helper)
@@ -158,19 +171,21 @@ class source:
     def resolve(self, url):
         try:
             e, h, url, recaptcha = url
-            key = ''
+            key = ''       
             if recaptcha:
                 from resources.lib.modules.recaptcha import recaptcha_app
                 recap = recaptcha_app.recaptchaApp()
                 key = recap.getSolutionWithDialog(url, "6LdWQEUUAAAAAOLikUMWfs8JIJK2CAShlLzsPE9v", self.recapInfo)
-
             return self.__getlinks(e, h, url, key)
         except:
             return
 
     def __search(self, imdb, isMovieSearch):
         try:
-            sHtmlContent = self.scraper.get(self.base_link).content
+            oRequest = cRequestHandler(self.base_link)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            sHtmlContent = oRequest.request()
 
             pattern = '<meta name="csrf-token" content="([^"]+)">'
             string = str(sHtmlContent)
@@ -179,11 +194,14 @@ class source:
             if len(token) == 0:
                 return #No Entry found?
             # first iteration of session object to be parsed for search
-
-            sHtmlContent = self.scraper.get(self.search % imdb, headers={'X-CSRF-TOKEN':token[0],'X-Requested-With':'XMLHttpRequest'}).text
+            oRequest = cRequestHandler(self.search % imdb)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            oRequest.addHeaderEntry('X-CSRF-TOKEN', token[0])
+            oRequest.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+            sHtmlContent = oRequest.request()
 
             content = json.loads(sHtmlContent)
-
             if isMovieSearch:
                 returnObjects = content["movies"]
             else:
