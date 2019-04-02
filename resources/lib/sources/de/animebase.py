@@ -26,14 +26,13 @@ import re
 import urllib
 import urlparse
 
-from resources.lib.modules import cache
+
 from resources.lib.modules import cleantitle
-from resources.lib.modules import client
 from resources.lib.modules import tvmaze
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_faultlog
-
+from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
@@ -80,7 +79,8 @@ class source:
             url = data.get('url')
             episode = int(data.get('episode', 1))
 
-            r = cache.get(client.request, 4, urlparse.urljoin(self.base_link, url))
+            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, url))
+            r = oRequest.request()
             r = {'': dom_parser.parse_dom(r, 'div', attrs={'id': 'gerdub'}), 'subbed': dom_parser.parse_dom(r, 'div', attrs={'id': 'gersub'})}
 
             for info, data in r.iteritems():
@@ -107,7 +107,8 @@ class source:
             if not url.startswith('http'): url = urlparse.urljoin(self.base_link, url)
 
             if self.base_link in url:
-                r = cache.get(client.request, 4, url)
+                oRequest = cRequestHandler(url)
+                r = oRequest.request()
                 r = dom_parser.parse_dom(r, 'meta', req='content')[0]
                 r = r.attrs['content']
                 r = re.findall('''url\s*=\s*([^'"]+)''', r, re.I)
@@ -122,8 +123,10 @@ class source:
     def __search(self, title):
         try:
             t = cleantitle.get(title)
-
-            r = cache.get(client.request, 4, urlparse.urljoin(self.base_link, self.search_link), post={'suchbegriff': title})
+            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, self.search_link))
+            oRequest.setRequestType(1)
+            oRequest.addParameters('suchbegriff', title)
+            r = oRequest.request()
             r = dom_parser.parse_dom(r, 'a', attrs={'class': 'ausgabe_1'}, req='href')
             r = [(i.attrs['href'], i.content) for i in r]
             r = [i[0] for i in r if cleantitle.get(i[1]) == t]

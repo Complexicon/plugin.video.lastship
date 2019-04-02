@@ -27,12 +27,11 @@ import re
 import urllib
 import urlparse
 
-from resources.lib.modules import cfscrape, cache
 from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
-
+from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
@@ -42,7 +41,6 @@ class source:
         self.base_link = 'http://filmpalast.to'
         self.search_link = '/search/title/%s'
         self.stream_link = 'stream/%s/1'
-        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -80,7 +78,10 @@ class source:
 
             query = urlparse.urljoin(self.base_link, url)
 
-            r = cache.get(self.scraper.get, 4, query).content
+            oRequest = cRequestHandler(query)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r= oRequest.request()
 
             quality = dom_parser.parse_dom(r, 'span', attrs={'id': 'release_text'})[0].content.split('&nbsp;')[0]
             quality, info = source_utils.get_release_quality(quality)
@@ -114,7 +115,10 @@ class source:
                 query = self.search_link % (urllib.quote_plus(title))
                 query = urlparse.urljoin(self.base_link, query)
 
-                r = cache.get(self.scraper.get, 4, query).content
+                oRequest = cRequestHandler(query)
+                oRequest.removeBreakLines(False)
+                oRequest.removeNewLines(False)
+                r= oRequest.request()
                 
                 r = dom_parser.parse_dom(r, 'article')
                 r = dom_parser.parse_dom(r, 'a', attrs={'class': 'rb'}, req='href')
