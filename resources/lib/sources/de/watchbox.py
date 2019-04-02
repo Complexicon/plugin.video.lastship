@@ -7,6 +7,7 @@ import simplejson
 from resources.lib.modules import cache
 from resources.lib.modules import justwatch
 from resources.lib.modules import tvmaze
+from resources.lib.modules import source_faultlog
 
 
 class source:
@@ -107,6 +108,7 @@ class source:
 
             return sources
         except:
+            source_faultlog.logFault(__name__, source_faultlog.tagScrape, link)
             return sources
 
     def resolve(self, url):

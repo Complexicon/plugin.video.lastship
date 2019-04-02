@@ -1,3 +1,7 @@
+[B]3.1.1~nightly7[/B]
+  02.04.2019
+- Netzkino, Watchbox und Zdf um "Fault Log" erweitert
+
 [B]3.1.1~nightly6[/B]
   28.03.2019
 - ZDF Scrapper Beta

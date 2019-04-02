@@ -1,12 +1,13 @@
 # -*- coding: UTF-8 -*-
 
-import json
 import requests
-import xbmc
+import simplejson
 
 from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser
+from resources.lib.modules import source_faultlog
+
 
 class source:
     def __init__(self):
@@ -23,9 +24,6 @@ class source:
             url = 'https://www.zdf.de/suche?q={}&from=&to=&attrs=&sender=&contentTypes=episode&sortBy=relevance&synth=true'.format(title)
             req = cache.get(requests.get, 6, url)
 
-            deb = 'ZDF' + 'Show' + str(req)
-            xbmc.log(deb,level=xbmc.LOGNOTICE)
-
             divs = dom_parser.parse_dom(req.text, 'article', attrs={'class': 'b-content-teaser-item'})
 
             for div in divs:
@@ -40,6 +38,7 @@ class source:
             return episodes
 
         except:
+            source_faultlog.logFault(__name__, source_faultlog.tagSearch)
             return
 
     def episode(self, episodes, imdb, tvdb, title, premiered, season, episode):
@@ -60,9 +59,6 @@ class source:
             header = self.header
             req = cache.get(requests.get, 6, url, headers=header)
 
-            deb = 'ZDF' + 'Episode' + str(req)
-            xbmc.log(deb,level=xbmc.LOGNOTICE)
-
             data = req.json()
             link = data['mainVideoContent']['http://zdf.de/rels/target']['http://zdf.de/rels/streams/ptmd-template']
             return link
@@ -76,19 +72,13 @@ class source:
             if not url:
                 return sources
 
-            xbmc.log(url, level=xbmc.LOGNOTICE)
             head = url.split('{')
             tail = head[1].split('}')
             link = head[0] + self.playerId + tail[1]
 
-            #print(link)
-
             url = 'https://api.zdf.de' + link
             header = self.header
             req = cache.get(requests.get, 6, url, headers=header)
-
-            deb = 'ZDF' + 'Source' + str(req)
-            xbmc.log(deb,level=xbmc.LOGNOTICE)
 
             data = req.json()
             link = data['priorityList'][0]['formitaeten'][0]['qualities'][0]['audio']['tracks'][0]['uri']
@@ -102,6 +92,7 @@ class source:
                             'debridonly': False})
             return sources
         except:
+            source_faultlog.logFault(__name__,source_faultlog.tagScrape, link)
             return sources
 
     def resolve(self, url):
