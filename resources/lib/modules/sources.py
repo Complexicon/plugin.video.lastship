@@ -180,7 +180,7 @@ class sources:
                 item.addContextMenuItems(cm)
                 item.setInfo(type='Video', infoLabels= meta)
 
-                ## Notwendig fÃ¼r Library Exporte ##
+                ## Notwendig für Library Exporte ##
 
                 ## Amazon Scraper Details ##
                 if "amazon" in label.lower():
@@ -1084,8 +1084,8 @@ class sources:
 
         items = [i for i in items if ('autoplay' in i and i['autoplay'] == True) or not 'autoplay' in i]
 
-        if control.setting('autoplay.sd') == 'false':
-            items = [i for i in items if i['quality'] in ['4K', '1440p', '1080p', '720p', 'HD']]
+        if control.setting('autoplay.sd') == 'true':
+            items = [i for i in items if not i['quality'] in ['4K', '1440p', '1080p', 'HD']]
 
         u = None
 
@@ -1123,7 +1123,7 @@ class sources:
         return u
 
     def errorForSources(self):
-        control.infoDialog("Keine Streams verfÃ¼gbar", sound=False, icon='INFO')
+        control.infoDialog("Keine Streams verfügbar", sound=False, icon='INFO')
 
 
     def getLanguage(self):
@@ -1205,7 +1205,7 @@ class sources:
         else:
             pass
 
-        self.hostblockDict = [] #Altbestand. WofÃ¼r?
+        self.hostblockDict = [] #Altbestand. Wofür?
 
     def getPremColor(self, n):
         if n == '0': n = 'blue'

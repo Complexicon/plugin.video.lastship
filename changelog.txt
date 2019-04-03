@@ -1,3 +1,7 @@
+[B]3.1.1~nightly8[/B]
+  03.04.2019
+- Autoplay SD wiederhergestellt
+
 [B]3.1.1~nightly7[/B]
   02.04.2019
 - Netzkino, Watchbox und Zdf um "Fault Log" erweitert
