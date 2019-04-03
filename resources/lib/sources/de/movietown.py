@@ -26,23 +26,20 @@ import re
 import urllib
 import urlparse
 
-from resources.lib.modules import cache
-from resources.lib.modules import cfscrape
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_faultlog
-
+from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
         self.domains = ['movietown.org']
-        self.base_link = 'http://movietown.org'
+        self.base_link = 'https://movietown.org'
         self.search_link = '/search?q=%s'
-        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -82,8 +79,10 @@ class source:
                 return sources
 
             query = urlparse.urljoin(self.base_link, url)
-
-            r = cache.get(self.scraper.get, 4, query).content
+            oRequest = cRequestHandler(query)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
 
             r = dom_parser.parse_dom(r, 'div', attrs={'id': 'ko-bind'})
             r = dom_parser.parse_dom(r, 'table', attrs={'class': 'links-table'})
@@ -123,8 +122,10 @@ class source:
             query = urlparse.urljoin(self.base_link, query)
 
             t = [cleantitle.get(i) for i in set(titles) if i]
-
-            r = cache.get(self.scraper.get, 4, query).content
+            oRequest = cRequestHandler(query)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
 
             r = dom_parser.parse_dom(r, 'figure', attrs={'class': 'pretty-figure'})
             r = dom_parser.parse_dom(r, 'figcaption')

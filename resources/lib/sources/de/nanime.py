@@ -27,14 +27,12 @@ import urllib
 import urlparse
 
 from resources.lib.modules import anilist
-from resources.lib.modules import cache
-from resources.lib.modules import cfscrape
 from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_faultlog
 from resources.lib.modules import source_utils
 from resources.lib.modules import tvmaze
-
+from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
@@ -44,7 +42,7 @@ class source:
         self.domains = ['nanime.to']
         self.base_link = 'https://nanime.to'
         self.search_link = '/?s=%s'
-        self.scraper = cfscrape.create_scraper()
+
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -65,7 +63,10 @@ class source:
                 return
 
             query = urlparse.urljoin(self.base_link, url)
-            content = cache.get(self.scraper.get, 4, query).content
+            oRequest = cRequestHandler(query)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            content = oRequest.request()
 
             links = dom_parser.parse_dom(content, 'div', attrs={'id': 'seasons'})
             links = dom_parser.parse_dom(links, 'div', attrs={'class': 'se-c'})
@@ -89,7 +90,10 @@ class source:
                 return sources
 
             query = urlparse.urljoin(self.base_link, url)
-            content = cache.get(self.scraper.get, 4, query).content
+            oRequest = cRequestHandler(query)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            content = oRequest.request()
 
             quality = dom_parser.parse_dom(content, 'span', attrs={'class': 'qualityx'})[0].content
             links = dom_parser.parse_dom(content, 'div', attrs={'id': 'playex'})[0]
@@ -116,8 +120,10 @@ class source:
 
             query = self.search_link % (urllib.quote_plus(titles[0]))
             query = urlparse.urljoin(self.base_link, query)
-
-            content = cache.get(self.scraper.get, 4, query).content
+            oRequest = cRequestHandler(query)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            content = oRequest.request()
 
             links = dom_parser.parse_dom(content, 'div', attrs={'class': 'result-item'})
             links = [(dom_parser.parse_dom(i, 'div', attrs={'class': 'title'})[0], dom_parser.parse_dom(i, 'span', attrs={'class': 'year'})[0].content) for i in links]
