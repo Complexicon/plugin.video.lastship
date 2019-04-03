@@ -23,7 +23,6 @@
 # Addon Provider: LastShip
 
 import urlparse
-import web_pdb
 from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser
@@ -95,7 +94,6 @@ class source:
             oRequest.removeNewLines(False)
             content = oRequest.request()
             content = client.request(url)
-            #web_pdb.set_trace()
             url = dom_parser.parse_dom(content, 'iframe')[0].attrs['src']
 
             recap = recaptcha_app.recaptchaApp()
@@ -106,7 +104,6 @@ class source:
             if key != "" and "skipped" not in key.lower():
                 content = client.request(url)
                 content2 = cRequestHandler(url, caching=False).request()
-                #web_pdb.set_trace()
                 s = dom_parser.parse_dom(content, 'input', attrs={'name': 's'})[0].attrs['value']
                 link = client.request(url + '?t=%s&s=%s' % (key, s), output='geturl')
                 oRequest = cRequestHandler(url + '?t=%s&s=%s' % (key, s))
