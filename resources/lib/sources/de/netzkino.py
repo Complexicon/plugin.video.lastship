@@ -34,6 +34,7 @@ from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import justwatch
 from resources.lib.modules import source_utils
+from resources.lib.modules import source_faultlog
 
 
 class source:
@@ -86,7 +87,9 @@ class source:
 
             return sources
         except:
+            source_faultlog.logFault(__name__,source_faultlog.tagScrape, url)
             return sources
+
 
     def resolve(self, url):
         return url
@@ -111,5 +114,9 @@ class source:
                 return source_utils.strip_domain(r[0])
             return ""
 
+
         except:
-            return
+            try:
+                source_faultlog.logFault(__name__, source_faultlog.tagSearch)
+            except:
+                return
