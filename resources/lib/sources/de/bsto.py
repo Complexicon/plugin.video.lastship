@@ -110,8 +110,6 @@ class source:
                 links2 = oRequest.getHeaderLocationUrl()
                 links3 = oRequest.request()
                 link3 = oRequest.getHeaderLocationUrl()
-
-                web_pdb.set_trace()
                 return link
             elif not response or "skipped" in key.lower():
                 return
