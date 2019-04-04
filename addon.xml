@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.lastship" version="3.1.1~nightly9" name="Lastship" provider-name="Lastship">
+<addon id="plugin.video.lastship" version="3.1.1~nightly10" name="Lastship" provider-name="Lastship">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="repository.lastship" version="1.0.2" />
@@ -27,27 +27,15 @@
     			<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
 		</assets>
 		<news>
-- Update HDFilme
-- Update Moviedreams
-- Add Amazon Addon Auswahl
-- TMovie entfernt
-- Update settings.xml
-- Update Netflix
-- Fix HDKino
-- Kurz FAQ im Menue
-- Fix Trakt Bugfix
-- Fix View Typ
-- Fanart/Poster Quelle Auswahlmoeglichkeit
-- Kontex-Menue Verwaltung in den Einstellungen moeglich
-- Zufallswiedergabe entfernt
-- Doppelter Netflix Verfuegbarkeitscheck
-- Fix SD-Autoplay Filter
-- Neu: watchbox
-- Fix Error durch Widget im Log
-- Auswahl von Poster und Fanart in den Kategorien moeglich
-- bessere Treffergenauigkeit für Netflix, Netzkino und Watchbox
-- Watchbox und Netzkino als Premium markiert
-  und viele weitere Updates stehen im Changelog
+- Fix View Typ in movies.py
+- Autoplay-Qualität auswählbar
+- Netzkino, Watchbox und Zdf um "Fault Log" erweitert
+- ZDF Scrapper Beta
+- Neu Justwatch Scraper
+- Fix Cloudflare
+- Fix HdFilme.net
+- Zufallswiedergabe wieder hinzugefügt 
+- Fix Suche für Netflix, Netzkino und Watchbox
 		</news>
 	</extension>
 </addon>

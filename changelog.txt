@@ -1,3 +1,7 @@
+[B]3.1.1~nightly10[/B]
+- Fix View Typ in movies.py
+Ansichten werden nun auch wieder auf den Folgeseiten korrekt angezeigt
+
 [B]3.1.1~nightly9[/B]
   04.04.2019
 - Autoplay-Qualität auswählbar
@@ -28,7 +32,7 @@
 [B]3.1.1~nightly3[/B]
   26.03.2019
 - Fix Cloudflare
-- Fic HdFilme.net
+- Fix HdFilme.net
 
 [B]3.1.1~nightly2[/B]
   26.03.2019
