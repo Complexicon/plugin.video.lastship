@@ -1083,10 +1083,19 @@ class sources:
         items = [i for i in items if not i in filter]
 
         items = [i for i in items if ('autoplay' in i and i['autoplay'] == True) or not 'autoplay' in i]
+        
+        AutoQualy = control.setting('autoplay.sd')
 
-        if control.setting('autoplay.sd') == 'true':
-            items = [i for i in items if not i['quality'] in ['4K', '1440p', '1080p', 'HD']]
-
+        if AutoQualy == '1': #SD
+            items = [i for i in items if not i['quality'] in ['4K', '1440p', '1080p', '720p', 'HD']]
+        else:
+            pass
+        if AutoQualy == '2': #HD
+            items = [i for i in items if i['quality'] in ['4K', '1440p', '1080p', '720p', 'HD']]
+        else:
+            pass
+        #SD + HD
+        
         u = None
 
         header = control.addonInfo('name')

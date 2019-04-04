@@ -97,7 +97,8 @@
     </category>
     <category label="Wiedergabe">
         <setting id="hosts.mode" type="enum" label="Standard-Aktion" values="Dialog|Verzeichnis|Autoplay" default="1" />
-        <setting id="autoplay.mode" type="bool" label="Ausblenden der Hoster" visible="eq(-1,2)" default="true" />
+        <setting id="autoplay.sd" type="enum" label="Autoplay Qualität" values="SD + HD|SD|HD" visible="eq(-1,2)" default="0" />
+        <setting id="autoplay.mode" type="bool" label="Ausblenden der Hoster" visible="eq(-2,2)" default="true" />
         <setting id="progress.dialog" type="enum" label="Fortschrittsdialog" values="Vordergrund|Hintergrund" default="0" />
         <setting id="prem.identify" type="enum" label="Textfarbe für Premium-Links" values="Blau|Rot|Gelb|Altrosa|Cyan|Grasgrün|Gold|Magenta|Gelbgrün|Ohne Farbe" default="0" />
         <setting id="preemptive.termination" type="bool" label="Streamsuche vorzeitig abbrechen" default="False" />
@@ -110,7 +111,6 @@
         <setting id="crefresh" type="bool" label="Verzeichnis neu laden" default="false" />
         <setting type="lsep" label="Dateinanbieter-Filter" />
         <setting id="hosts.quality" type="enum" label="Höchste Qualität" values="4K|1440p|1080p|720p|480p" default="0" />
-        <setting id="autoplay.sd" type="bool" label="Nur SD-Anbieter in Auto-Play" default="false" />
         <setting id="sources.extrainfo" type="bool" label="Zusatzinfo für Quellen anzeigen" default="true" />
         <setting id="HEVC" type="bool" label="HEVC" default="true" />
         <setting id="hosts.sort.provider" type="bool" label="Nach Indexseiten sortieren" default="false" />
