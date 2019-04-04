@@ -1,6 +1,6 @@
 [B]4.0.0~rework1[/B]
   03.04.2019
-- Autoplay Qualität auswählbar
+- Autoplay-Qualität auswählbar
 
 [B]3.1.1~nightly6[/B]
   28.03.2019
