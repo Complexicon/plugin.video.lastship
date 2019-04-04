@@ -1251,6 +1251,7 @@ class movies:
 
         control.content(syshandle, 'movies')
         control.directory(syshandle, cacheToDisc=True)
+        control.sleep(200)
         views.setView('movies', {'skin.estuary': 55, 'skin.confluence': 500})
 
 

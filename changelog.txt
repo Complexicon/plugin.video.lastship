@@ -1,3 +1,7 @@
+[B]4.0.0~rework2[/B]
+- Fix View Typ in movies.py
+Ansichten werden nun auch wieder auf den Folgeseiten korrekt angezeigt
+
 [B]4.0.0~rework1[/B]
   03.04.2019
 - Autoplay-Qualität auswählbar
