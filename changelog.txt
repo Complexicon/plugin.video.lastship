@@ -1,6 +1,6 @@
 [B]3.1.1~nightly9[/B]
   04.04.2019
-- Autoplay Qualität auswählbar
+- Autoplay-Qualität auswählbar
 
 [B]3.1.1~nightly8[/B]
   03.04.2019
