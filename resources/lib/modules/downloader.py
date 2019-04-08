@@ -98,7 +98,19 @@ def download(name, image, url):
             control.makeFile(dest)
             ext = os.path.splitext(urlparse.urlparse(url).path)[1][1:]
             if not ext in ['mp4', 'mkv', 'flv', 'avi', 'mpg']: ext = 'mp4'
-            dest = os.path.join(dest, 'Season %01d' % int(content[0][1]))
+            DownloadSeasonName = control.setting('Download.Season.Name')
+            if DownloadSeasonName == '0':
+                dest = os.path.join(dest, 'Season %01d' % int(content[0][1]))
+            else:
+                pass
+            if DownloadSeasonName == '1':
+                dest = os.path.join(dest, 'S%01d' % int(content[0][1]))
+            else:
+                pass
+            if DownloadSeasonName == '2':
+                dest = os.path.join(dest, 'Staffel %01d' % int(content[0][1]))
+            else:
+                pass
             control.makeFile(dest)
             dest = os.path.join(dest, transname + ' ' + episode[1] + '.' + ext)
     else: #Option für Benennung auf Deutsch AUS
@@ -130,7 +142,19 @@ def download(name, image, url):
             control.makeFile(dest)
             dest = os.path.join(dest, transtvshowtitle)
             control.makeFile(dest)
-            dest = os.path.join(dest, 'Season %01d' % int(content[0][1]))
+            DownloadSeasonName = control.setting('Download.Season.Name')
+            if DownloadSeasonName == '0':
+                dest = os.path.join(dest, 'Season %01d' % int(content[0][1]))
+            else:
+                pass
+            if DownloadSeasonName == '1':
+                dest = os.path.join(dest, 'S%01d' % int(content[0][1]))
+            else:
+                pass
+            if DownloadSeasonName == '2':
+                dest = os.path.join(dest, 'Staffel %01d' % int(content[0][1]))
+            else:
+                pass
             control.makeFile(dest)
             ext = os.path.splitext(urlparse.urlparse(url).path)[1][1:]
             if not ext in ['mp4', 'mkv', 'flv', 'avi', 'mpg']: ext = 'mp4'

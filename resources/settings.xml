@@ -227,8 +227,11 @@
     <category label="Bibliothek">
         <setting id="library.movie" type="folder" label="Filme" default="special://userdata/addon_data/plugin.video.lastship/Movies" />
         <setting id="library.tv" type="folder" label="TV-Serien" default="special://userdata/addon_data/plugin.video.lastship/TVShows" />
-        <setting id="Ordnerstruktur.auf.Deutsch" type="bool" label="Ordner- und Dateistrukur der Bibliothek auf Deutsch" default="false" />
-        <setting type="text" label="[COLOR blue]Zum Importieren als Medienquelle hinzufügen.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Zum Importieren müssen die Ordner als Medienquelle hinzugefügt werden.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Es wird dringend abgeraten folgende Einstellungen bei[/COLOR]" />
+        <setting type="text" label="[COLOR blue]bestehender Bibliothek zu verändern![/COLOR]" />
+        <setting id="Ordnerstruktur.auf.Deutsch" type="bool" label="Ordner- und Dateistrukur mit deutschen Titeln" default="false" />
+        <setting id="Season.Name" type="enum" label="Staffelbenennung" values="Season|S|Staffel" default="0" />
         <setting type="lsep" label="Allgemeines" />
         <setting id="library.service.notification" type="bool" label="Benachrichtigung während des Updates zeigen" default="true" />
         <setting id="library.update" type="bool" label="Nach Hinzufügen von Inhalten die Bibliothek aktualisieren" default="true" />
@@ -242,12 +245,15 @@
         <setting id="library.importdelay" type="bool" label="Verzögerung für Episoden-Importierung (24h)" default="true" />
     </category>
     <category label="Downloads">
+        <setting type="text" label="[COLOR blue]Herunterladen ist standardmäßig deaktiviert.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Ordnerpfade müssen vollständig angegeben werden.[/COLOR]" />
         <setting id="downloads" type="bool" label="Herunterladen aktivieren" default="false" />
         <setting id="movie.download.path" type="folder" label="Filme" enable="!eq(-1,false)" default="" />
         <setting id="tv.download.path" type="folder" label="TV-Serien" enable="!eq(-2,false)" default="" />
-        <setting id="Download.auf.Deutsch" type="bool" label="Benennung der Filme/Serien auf Deutsch" enable="!eq(-3,false)" default="false" />
-        <setting type="text" label="[COLOR blue]Herunterladen ist standardmäßig deaktiviert.[/COLOR]" />
-        <setting type="text" label="[COLOR blue]Ordnerpfade müssen vollständig angegeben werden.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Es wird dringend abgeraten folgende Einstellungen bei[/COLOR]" visible="!eq(-3,false)" />
+        <setting type="text" label="[COLOR blue]bestehender Bibliothek zu verändern![/COLOR]" visible="!eq(-4,false)" />
+        <setting id="Download.Season.Name" type="enum" label="Staffelbenennung" values="Season|S|Staffel" visible="!eq(-5,false)" default="0" />
+        <setting id="Download.auf.Deutsch" type="bool" label="Benennung der Filme/Serien auf Deutsch" visible="!eq(-6,false)" default="false" />
     </category>
         <category label="FAQ">
         <setting id="hilfe1" type="bool" label="[COLOR blue]Kann ich helfen?[/COLOR]" default="false" />

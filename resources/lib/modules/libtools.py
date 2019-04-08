@@ -115,7 +115,19 @@ class lib_tools:
         show_folder = '%s (%s)' % (show_folder, year) if year else show_folder
         path = os.path.join(base_path, show_folder)
         if season:
-            path = os.path.join(path, 'Season %s' % season)
+            seasonname = control.setting('Season.Name')
+            if seasonname == '0':
+                path = os.path.join(path, 'Season %s' % season)
+            else:
+                pass
+            if seasonname == '1':
+                path = os.path.join(path, 'S%s' % season)
+            else:
+                pass
+            if seasonname == '2':
+                path = os.path.join(path, 'Staffel %s' % season)
+            else:
+                pass
         return path
 
 class libmovies:
