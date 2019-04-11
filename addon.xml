@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.lastship" version="4.0.0~rework5" name="Lastship" provider-name="Lastship">
+<addon id="plugin.video.lastship" version="4.0.0" name="Lastship" provider-name="Lastship">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="repository.lastship" version="1.0.2" />
@@ -22,17 +22,14 @@
 		<assets>
 			<icon>icon.png</icon>
 			<fanart>fanart.jpg</fanart>
-    			<screenshot>resources/screenshots/screenshot-01.jpg</screenshot>
-    			<screenshot>resources/screenshots/screenshot-02.jpg</screenshot>
-    			<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
-                <screenshot>resources/screenshots/screenshot-04.jpg</screenshot>
-                <screenshot>resources/screenshots/screenshot-05.jpg</screenshot>
+				<screenshot>resources/screenshots/screenshot-01.jpg</screenshot>
+				<screenshot>resources/screenshots/screenshot-02.jpg</screenshot>
+				<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
+				<screenshot>resources/screenshots/screenshot-04.jpg</screenshot>
+				<screenshot>resources/screenshots/screenshot-05.jpg</screenshot>
 		</assets>
 		<news>
-- neues Icon
-- Fix View Typ in movies.py
-- Autoplay-Qualität auswählbar
-- neue Screenshots
+		Die aktuellsten Änderungen findest du im Changelog oder besuche uns im Forum: [COLOR blue]https://lastship.ch[/COLOR]
 		</news>
 	</extension>
 </addon>

@@ -1,48 +1,22 @@
-[B]4.0.0~rework4[/B]
+[B]4.0.0[/B]
+- viele interne Änderungen um Wartungsarbeiten an Lastship zu vereinfachen.
 - Logfix (meta.pop)
-
-[B]4.0.0~rework4[/B]
 - Staffelbenennung auswählbar (Bibliothek und Download getrennt)
-
-[B]4.0.0~rework3[/B]
 - neue Screenshots
-
-[B]4.0.0~rework2[/B]
+- neues Icon
 - Fix View Typ in movies.py
-Ansichten werden nun auch wieder auf den Folgeseiten korrekt angezeigt
-
-[B]4.0.0~rework1[/B]
-  03.04.2019
+  Ansichten werden nun auch wieder auf den Folgeseiten korrekt angezeigt
 - Autoplay-Qualität auswählbar
-
-[B]3.1.1~nightly6[/B]
-  28.03.2019
-- ZDF Scrapper Beta
+- ZDF-Scrapper Beta
   (nur Serien des letzen Jahres)
-
-[B]3.1.1~nightly5[/B]
-  28.03.2019
-- Wiederherstellung der Arbeit aus 3.0.10~nightly 23 (untergegangen wegen bekannten "alte Dateien"-Vorfall (internes, nicht in offiziellen Changelog des nächsten Releases aufnehmen))
-
-[B]3.1.1~nightly4[/B]
-  28.03.2019
 - Neues Justwatch Modul
 - Hoffentlich vorerst endgültiger Fix für Netzkino und Netflix
 - Watchbox Serien Defekt (momentan Kampagne TV Now)
-
-[B]3.1.1~nightly3[/B]
-  26.03.2019
 - Fix Cloudflare
-- Fic HdFilme.net
-
-[B]3.1.1~nightly2[/B]
-  26.03.2019
+- Fix HdFilme.net
 - Zufallswiedergabe wieder hinzugefügt (Userwunsch)
-
-[B]3.1.1~nightly1[/B]
-  26.03.2019
 - Fix Suche für Netflix, Netzkino und Watchbox
-  Die Suche hat bis jetzt nur den ersten treffer genommen
+  Die Suche hat bis jetzt nur den ersten treffer genommen.
 
 [B]3.1.0[/B]
   25.03.2019
