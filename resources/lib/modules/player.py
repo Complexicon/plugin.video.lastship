@@ -66,6 +66,24 @@ class player(xbmc.Player):
 
             item = control.item(path=url)
             item.setArt({'icon': thumb, 'thumb': thumb, 'poster': poster, 'tvshow.poster': poster, 'season.poster': poster})
+            
+            meta.pop('fanart2', None)
+            meta.pop('imdb', None)
+            meta.pop('metacache', None)
+            meta.pop('next', None)
+            meta.pop('poster3', None)
+            meta.pop('tmdb', None)
+            meta.pop('tmdb_id', None)
+            meta.pop('poster', None)
+            meta.pop('banner', None)
+            meta.pop('tvdb', None)
+            meta.pop('tvdb_id', None)
+            meta.pop('fanart', None)
+            meta.pop('imdb_id', None)
+            meta.pop('label', None)
+            meta.pop('thumb', None)
+            meta.pop('unaired', None)
+                
             item.setInfo(type='Video', infoLabels = meta)
             # temp. foxx fix start
             if "foxx.to" in url:

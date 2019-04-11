@@ -1,4 +1,7 @@
 [B]4.0.0~rework4[/B]
+- Logfix (meta.pop)
+
+[B]4.0.0~rework4[/B]
 - Staffelbenennung auswählbar (Bibliothek und Download getrennt)
 
 [B]4.0.0~rework3[/B]
