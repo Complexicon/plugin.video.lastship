@@ -1,3 +1,6 @@
+[B]3.1.1~nightly13[/B]
+- Logfix (meta.pop)
+
 [B]3.1.1~nightly12[/B]
 - Auswahl der Staffelbenennung (Download und Bibliothek getrennt)
 
