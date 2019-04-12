@@ -1,110 +1,47 @@
 # -*- coding: utf-8 -*-
-from __future__ import division
-import urllib, urllib2, re, sys
+import re, sys, urllib, urllib2
 from time import sleep
 from urlparse import urlparse
-from jsunfuck import JSUnfuck
 
 
-def GetItemAlone(string, separator=' '):
-    l = len(string) - 1
-    ret = ''
-    i = -1
-    p = 0
-    a = 0
-    b = 0
-    c1 = 0
-    c2 = 0
-    n = False
-    last_char = ''
-
-    s = False
-
-    while (i < l):
-        i += 1
-        ch = string[i]
-        ret = ret + ch
-        n = False
-
-        if (ch in separator) and not p and not a and not b and not c1 and not c2 and not n and (i > 0):
-            return ret[:-1]
-
-        if (ch.isspace()):
-            continue
-
-        if ch == '"' and not GetPrevchar(string, i) == '\\' and not c2:
-            c1 = 1 - c1
-        if ch == "'" and not GetPrevchar(string, i) == '\\' and not c1:
-            c2 = 1 - c2
-
-        if not c1 and not c2:
-            if ch == '(':
-                p += 1
-            elif ch == ')':
-                p -= 1
-            elif ch == '{':
-                a += 1
-            elif ch == '}':
-                a -= 1
-            elif ch == '[':
-                b += 1
-            elif ch == ']':
-                b -= 1
-            if ch == '.' and not ((last_char in '0123456789') or (string[i + 1] in '0123456789')):
-                n = True
-
-        if (ch in separator) and not p and not a and not b and not c1 and not c2 and not n and (i > 0):
-            return ret
-        last_char = ch
-    return ret
+def cf_sample_domain_function(func_expression, domain):
+    parameter_start_index = func_expression.find('}(') + 2
+    sample_index = cf_parse_expression(func_expression[parameter_start_index: func_expression.rfind(')))')])
+    return ord(domain[int(sample_index)])
 
 
-def solvecharcode(chain, t):
-    v = chain.find('t.charCodeAt') + 12
-    if v == 11:
-        return chain
-    dat = GetItemAlone(chain[v:], ')')
-    r = parseInt(dat)
-    v = ord(t[int(r)])
-    chain = chain.replace('t.charCodeAt' + dat, '+' + str(v))
-    chain = chain.replace('(' + '+' + str(v) + ')', '+' + str(v))
-    return chain
-
-
-def checkpart(s, sens):
-    number = 0
-    p = 0
-    if sens == 1:
-        pos = 0
+def cf_arithmetic_op(op, a, b):
+    if op == '+':
+        return a + b
+    elif op == '/':
+        return a / float(b)
+    elif op == '*':
+        return a * float(b)
+    elif op == '-':
+        return a - b
     else:
-        pos = len(s) - 1
+        raise Exception('Unknown operation')
 
-    try:
-        while 1:
-            c = s[pos]
 
-            if ((c == '(') and (sens == 1)) or ((c == ')') and (sens == -1)):
-                p = p + 1
-            if ((c == ')') and (sens == 1)) or ((c == '(') and (sens == -1)):
-                p = p - 1
-            if (c == '+') and (p == 0) and (number > 1):
-                break
+def cf_parse_expression(expression, domain=None):
+    def _get_jsfuck_number(section):
+        digit_expressions = section.replace('!+[]', '1').replace('+!![]', '1').replace('+[]', '0').split('+')
+        return int(''.join(str(sum(int(digit_char) for digit_char in digit_expression[1:-1]))
+                           for digit_expression in digit_expressions))
 
-            number += 1
-            pos = pos + sens
-    except:
-        pass
-    if sens == 1:
-        return s[:number], number
+    if '/' in expression:
+        dividend, divisor = expression.split('/')
+        dividend = dividend[2:-1]
+        if domain:
+            divisor_a, divisor_b = divisor.split('))+(')
+            divisor_a = _get_jsfuck_number(divisor_a[5:])
+            divisor_b = cf_sample_domain_function(divisor_b, domain)
+            return _get_jsfuck_number(dividend) / float(divisor_a + divisor_b)
+        else:
+            divisor = divisor[2:-1]
+            return _get_jsfuck_number(dividend) / float(_get_jsfuck_number(divisor))
     else:
-        return s[-number:], number
-
-
-def parseInt(s):
-    v = JSUnfuck(s).decode(False)
-    v = re.sub('([^\(\)])\++', '\\1', v)
-    v = eval(v)
-    return v
+        return _get_jsfuck_number(expression[2:-1])
 
 
 class cCFScrape:
@@ -171,35 +108,27 @@ class cCFScrape:
                 entry.expires = sys.maxint
 
     @staticmethod
-    def _extract_js(htmlcontent, domain):
-        try:
-            rq = re.search('<div style="display:none;visibility:hidden;" id="(.*?)">(.*?)<\/div>', str(htmlcontent), re.DOTALL)
-            id = rq.group(1)
-            val = rq.group(2)
-            htmlcontent = re.sub(
-                r'function\(p\){var p = eval\(eval\(atob\(".*?"\)\+\(undefined\+""\)\[1\]\+\(true\+""\)\[0\]\+\(\+\(\+!\+\[\]\+\[\+!\+\[\]\]\+\(!!\[\]\+\[\]\)\[!\+\[\]\+!\+\[\]\+!\+\[\]\]\+\[!\+\[\]\+!\+\[\]\]\+\[\+\[\]\]\)\+\[\]\)\[\+!\+\[\]\]\+\(false\+\[0\]\+String\)\[20\]\+\(true\+""\)\[3\]\+\(true\+""\)\[0\]\+"Element"\+\(\+\[\]\+Boolean\)\[10\]\+\(NaN\+\[Infinity\]\)\[10\]\+"Id\("\+\(\+\(20\)\)\["to"\+String\["name"\]\]\(21\)\+"\)."\+atob\(".*?"\)\)\); return \+\(p\)}\(\);', "{};".format(rq.group(2)), str(htmlcontent))
-            http = float('0')
-        except:
-            http = len(domain)
-            pass
-        line1 = re.findall('var s,t,o,p,b,r,e,a,k,i,n,g,f, (.+?)={"(.+?)":\+*(.+?)};', str(htmlcontent))
-        varname = line1[0][0] + '.' + line1[0][1]
-        calc = parseInt(line1[0][2])
-        js = htmlcontent
-        js = re.sub(r"a\.value = ((.+).toFixed\(10\))?", r"\1", js)
-        js = re.sub(r"\s{3,}[a-z](?: = |\.).+", "", js).replace("t.length", str(len(domain)))
-        js = js.replace('; 121', '')
-        js = js.replace(
-            'function(p){return eval((true+"")[0]+"."+([]["fill"]+"")[3]+(+(101))["to"+String["name"]](21)[1]+(false+"")[1]+(true+"")[1]+Function("return escape")()(("")["italics"]())[2]+(true+[]["fill"])[10]+(undefined+"")[2]+(true+"")[3]+(+[]+Array)[10]+(true+"")[0]+"("+p+")")}',
-            't.charCodeAt')
-        js = re.sub(r"[\n\\']", "", js)
-        js = solvecharcode(js, domain)
+    def _extract_js(body, domain):
+        form_index = body.find('id="challenge-form"')
+        sub_body = body[form_index:]
+        if body.find('id="cf-dn-', form_index) != -1:
+            extra_div_expression = re.search('id="cf-dn-.*?>(.+?)<', sub_body).group(1)
+        js_answer = cf_parse_expression(re.search('setTimeout\(function\(.*?:(.*?)}', body, re.DOTALL).group(1))
+        builder = re.search("challenge-form'\);\s*;(.*);a.value", body, re.DOTALL).group(1)
+        lines = builder.replace(' return +(p)}();', '', 1).split(';')
 
-        htmlcontent = js
+        for line in lines:
+            if len(line) and '=' in line:
+                heading, expression = line.split('=', 1)
+                if 'eval(eval(' in expression:
+                    expression_value = cf_parse_expression(extra_div_expression)
+                elif 'function(p' in expression:
+                    expression_value = cf_parse_expression(expression, domain)
+                else:
+                    expression_value = cf_parse_expression(expression)
+                js_answer = cf_arithmetic_op(heading[-1], js_answer, expression_value)
 
-        AllLines = re.findall(';' + varname + '([*\-+])=([^;]+)', (htmlcontent))
-
-        for aEntry in AllLines:
-            calc = eval(format(calc, '.17g') + (aEntry[0]) + format(parseInt(aEntry[1]), '.17g'))
-        rep = calc + http
-        return format(rep, '.10f')
+        if '+ t.length' in body:
+            js_answer += len(domain)
+        ret = format(js_answer, '.10f')
+return (str(ret))
