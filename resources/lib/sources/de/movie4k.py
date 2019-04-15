@@ -31,8 +31,7 @@ from resources.lib.modules import client
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_faultlog
-from resources.lib.modules import cfscrape
-
+from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
@@ -41,7 +40,6 @@ class source:
         self.domains = ['movie4k.sg', 'movie4k.lol', 'movie4k.pe', 'movie4k.tv', 'movie.to', 'movie4k.me', 'movie4k.org', 'movie2k.cm', 'movie2k.nu', 'movie4k.am', 'movie4k.io']
         self._base_link = None
         self.search_link = '/movies.php?list=search&search=%s'
-        self.scraper = cfscrape.create_scraper()
 
     @property
     def base_link(self):
@@ -73,8 +71,10 @@ class source:
                 return
 
             url = urlparse.urljoin(self.base_link, url)
-
-            r = cache.get(self.scraper.get, 4, url).content
+            oRequest = cRequestHandler(url)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
 
             seasonMapping = dom_parser.parse_dom(r, 'select', attrs={'name': 'season'})
             seasonMapping = dom_parser.parse_dom(seasonMapping, 'option', req='value')
@@ -98,8 +98,10 @@ class source:
                 return sources
 
             url = urlparse.urljoin(self.base_link, url)
-
-            r = cache.get(self.scraper.get, 4, url).content
+            oRequest = cRequestHandler(url)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
             r = r.replace('\\"', '"')
 
             links = dom_parser.parse_dom(r, 'tr', attrs={'id': 'tablemoviesindex2'})
@@ -132,8 +134,10 @@ class source:
     def resolve(self, url):
         try:
             h = urlparse.urlparse(url.strip().lower()).netloc
-
-            r = cache.get(self.scraper.get, 4, url).content
+            oRequest = cRequestHandler(url)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
             r = r.rsplit('"underplayer"')[0].rsplit("'underplayer'")[0]
 
             u = re.findall('\'(.+?)\'', r) + re.findall('\"(.+?)\"', r)
@@ -142,7 +146,11 @@ class source:
 
             url = u[-1].encode('utf-8')
             if 'bit.ly' in url:
-                url = cache.get(self.scraper.get, 4, url).url
+                oRequest = cRequestHandler(url)
+                oRequest.removeBreakLines(False)
+                oRequest.removeNewLines(False)
+                oRequest.request()
+                url = oRequest.getHeaderLocationUrl()
             elif 'nullrefer.com' in url:
                 url = url.replace('nullrefer.com/?', '')
 
@@ -157,8 +165,10 @@ class source:
             q = urlparse.urljoin(self.base_link, q)
 
             t = [cleantitle.get(i) for i in set(titles) if i]
-
-            r = cache.get(self.scraper.get, 4, q).content
+            oRequest = cRequestHandler(q)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
 
             links = dom_parser.parse_dom(r, 'tr', attrs={'id': re.compile('coverPreview.+?')})
             tds = [dom_parser.parse_dom(i, 'td') for i in links]
@@ -192,7 +202,10 @@ class source:
             for domain in self.domains:
                 try:
                     url = 'http://%s' % domain
-                    r = cache.get(self.scraper.get, 4, url).content
+                    oRequest = cRequestHandler(url)
+                    oRequest.removeBreakLines(False)
+                    oRequest.removeNewLines(False)
+                    r = oRequest.request()
                     r = dom_parser.parse_dom(r, 'meta', attrs={'name': 'author'}, req='content')
                     if r and 'movie4k.io' in r[0].attrs.get('content').lower():
                         return url

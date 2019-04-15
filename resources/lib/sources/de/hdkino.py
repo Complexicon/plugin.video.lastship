@@ -25,14 +25,12 @@
 import re
 import urlparse
 
-from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
 from resources.lib.modules import duckduckgo
-from resources.lib.modules import client
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
-from resources.lib.modules import cfscrape
+from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
@@ -43,7 +41,6 @@ class source:
         self.search_link = '/search/%s'
         self.stream_link = '/embed.php?video_id=%s&provider=%s'
         self.year_link = self.base_link + '/index.php?a=year&q=%s&page=%s'
-        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -62,10 +59,12 @@ class source:
                 return sources
 
             query = urlparse.urljoin(self.base_link, url)
+            oRequest = cRequestHandler(query)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            r = oRequest.request()
 
-            r = cache.get(self.scraper.get, 4, query)
-
-            links = re.findall('data-video-id="(.*?)"\sdata-provider="(.*?)"', r.content)
+            links = re.findall('data-video-id="(.*?)"\sdata-provider="(.*?)"', r)
 
             for id, hoster in links:
                 valid, hoster = source_utils.is_host_valid(hoster, hostDict)
@@ -84,8 +83,11 @@ class source:
         try:
             link = self.stream_link % (url[0], url[1])
             link = urlparse.urljoin(self.base_link, link)
-            content = cache.get(self.scraper.get, 4, link)
-            stream =  re.findall('src=\"(.*?)" /></body>', content.content)[0]
+            oRequest = cRequestHandler(link)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            content = oRequest.request()
+            stream =  re.findall('src=\"(.*?)" /></body>', content)[0]
             return stream
         except:
             source_faultlog.logFault(__name__, source_faultlog.tagResolve)
@@ -98,9 +100,11 @@ class source:
             link = self.year_link % (year, "%s")
             stream = ""
             for i in range(1, 100, 1):
-                content = cache.get(self.scraper.get, 4, link % str(i))
-                x = content.content
-                links = re.findall(r'<a href=\"(.*?)\"(.*?)alt=\"(.*?)\"', content.content)
+                oRequest = cRequestHandler(link % str(i))
+                oRequest.removeBreakLines(False)
+                oRequest.removeNewLines(False)
+                content = oRequest.request()
+                links = re.findall(r'<a href=\"(.*?)\"(.*?)alt=\"(.*?)\"', content)
                 if len(links) == 0: return
 
                 for x in range(0, len(links) -1):

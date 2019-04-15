@@ -29,14 +29,11 @@ import urllib
 import urlparse
 import requests
 
-from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
-from resources.lib.modules import client
-from resources.lib.modules import directstream
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
-from resources.lib.modules import cfscrape
 from resources.lib.modules import source_faultlog
+from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
@@ -46,7 +43,6 @@ class source:
         self.base_link = 'https://hdfilme.net'
         self.search_link = '/movie-search?key=%s'
         self.get_link = 'movie/load-stream/%s/%s?server=1'
-        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -92,8 +88,11 @@ class source:
         try:
             if not url:
                 return sources
+            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, url))
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
 
-            moviecontent = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, url))
+            moviecontent = oRequest.request()
 
             url = url.replace('-info', '-stream')
             r = re.findall('(\d+)-stream(?:\?episode=(\d+))?', url)
@@ -101,21 +100,30 @@ class source:
 
             if "episode" in url:
                 #we want the current link
-                streamlink = re.findall(r'stream" data-episode-id="(.*?)"\sonclick\=\"event.preventDefault\(\)\;\sload_episode\(this\)\">((?s).*?)</a>', moviecontent.content)
+                streamlink = re.findall(r'stream" data-episode-id="(.*?)"\sonclick\=\"event.preventDefault\(\)\;\sload_episode\(this\)\">((?s).*?)</a>', moviecontent)
                 episode = int(re.findall(r'\?episode=(.*)', url)[0])
                 r = (r[0],streamlink[episode-1][0])
             else:
-                streamlink = dom_parser.parse_dom(moviecontent.content, 'a', attrs={'class': 'new'})
-                episode = int(re.findall(r'data-episode-id="(.*?)"', moviecontent.content)[0])
+                streamlink = dom_parser.parse_dom(moviecontent, 'a', attrs={'class': 'new'})
+                episode = int(re.findall(r'data-episode-id="(.*?)"', moviecontent)[0])
                 r = (r[0],episode)
 
-            moviesource = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.get_link % r), headers={'referer': urlparse.urljoin(self.base_link, url)})
-            foundsource = re.findall(r'window.urlVideo = (\".*?\");', moviesource.content)
+            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, self.get_link % r))
+            oRequest.addHeaderEntry('Referer', urlparse.urljoin(self.base_link, url))
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            moviesource = oRequest.request()
+            
+            foundsource = re.findall(r'window.urlVideo = (\".*?\");', moviesource)
             sourcejson = json.loads(foundsource[0])
 
-            moviesources = cache.get(self.scraper.get, 4, sourcejson)
-            streams = re.findall(r'/drive(.*?)\n', moviesources.content)
-            qualitys = re.findall(r'RESOLUTION=(.*?)\n', moviesources.content)
+            oRequest = cRequestHandler(sourcejson)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            moviesources = oRequest.request()
+
+            streams = re.findall(r'/drive(.*?)\n', moviesources)
+            qualitys = re.findall(r'RESOLUTION=(.*?)\n', moviesources)
             url_stream = re.findall(r'"(.*?)"', foundsource[0])
 
             for x in range(0, len(qualitys)):
@@ -142,7 +150,10 @@ class source:
 
             titles = [cleantitle.get(i) for i in set(titles) if i]
 
-            searchResult = cache.get(self.scraper.get, 4, query).content
+            oRequest = cRequestHandler(query)
+            oRequest.removeBreakLines(False)
+            oRequest.removeNewLines(False)
+            searchResult = oRequest.request()
 
             results = re.findall(r'<div class="title-product">\n<a href="(.*?) title="((?s).*?)">\n(.*?)</a>', searchResult)
         
