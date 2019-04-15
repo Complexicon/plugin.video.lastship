@@ -32,7 +32,8 @@ from resources.lib.modules import client
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_faultlog
-from resources.lib.modules.handler.requestHandler import cRequestHandler
+from resources.lib.modules import cfscrape
+
 
 class source:
     def __init__(self):
@@ -43,6 +44,7 @@ class source:
         self.search_link = '/Search.html?q=%s'
         self.get_links_epi = '/aGET/MirrorByEpisode/?Addr=%s&SeriesID=%s&Season=%s&Episode=%s'
         self.mirror_link = '/aGET/Mirror/%s&Hoster=%s&Mirror=%s'
+        self.scraper = cfscrape.scraper
 
     @property
     def base_link(self):
@@ -90,10 +92,8 @@ class source:
             url = urlparse.urljoin(self.base_link, data.get('url'))
             season = data.get('season')
             episode = data.get('episode')
-            oRequest = cRequestHandler(url)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
+
+            r = cache.get(self.scraper.get, 4, url).content
 
             if season and episode:
                 r = dom_parser.parse_dom(r, 'select', attrs={'id': 'SeasonSelection'}, req='rel')[0]
@@ -101,11 +101,7 @@ class source:
                 r = urlparse.parse_qs(r)
                 r = dict([(i, r[i][0]) if r[i] else (i, '') for i in r])
                 r = urlparse.urljoin(self.base_link, self.get_links_epi % (r['Addr'], r['SeriesID'], season, episode))
-                oRequest = cRequestHandler(r)
-                oRequest.removeBreakLines(False)
-                oRequest.removeNewLines(False)
-                r = oRequest.request()
-
+                r = self.scraper.get(r).content
 
             r = dom_parser.parse_dom(r, 'ul', attrs={'id': 'HosterList'})[0]
             r = dom_parser.parse_dom(r, 'li', attrs={'id': re.compile('Hoster_\d+')}, req='rel')
@@ -134,10 +130,7 @@ class source:
     def resolve(self, url):
         try:
             url = urlparse.urljoin(self.base_link, url)
-            oRequest = cRequestHandler(url)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
+            r = cache.get(self.scraper.get, 4, url).content
             r = json.loads(r)['Stream']
             r = [(dom_parser.parse_dom(r, 'a', req='href'), dom_parser.parse_dom(r, 'iframe', req='src'))]
             r = [i[0][0].attrs['href'] if i[0] else i[1][0].attrs['src'] for i in r if i[0] or i[1]][0]
@@ -152,10 +145,7 @@ class source:
 
     def __search(self, imdb):
         try:
-            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, self.search_link % imdb))
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
+            r = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.search_link % imdb)).content
             r = dom_parser.parse_dom(r, 'table', attrs={'id': 'RsltTableStatic'})
             r = dom_parser.parse_dom(r, 'tr')
             r = [(dom_parser.parse_dom(i, 'a', req='href'), dom_parser.parse_dom(i, 'img', attrs={'alt': 'language'}, req='src')) for i in r]
@@ -180,10 +170,7 @@ class source:
             for domain in self.domains:
                 try:
                     url = 'http://%s' % domain
-                    oRequest = cRequestHandler(url)
-                    oRequest.removeBreakLines(False)
-                    oRequest.removeNewLines(False)
-                    r = oRequest.request()
+                    r = self.scraper.get(url, timeout=2).content
                     r = dom_parser.parse_dom(r, 'meta', attrs={'name': 'keywords'}, req='content')
                     if r and 'kino.to' in r[0].attrs.get('content').lower():
                         return url

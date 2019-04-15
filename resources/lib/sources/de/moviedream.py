@@ -26,11 +26,12 @@ import re
 import urllib
 import urlparse
 
+from resources.lib.modules import cache
+from resources.lib.modules import client
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
-from resources.lib.modules.handler.requestHandler import cRequestHandler
-from resources.lib.modules.handler.ParameterHandler import ParameterHandler
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
@@ -40,7 +41,7 @@ class source:
         self.base_link = 'https://moviedream.ws'
         self.search_link = '/searchy.php?ser=%s'
         self.hoster_link = '/episodeholen3.php'
-
+        self.scraper = cfscrape.create_scraper()
         
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -85,20 +86,11 @@ class source:
 
             if season and episode:
                 r = urllib.urlencode({'imdbid': data['imdb'], 'language': 'de', 'season': season, 'episode': episode})
-                oRequest = cRequestHandler(urlparse.urljoin(self.base_link, self.hoster_link))
-                oRequest.addParameters('episode', episode)
-                oRequest.addParameters('season', season)
-                oRequest.addParameters('imdbid', data['imdb'])
-                oRequest.addParameters('language', de)
-                oRequest.setRequestType(1)
-                r = oRequest.request()
+                r = cache.get(self.scraper.post, 4, urlparse.urljoin(self.base_link, self.hoster_link), data = { 'episode' :  episode, 'season': season , 'imdbid': data['imdb'], 'language': "de"})
             else:
-                oRequest = cRequestHandler(url)
-                oRequest.removeBreakLines(False)
-                oRequest.removeNewLines(False)
-                r = oRequest.request()
+                r = cache.get(self.scraper.get, 4, url)
             
-            r = re.findall(r'<a href=\"https(.*?)\" targe(.*?)<img class=\"(.*?)linkbutton\"', r)
+            r = re.findall(r'<a href=\"https(.*?)\" targe(.*?)<img class=\"(.*?)linkbutton\"', r.content)
 
             for link, nothing, quli in r:
                 link = 'https' + link.replace("\r", "")
@@ -124,19 +116,13 @@ class source:
 
     def __search(self, imdb):
         try:
-            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, self.search_link % imdb))
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
-            r = re.findall(r'href=\'(.*?)\' style', r)
+            r = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, self.search_link % imdb))
+            r = re.findall(r'href=\'(.*?)\' style', r.content)
 
             url = None
             if len(r) > 1:
                 for i in r:
-                    oRequest = cRequestHandler(urlparse.urljoin(self.base_link, i))
-                    oRequest.removeBreakLines(False)
-                    oRequest.removeNewLines(False)
-                    data = oRequest.request()
+                    data = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, i))
                     data = re.compile('(imdbid\s*[=|:]\s*"%s"\s*,)' % imdb, re.DOTALL).findall(data)
 
                     if len(data) >= 1:

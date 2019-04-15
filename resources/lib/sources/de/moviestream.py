@@ -29,12 +29,14 @@ import urllib
 import urlparse
 import requests
 
+from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
+from resources.lib.modules import client
 from resources.lib.modules import directstream
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
+from resources.lib.modules import cfscrape
 from resources.lib.modules import source_faultlog
-from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
     def __init__(self):
@@ -44,6 +46,7 @@ class source:
         self.domains = ['movie-stream.eu']
         self.base_link = 'https://movie-stream.eu'
         self.search_link = '/search?q=%s'
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -90,27 +93,19 @@ class source:
             episode = data.get('episode')
             if season and episode:
                 #we want the current link
-                oRequest = cRequestHandler(urlparse.urljoin(self.base_link, url))
-                oRequest.removeBreakLines(False)
-                oRequest.removeNewLines(False)
-                moviecontent = oRequest.request()
-                seasons = re.findall(r'">Staffel((?s).*?)<div class="pull-right">', moviecontent)
+                moviecontent = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, url))
+                seasons = re.findall(r'">Staffel((?s).*?)<div class="pull-right">', moviecontent.content)
                 streamlinks.append(re.findall(r'<a href="(.*?)" class="btn btn-sm btn-inline btn', seasons[int(season) - 1])[int(episode) - 1])
             else:
-                oRequest = cRequestHandler(urlparse.urljoin(self.base_link, url))
-                oRequest.removeBreakLines(False)
-                oRequest.removeNewLines(False)
-                moviecontent = oRequest.request()
-                streamlinks = re.findall(r'<a href="(.*?)" class="btn btn-sm btn-inline btn', moviecontent)
+                moviecontent = cache.get(self.scraper.get, 4, urlparse.urljoin(self.base_link, url))
+                streamlinks = re.findall(r'<a href="(.*?)" class="btn btn-sm btn-inline btn', moviecontent.content)
 
 
             for x in range(0, len(streamlinks)):
-                oRequest = cRequestHandler(streamlinks[x])
-                oRequest.removeBreakLines(False)
-                oRequest.removeNewLines(False)
-                moviesource = oRequest.request()
-                streams = re.findall(r'class="responsive-embed-item" src="(.*?)" frameborder="', moviesource)
-                quality = re.findall(r'<h24><strong>Qualit\xc3\xa4t:</strong>  <span class="label label-primary">(.*)</span><br></h24>', moviesource)
+                moviesource = cache.get(self.scraper.get, 4, streamlinks[x])
+                streams = re.findall(r'class="responsive-embed-item" src="(.*?)" frameborder="', moviesource.content)
+
+                quality = re.findall(r'<po3><strong>Qualität:</strong>  <span class="label label-primary">(.*?)</span><br></po3>', moviesource.content)
 
                 if quality[0] == "CAM":
                     quality[0] = "SD"
@@ -136,10 +131,9 @@ class source:
             query = urlparse.urljoin(self.base_link, query)
 
             titles = [cleantitle.get(i) for i in set(titles) if i]
-            oRequest = cRequestHandler(query)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            searchResult = oRequest.request()
+
+            cache.cache_clear()
+            searchResult = cache.get(self.scraper.get, 4, query).content
             results = re.findall(r'<div class=\"movie-title\">\n((?s).*?)\"(.*?)\">(.*?)</a>', searchResult)
         
             usedIndex = 0
