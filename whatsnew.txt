@@ -1,10 +1,9 @@
 
 [B][COLOR yellow]Wichtig:[/COLOR][/B]
-Ab der Version 3.1.0 ist zwingend einmalig (bei ersten Update auf 3.1.0 oder darüber)
-eine neue Autorisierung von Trakt.tv sowie das Löschen des Metacaches
-notwendig um Fehler zu vermeiden!
-In Ausnahmefällen kann es notwendig sein alle Caches von Lastship sowie Kodi
-zu löschen.
+Mit der Version 3.1.0 ist zwingend eine neue Autorisierung von Trakt.tv
+sowie das Löschen des Metacaches notwendig um Fehler zu vermeiden!
+Sollte das alleine nicht helfen, zusätzlich Kodi-Cache löschen und
+in Lastship "Alle Caches leeren".
 
 [B][COLOR blue]Allgemein:[/COLOR][/B]
 - Für die Seite Serienstream.to (s.to) ist ein Benutzerkonto erforderlich.
@@ -19,10 +18,6 @@ zu löschen.
 [COLOR orange]_________________________________________________________________________[/COLOR]
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
-
-[B]4.0.0[/B]
-  XX.XX.XXXX
-- Rework
 
 [B]3.1.0[/B]
   25.03.2019
