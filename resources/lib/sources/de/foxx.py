@@ -28,12 +28,14 @@ import re
 import urllib
 import urlparse
 
-from resources.lib.modules import anilist
+from resources.lib.modules import anilist, cache
+from resources.lib.modules import cfscrape
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_faultlog
 from resources.lib.modules import source_utils
 from resources.lib.modules import tvmaze
-from resources.lib.modules.handler.requestHandler import cRequestHandler
+
+
 class source:
     def __init__(self):
         self.priority = 1
@@ -41,7 +43,7 @@ class source:
         self.domains = ['foxx.to']
         self.base_link = 'http://foxx.to'
         self.search_link = '/eu/?s=%s'
-
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -69,11 +71,7 @@ class source:
             if not url:
                 return
             url = urlparse.urljoin(self.base_link, url)
-
-            oRequest = cRequestHandler(url)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
+            r = cache.get(self.scraper.get, 4, url).content
 
             if season == 1 and episode == 1:
                 season = episode = ''
@@ -90,21 +88,12 @@ class source:
             if not url:
                 return sources
             url = urlparse.urljoin(self.base_link, url)
-
-            oRequest = cRequestHandler(url)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            temp= oRequest.request()
-
-            link = re.findall('iframe\ssrc="(.*?view\.php.*?)"', temp)[0]
+            temp = cache.get(self.scraper.get, 4, url)
+            link = re.findall('iframe\ssrc="(.*?view\.php.*?)"', temp.content)[0]
             if link.startswith('//'):
                 link = "https:" + link
-            oRequest = cRequestHandler(link)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            oRequest.addHeaderEntry('Referer', url)
-            r = oRequest.request()
 
+            r = cache.get(self.scraper.get, 4, link, headers={'referer': url}).content
             phrase = re.findall("(?:jbdaskgs|m3u8File)[^>]=[^>]'([^']+)", r)[0]
 
             if '\n' in phrase: return sources
@@ -112,12 +101,9 @@ class source:
             if "m3u8File" in r:
                 domain = re.findall("urlVideo\s=\s'(.*streamservice.online)", r)[0]
                 link = domain + '/hls/' + phrase + '/' + phrase + '.playlist.m3u8'
-                oRequest = cRequestHandler(link)
-                oRequest.removeBreakLines(False)
-                oRequest.removeNewLines(False)
-                moviesources = oRequest.request()
-                streams = re.findall(r'/drive(.*?)\n', moviesources)
-                qualitys = re.findall(r'RESOLUTION=(.*?)\n', moviesources)
+                moviesources = cache.get(self.scraper.get, 4, link)
+                streams = re.findall(r'/drive(.*?)\n', moviesources.content)
+                qualitys = re.findall(r'RESOLUTION=(.*?)\n', moviesources.content)
 
                 
 
@@ -149,10 +135,8 @@ class source:
         try:
             query = self.search_link % (urllib.quote_plus(titles[0]))
             query = urlparse.urljoin(self.base_link, query)
-            oRequest = cRequestHandler(query)
-            oRequest.removeBreakLines(False)
-            oRequest.removeNewLines(False)
-            r = oRequest.request()
+
+            r = cache.get(self.scraper.get, 4, query).content
             dom_parsed = dom_parser.parse_dom(r, 'div', attrs={'class': 'details'})
             links = [(dom_parser.parse_dom(i, 'a')[0], dom_parser.parse_dom(i, 'span', attrs={'class' : 'year'})[0].content) for i in dom_parsed]
 

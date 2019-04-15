@@ -27,6 +27,7 @@ import re
 import urlparse
 
 from resources.lib.modules import cache
+from resources.lib.modules import cfscrape
 from resources.lib.modules import client
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
@@ -91,9 +92,9 @@ class source:
             print "Recaptcha2 Key: " + key
 
             if key != "" and "skipped" not in key.lower():
-                link = client.request(url + '?token=%s' % key, output='geturl')
-                if link:
-                    return link
+                link = cfscrape.create_scraper().get(url + '?token=%s' % key)
+                if link.status_code != 404:
+                    return link.url
             return
         except:
             source_faultlog.logFault(__name__, source_faultlog.tagResolve)

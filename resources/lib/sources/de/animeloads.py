@@ -27,7 +27,9 @@ import urllib
 import urlparse
 
 from resources.lib.modules import anilist
+from resources.lib.modules import cache
 from resources.lib.modules import cleantitle
+from resources.lib.modules import client
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
 from resources.lib.modules import tvmaze
@@ -81,9 +83,8 @@ class source:
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
             url = data.get('url')
             episode = int(data.get('episode', 1))
-            
-            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, url))
-            r = oRequest.request()
+
+            r = cache.get(client.request, 4, urlparse.urljoin(self.base_link, url))
             r = dom_parser.parse_dom(r, 'div', attrs={'id': 'streams'})
 
             rels = dom_parser.parse_dom(r, 'ul', attrs={'class': 'nav'})
@@ -146,8 +147,7 @@ class source:
 
             t = [cleantitle.get(i) for i in set(titles) if i]
 
-            oRequest = cRequestHandler(urlparse.urljoin(self.base_link, query))
-            r = oRequest.request()
+            r = cache.get(client.request, 4, query)
             pageTitle = dom_parser.parse_dom(r, 'title')[0].content.lower()
             if "search" not in pageTitle and 'such' not in pageTitle:
                 if len([year in pageTitle and i in pageTitle for i in t]) > 0:

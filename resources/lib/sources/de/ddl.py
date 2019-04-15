@@ -38,11 +38,10 @@ class source:
         self.priority = 1
         self.language = ['de']
         self.domains = ['de.ddl.me']
-        self.base_link = 'https://de.ddl.me'
+        self.base_link = 'http://de.ddl.me'
         self.search_link = '/search_99/?q=%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):
-
         try:
             url = self.__get_direct_url(imdb)
             if not url: return
@@ -77,6 +76,7 @@ class source:
         try:
             if not url:
                 return sources
+
             data = urlparse.parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
@@ -86,22 +86,19 @@ class source:
 
             sid = data['sid'] if 'sid' in data else j.keys()[0]
             pcnt = int(j[sid]['1']) if '1' in j[sid] else 1
+
             for jHoster in j[sid]['links']:
-                jLinks = [i[3] for i in j[sid]['links'][jHoster] if i[5] != 'kartoffel']
+                jLinks = [i[3] for i in j[sid]['links'][jHoster] if i[5] == 'stream']
                 if len(jLinks) < pcnt: continue
 
                 h_url = jLinks[0]
                 valid, hoster = source_utils.is_host_valid(h_url, hostDict)
-                if valid == False: 
-                    valid, hoster = source_utils.is_host_valid(h_url, hostprDict)
-                    if valid:
-                        h_url = h_url if pcnt == 1 else 'stack://' + ' , '.join(jLinks)
-                        try: sources.append({'source': hoster, 'quality': 'SD', 'language': 'de', 'info' : '' if pcnt == 1 else 'multi-part', 'url': h_url, 'direct': False, 'debridonly': True})
-                        except: pass
-                else:
-                    h_url = h_url if pcnt == 1 else 'stack://' + ' , '.join(jLinks)
-                    try: sources.append({'source': hoster, 'quality': 'SD', 'language': 'de', 'info' : '' if pcnt == 1 else 'multi-part', 'url': h_url, 'direct': False, 'debridonly': False})
-                    except: pass
+                if not valid: continue
+
+                h_url = h_url if pcnt == 1 else 'stack://' + ' , '.join(jLinks)
+
+                try: sources.append({'source': hoster, 'quality': 'SD', 'language': 'de', 'info' : '' if pcnt == 1 else 'multi-part', 'url': h_url, 'direct': False, 'debridonly': False})
+                except: pass
 
             if len(sources) == 0:
                 raise Exception()
