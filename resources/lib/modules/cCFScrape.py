@@ -131,4 +131,4 @@ class cCFScrape:
         if '+ t.length' in body:
             js_answer += len(domain)
         ret = format(js_answer, '.10f')
-return (str(ret))
+        return (str(ret))
