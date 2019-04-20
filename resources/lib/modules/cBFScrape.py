@@ -1,23 +1,26 @@
 # -*- coding: utf-8 -*-
-import re, sys, urllib2
-from binascii import hexlify, unhexlify
+import re, urllib2, cookie_helper
 from urlparse import urlparse
-from resources.lib.modules import log_utils, pyaes, cookie_helper
+
 
 class cBFScrape:
-    COOKIE_NAME = 'BLAZINGFAST-WEB-PROTECT'
-
     def resolve(self, url, cookie_jar, user_agent):
-        web_pdb.set_trace()
-        headers = {'User-agent': user_agent, 'Referer': url}
+        Domain = re.sub(r'https*:\/\/([^/]+)(\/*.*)', '\\1', url)
+        headers = {'User-agent': user_agent,
+                   'Referer': url, 'Host': Domain,
+                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                   'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
+                   'Accept-Encoding': 'gzip, deflate',
+                   'Connection': 'keep-alive',
+                   'Upgrade-Insecure-Requests': '1',
+                   'Content-Type': 'text/html; charset=utf-8'}
 
         try:
             cookie_jar.load(ignore_discard=True)
         except Exception as e:
-            log_utils.log(e)
+            print e
 
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie_jar))
-
         request = urllib2.Request(url)
         for key in headers:
             request.add_header(key, headers[key])
@@ -28,14 +31,12 @@ class cBFScrape:
             response = e
 
         body = response.read()
-
         cookie_jar.extract_cookies(response, request)
         cookie_helper.check_cookies(cookie_jar)
-
         parsed_url = urlparse(url)
         blazing_answer = self._extract_js(body)
-        script_url = '%s://%s/blzgfst-shark/?bfu=/&blazing_answer=%s' % (parsed_url.scheme, parsed_url.netloc, blazing_answer)
-        request = urllib2.Request(script_url)
+        submit_url = '%s://%s/blzgfst-shark/?bfu=/&blazing_answer=%s' % (parsed_url.scheme, parsed_url.netloc, blazing_answer)
+        request = urllib2.Request(submit_url)
         for key in headers:
             request.add_header(key, headers[key])
         try:
@@ -59,40 +60,3 @@ class cBFScrape:
             blazing_answer = blazing_answer + blazing[x]
         blazing_answer = eval(blazing_answer)
         return blazing_answer
-
-    def checkBFCookie(self, content):
-        """
-        returns True if there seems to be a protection
-        """
-        return cBFScrape.COOKIE_NAME in content
-
-    # not very robust but lazieness...
-    def getCookieString(self, content):
-        vars = re.findall('toNumbers\("([^"]+)"', content)
-        if not vars:
-            log_utils.log('vars not found')
-            return False
-        value = self._decrypt(vars[2], vars[0], vars[1])
-        if not value:
-            log_utils.log('value decryption failed')
-            return False
-        pattern = '"%s=".*?";([^"]+)"' % cBFScrape.COOKIE_NAME
-        cookieMeta = re.findall(pattern, content)
-        if not cookieMeta:
-            log_utils.log('cookie meta not found')
-        cookie = "%s=%s;%s" % (cBFScrape.COOKIE_NAME, value, cookieMeta[0])
-        return cookie
-        # + toHex(BFCrypt.decrypt(c, 2, a, b)) +
-
-    def _decrypt(self, msg, key, iv):
-        msg = unhexlify(msg)
-        key = unhexlify(key)
-        iv = unhexlify(iv)
-        if len(iv) != 16:
-            log_utils.log("iv length is" + str(len(iv)) + " must be 16.")
-            return False
-        decrypter = pyaes.Decrypter(pyaes.AESModeOfOperationCBC(key, iv))
-        plain_text = decrypter.feed(msg)
-        plain_text += decrypter.feed()
-        f = hexlify(plain_text)
-        return f
