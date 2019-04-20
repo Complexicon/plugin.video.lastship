@@ -25,21 +25,21 @@
 import urlparse
 import re
 
-from resources.lib.modules import cache
-from resources.lib.modules import client
+
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import cleantitle
 from resources.lib.modules import source_faultlog
 from resources.lib.modules import hdgo
-
+from resources.lib.modules.handler.requestHandler import cRequestHandler
+from resources.lib.modules.handler.ParameterHandler import ParameterHandler
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
         self.domains = ['cinemaxx.cc']
-        self.base_link = 'http://cinemaxx.cc/'
+        self.base_link = 'https://cinemaxx.cc'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -78,7 +78,9 @@ class source:
                 season, episode, url = url
             url = urlparse.urljoin(self.base_link, url)
             
-            content = cache.get(client.request, 4, url)
+
+            oRequest = cRequestHandler(url)
+            content = oRequest.request()
             link = dom_parser.parse_dom(content, 'div', attrs={'id': 'full-video'})
             if season:
                 try:
@@ -121,13 +123,19 @@ class source:
             t = [cleantitle.get(i) for i in set(titles) if i]
 
             for title in titles:
-                params = {
-                    'do': 'search',
-                    'subaction': 'search',
-                    'story': title
-                }
 
-                result = cache.get(client.request, 4, self.base_link, post=params, headers={'Content-Type': 'application/x-www-form-urlencoded'}, error=True)
+                oRequest = cRequestHandler(self.base_link)
+                oRequest.addHeaderEntry('Referer', 'https://cinemaxx.cc')
+                oRequest.addParameters('do', 'search')
+                oRequest.addParameters('full_search', '0')
+                oRequest.addParameters('search_start', '0')
+                oRequest.addParameters('story', title)
+                oRequest.addParameters('subaction', 'search')
+                oRequest.addParameters('result_from', '1')
+                oRequest.addParameters('submit', 'submit')
+                oRequest.setRequestType(1)
+                result = oRequest.request()
+                
 
                 links = dom_parser.parse_dom(result, 'div', attrs={'class': 'shortstory-in'})
                 links = [dom_parser.parse_dom(i, 'a')[0] for i in links]
