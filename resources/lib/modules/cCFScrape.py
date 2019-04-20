@@ -48,6 +48,7 @@ class cCFScrape:
     def resolve(self, url, cookie_jar, user_agent):
         Domain = re.sub(r'https*:\/\/([^/]+)(\/*.*)', '\\1', url)
         headers = {'User-agent': user_agent,
+                   'Referer': url, 'Host': Domain,
                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                    'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
                    'Accept-Encoding': 'gzip, deflate',
