@@ -91,7 +91,6 @@ class source:
             oRequest = cRequestHandler(urlparse.urljoin(self.base_link, url))
             oRequest.removeBreakLines(False)
             oRequest.removeNewLines(False)
-            web_pdb.set_trace()
             moviecontent = oRequest.request()
 
             url = url.replace('-info', '-stream')
@@ -151,11 +150,11 @@ class source:
             titles = [cleantitle.get(i) for i in set(titles) if i]
 
             oRequest = cRequestHandler(query)
+            oRequest.addHeaderEntry('Referer', 'https://hdfilme.net/')
+            oRequest.addHeaderEntry('Upgrade-Insecure-Requests', '1')
             oRequest.removeBreakLines(False)
             oRequest.removeNewLines(False)
-            oRequest.addHeaderEntry('Referer', self.base_link)
-            oRequest.addHeaderEntry('DNT', '1')
-            oRequest.addHeaderEntry('Upgrade-Insecure-Requests', '1')
+            web_pdb.set_trace()
             searchResult = oRequest.request()
 
             results = re.findall(r'<div class="title-product">\n<a href="(.*?) title="((?s).*?)">\n(.*?)</a>', searchResult)
