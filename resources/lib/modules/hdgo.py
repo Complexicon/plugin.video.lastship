@@ -41,14 +41,22 @@ def getPlaylistLinks(url):
 
 
 def getStreams(url, sources, skiplast=True):
-    hdgostreams = getHDGOStreams(url)
-    if hdgostreams is not None:
-        if len(hdgostreams) > 1 and skiplast:
-            hdgostreams.pop(0)
-        quality = ["SD", "HD", "1080p", "2K", "4K"]
-        for i, stream in enumerate(hdgostreams):
-            sources.append({'source': 'hdgo.cc', 'quality': quality[i], 'language': 'de',
-                            'url': stream + '|Referer=' + url, 'direct': True,
+    if 'hdgo' in url:
+        hdgostreams = getHDGOStreams(url)
+        if hdgostreams is not None:
+            if len(hdgostreams) > 1 and skiplast:
+                hdgostreams.pop(0)
+            quality = ["SD", "HD", "1080p", "2K", "4K"]
+            for i, stream in enumerate(hdgostreams):
+                sources.append({'source': 'hdgo.cc', 'quality': quality[i], 'language': 'de',
+                                'url': stream + '|Referer=' + url, 'direct': True,
+                                'debridonly': False})
+    elif 'streamz' in url:
+        streamzstream = getstreamzStreams(url)
+        if streamzstream is not None:
+            stream = client.request(streamzstream, output='geturl')
+            sources.append({'source': 'streamz.cc', 'quality': "HD", 'language': 'de',
+                            'url': stream, 'direct': True,
                             'debridonly': False})
     return sources
 
@@ -61,5 +69,13 @@ def getHDGOStreams(url):
         request = re.findall("media:\s(\[.*?\])", request, re.DOTALL)[0]
         request = re.findall("'(.*?\')", request)
         return ["https:" + i.replace("'", "") for i in request if i[:2] == "//"]
+    except:
+        return None
+
+def getstreamzStreams(url):
+    try:
+        request = client.request(url, referer=url)
+        request = re.findall(r'{src: \'(.*?)\',type', request)[0]
+        return request
     except:
         return None
