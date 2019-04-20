@@ -379,6 +379,8 @@ class navigator:
         yes = control.yesnoDialog("Sind Sie sicher?", '', '')
         if not yes: return
         cache.cache_clear_all()
+        from resources.lib.modules.handler.requestHandler import cRequestHandler
+        cRequestHandler('dummy').clearCache()
         control.infoDialog("Vorgang abgeschlossen", sound=True, icon='INFO')
 
     def addDirectoryItem(self, name, query, thumb, icon, context=None, queue=False, isAction=True, isFolder=True):
