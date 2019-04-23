@@ -1,3 +1,6 @@
+[B]4.0.0~nightly4[/B]
+- Revert Serienstream.py
+
 [B]4.0.0~nightly3[/B]
 - Fix Serienstream (Treffer bei Suche verbessert)
 
