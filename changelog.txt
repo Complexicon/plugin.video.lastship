@@ -1,4 +1,10 @@
-[B]4.0.0[/B]
+[B]4.0.0~nightly3[/B]
+- Fix Serienstream (Treffer bei Suche verbessert)
+
+[B]4.0.0~nightly2[/B]
+- Update Cinemaxx Caching 
+
+[B]4.0.0~nighly1[/B]
 - viele interne Änderungen um Wartungsarbeiten an Lastship zu vereinfachen.
 - Logfix (meta.pop)
 - Staffelbenennung auswählbar (Bibliothek und Download getrennt)
@@ -19,7 +25,6 @@
   Die Suche hat bis jetzt nur den ersten treffer genommen.
 - Fix Blacingfast
 - Fix Cinemaxx.cc
-
 
 [B]3.1.0[/B]
   25.03.2019
