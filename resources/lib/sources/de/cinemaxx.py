@@ -79,7 +79,7 @@ class source:
             url = urlparse.urljoin(self.base_link, url)
             
 
-            oRequest = cRequestHandler(url)
+            oRequest = cRequestHandler(url, caching=False)
             content = oRequest.request()
             link = dom_parser.parse_dom(content, 'div', attrs={'id': 'full-video'})
             if season:
