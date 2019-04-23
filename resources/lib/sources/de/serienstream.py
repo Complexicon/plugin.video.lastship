@@ -140,11 +140,12 @@ class source:
             links = dom_parser.parse_dom(links, "a")
             links = [(i.attrs["href"], i.content) for i in links]
 
+            links = [i for i in links if any(title in cleantitle.get(i[1]) for title in t)]
+            links = [(list(i) + [difflib.SequenceMatcher(None, t[0], cleantitle.get(i[1])).ratio() ]) for i in links]
+            links = sorted(links, key = lambda i: i[2])  
             
-            links = [i[0] for i in links if any(title in cleantitle.get(i[1]) for title in t)]
-
             if len(links) > 0:
-                return source_utils.strip_domain(links[0])
+                return source_utils.strip_domain(links[len(links)-1][0])
             return ""
         except:
             try:
