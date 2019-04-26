@@ -1,3 +1,5 @@
+[B]4.0.0~nightly6[/B]
+- Update requestHandler.py (Fix Cloudflare)
 
 [B]4.0.0~nightly5[/B]
 - Fix Serienstream.py Update
