@@ -1,3 +1,6 @@
+[B]4.0.0~nightly7[/B]
+- Nachtrag Lizenzen
+
 [B]4.0.0~nightly6[/B]
 - Update requestHandler.py (Fix Cloudflare)
 
