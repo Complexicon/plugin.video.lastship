@@ -69,7 +69,7 @@ class cRequestHandler:
         return self.__sUrl + '?' + urllib.urlencode(self.__aParameters)
 
     def __setDefaultHeader(self):
-        self.addHeaderEntry('User-Agent', common.FF_USER_AGENT)
+        self.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0')
         self.addHeaderEntry('Accept-Language', 'de-de,de;q=0.8,en-us;q=0.5,en;q=0.3')
         self.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
         if self.compression:
@@ -101,7 +101,7 @@ class cRequestHandler:
         for key, value in self.__headerEntries.items():
             oRequest.add_header(key, value)
         cookieJar.add_cookie_header(oRequest)
-        user_agent = self.__headerEntries.get('User-Agent', common.FF_USER_AGENT)
+        user_agent = self.__headerEntries.get('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0')
 
         try:
             oResponse = opener.open(oRequest, timeout=self.requestTimeout)
@@ -164,6 +164,7 @@ class cRequestHandler:
     def __check_protection(self, html, user_agent, cookie_jar):
         oResponse = None
         if 'cf-browser-verification' in html:
+            self.__sUrl = self.__sUrl.replace('https', 'http')
             oResponse = cCFScrape().resolve(self.__sUrl, cookie_jar, user_agent)
         elif 'Blazingfast.io' in html or 'xhr.open("GET","' in html:
             oResponse = cBFScrape().resolve(self.__sUrl, cookie_jar, user_agent)
