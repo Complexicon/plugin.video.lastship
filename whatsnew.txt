@@ -1,9 +1,10 @@
 
 [B][COLOR yellow]Wichtig:[/COLOR][/B]
-Mit der Version 3.1.0 ist zwingend eine neue Autorisierung von Trakt.tv
+Bei Aktualisierung auf Version 3.1.0 ist zwingend eine neue Autorisierung von Trakt.tv
 sowie das Löschen des Metacaches notwendig um Fehler zu vermeiden!
 Sollte das alleine nicht helfen, zusätzlich Kodi-Cache löschen und
 in Lastship "Alle Caches leeren".
+Bei einer Neuinstallation ist obiges nicht notwendig
 
 [B][COLOR blue]Allgemein:[/COLOR][/B]
 - Für die Seite Serienstream.to (s.to) ist ein Benutzerkonto erforderlich.
