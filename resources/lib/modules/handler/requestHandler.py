@@ -279,9 +279,7 @@ class cRequestHandler:
         files = os.listdir(self.__cachePath)
         for file in files:
             cacheFile = os.path.join(self.__cachePath, file)
-            fileAge = self.getFileAge(cacheFile)
-            if fileAge > self.cacheTime:
-                os.remove(cacheFile)
+            os.remove(cacheFile)
 
     @staticmethod
     def createUrl(Url, oRequest):
