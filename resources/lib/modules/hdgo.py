@@ -58,6 +58,17 @@ def getStreams(url, sources, skiplast=True):
             sources.append({'source': 'streamz.cc', 'quality': "HD", 'language': 'de',
                             'url': stream, 'direct': True,
                             'debridonly': False})
+    elif 'vio' in url:
+        web_pdb.set_trace()
+        Viotreams = getViotreams(url)
+        if Viotreams is not None:
+            if len(Viotreams) > 1 and skiplast:
+                Viotreams.pop(0)
+            quality = ["SD", "HD", "1080p", "2K", "4K"]
+            for i, stream in enumerate(Viotreams):
+                sources.append({'source': 'hdgo.cc', 'quality': quality[i], 'language': 'de',
+                                'url': stream + '|Referer=' + url, 'direct': True,
+                                'debridonly': False})
     return sources
 
 
@@ -68,6 +79,15 @@ def getHDGOStreams(url):
         request = client.request(urlparse.urljoin('http://', request), referer=url)
         request = re.findall("media:\s(\[.*?\])", request, re.DOTALL)[0]
         request = re.findall("'(.*?\')", request)
+        return ["https:" + i.replace("'", "") for i in request if i[:2] == "//"]
+    except:
+        return None
+
+def getViotreams(url):
+    web_pdb.set_trace()
+    try:
+        request = client.request(url, referer=url)
+        request = re.findall(r'{url: \'(.*?)\'', request)
         return ["https:" + i.replace("'", "") for i in request if i[:2] == "//"]
     except:
         return None
