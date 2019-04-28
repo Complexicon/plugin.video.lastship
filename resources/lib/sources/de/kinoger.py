@@ -75,6 +75,7 @@ class source:
             return
 
     def sources(self, url, hostDict, hostprDict):
+        web_pdb.set_trace()
         sources = []
         try:
             if not url:
@@ -135,7 +136,7 @@ class source:
                     frame = dom_parser.parse_dom(container.content, "iframe")
                     if len(frame) == 0:
                         continue
-                    if 'hdgo' in frame[0].attrs["src"]:
+                    if 'hdgo' in frame[0].attrs["src"] or 'vio' in frame[0].attrs["src"]:
                         sources = hdgo.getStreams(frame[0].attrs["src"], sources)
 
                     else:
@@ -171,6 +172,7 @@ class source:
             return url
 
     def __search(self, isSerieSearch, titles):
+        web_pdb.set_trace()
         try:
             t = [cleantitle.get(i) for i in set(titles) if i]
             url = self.search % titles[0]
