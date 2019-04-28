@@ -28,7 +28,6 @@ import re
 import urllib
 import urlparse
 import requests
-
 from resources.lib.modules import cleantitle
 from resources.lib.modules import directstream
 from resources.lib.modules import source_utils
@@ -110,12 +109,12 @@ class source:
                 oRequest.removeNewLines(False)
                 moviesource = oRequest.request()
                 streams = re.findall(r'class="responsive-embed-item" src="(.*?)" frameborder="', moviesource)
-                quality = re.findall(r'<h24><strong>Qualit\xc3\xa4t:</strong>  <span class="label label-primary">(.*)</span><br></h24>', moviesource)
+                quality = re.findall(r'class="badge badge-secondary"><font size="5px">(.*?)<', moviesource)
 
-                if quality[0] == "CAM":
-                    quality[0] = "SD"
-                elif quality[0] == "HD":
+                if "HD" in quality[0] or "1080" in quality[0] or "720" in quality[0]:
                     quality[0] = "720p"
+                else:
+                    quality[0] = "SD"
 
                 valid, host = source_utils.is_host_valid(streams[0], hostDict)
                 if not valid: continue
