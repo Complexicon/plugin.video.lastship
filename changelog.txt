@@ -1,4 +1,8 @@
-[B][B]4.0.0~nightly7[/B][/B]
+[B][B]4.0.0~nightly9[/B][/B]
+- Fix Kinoger
+- ClearCache ohne Dateialter
+
+[B][B]4.0.0~nightly8[/B][/B]
 - create init_.py (in recources/lib/indexers und modules
 
 [B]4.0.0~nightly7[/B]
