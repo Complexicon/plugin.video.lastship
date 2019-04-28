@@ -154,7 +154,6 @@ class source:
             oRequest.addHeaderEntry('Upgrade-Insecure-Requests', '1')
             oRequest.removeBreakLines(False)
             oRequest.removeNewLines(False)
-            web_pdb.set_trace()
             searchResult = oRequest.request()
 
             results = re.findall(r'<div class="title-product">\n<a href="(.*?) title="((?s).*?)">\n(.*?)</a>', searchResult)
