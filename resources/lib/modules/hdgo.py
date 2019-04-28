@@ -83,7 +83,6 @@ def getHDGOStreams(url):
         return None
 
 def getViotreams(url):
-    web_pdb.set_trace()
     try:
         request = client.request(url, referer=url)
         request = re.findall(r'{url: \'(.*?)\'', request)
