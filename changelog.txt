@@ -1,5 +1,9 @@
+[B][B]4.0.0~nightly10[/B][/B]
+- Fix Moviestream
+- Entfernt: Movies.gg, cinematrix, hdkino, streamit
+
 [B][B]4.0.0~nightly9[/B][/B]
-- Fix Kinoger
+- Fix Kinoger / vio-Resolver implementiert
 - ClearCache ohne Dateialter
 
 [B][B]4.0.0~nightly8[/B][/B]
