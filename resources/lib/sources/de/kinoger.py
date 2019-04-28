@@ -172,7 +172,6 @@ class source:
             return url
 
     def __search(self, isSerieSearch, titles):
-        web_pdb.set_trace()
         try:
             t = [cleantitle.get(i) for i in set(titles) if i]
             url = self.search % titles[0]
