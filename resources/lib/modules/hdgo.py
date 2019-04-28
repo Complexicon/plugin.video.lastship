@@ -59,7 +59,6 @@ def getStreams(url, sources, skiplast=True):
                             'url': stream, 'direct': True,
                             'debridonly': False})
     elif 'vio' in url:
-        web_pdb.set_trace()
         Viotreams = getViotreams(url)
         if Viotreams is not None:
             if len(Viotreams) > 1 and skiplast:
