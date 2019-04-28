@@ -75,7 +75,6 @@ class source:
             return
 
     def sources(self, url, hostDict, hostprDict):
-        web_pdb.set_trace()
         sources = []
         try:
             if not url:
