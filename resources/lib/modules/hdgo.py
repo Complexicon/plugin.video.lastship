@@ -24,6 +24,7 @@
 
 import re
 import urlparse
+
 from resources.lib.modules import dom_parser
 from resources.lib.modules import client
 
@@ -40,7 +41,7 @@ def getPlaylistLinks(url):
     return
 
 
-def getStreams(url, sources, skiplast=True):
+def getStreams(url, sources, skiplast=True, quali="HD"):
     if 'hdgo' in url:
         hdgostreams = getHDGOStreams(url)
         if hdgostreams is not None:
@@ -55,7 +56,7 @@ def getStreams(url, sources, skiplast=True):
         streamzstream = getstreamzStreams(url)
         if streamzstream is not None:
             stream = client.request(streamzstream, output='geturl')
-            sources.append({'source': 'streamz.cc', 'quality': "HD", 'language': 'de',
+            sources.append({'source': 'streamz.cc', 'quality': quali, 'language': 'de',
                             'url': stream, 'direct': True,
                             'debridonly': False})
     elif 'vio' in url:
@@ -65,9 +66,16 @@ def getStreams(url, sources, skiplast=True):
                 Viotreams.pop(0)
             quality = ["SD", "HD", "1080p", "2K", "4K"]
             for i, stream in enumerate(Viotreams):
-                sources.append({'source': 'hdgo.cc', 'quality': quality[i], 'language': 'de',
+                sources.append({'source': 'vio', 'quality': quality[i], 'language': 'de',
                                 'url': stream + '|Referer=' + url, 'direct': True,
                                 'debridonly': False})
+    elif 'verystream' in url:
+        verystream = getverystreamStreams(url)
+        if verystream is not None:
+            stream = client.request(verystream, output='geturl')
+            sources.append({'source': 'verystream', 'quality': quali, 'language': 'de',
+                            'url': stream, 'direct': True,
+                            'debridonly': False})            
     return sources
 
 
@@ -79,6 +87,14 @@ def getHDGOStreams(url):
         request = re.findall("media:\s(\[.*?\])", request, re.DOTALL)[0]
         request = re.findall("'(.*?\')", request)
         return ["https:" + i.replace("'", "") for i in request if i[:2] == "//"]
+    except:
+        return None
+
+def getverystreamStreams(url):
+    try:
+        request = client.request(url, referer=url)
+        request = re.findall(r'videolink">(.*?)</', request)[0]
+        return "https://verystream.com/gettoken/" + request + '?mime=true'
     except:
         return None
 
