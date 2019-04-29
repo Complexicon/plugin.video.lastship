@@ -25,7 +25,6 @@
 import urlparse
 import re
 
-
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import cleantitle
@@ -124,8 +123,8 @@ class source:
 
             for title in titles:
 
-                oRequest = cRequestHandler(self.base_link)
-                oRequest.addHeaderEntry('Referer', 'https://cinemaxx.cc')
+                oRequest = cRequestHandler(self.base_link + "/")
+                oRequest.addHeaderEntry('Referer', 'https://cinemaxx.cc/')
                 oRequest.addParameters('do', 'search')
                 oRequest.addParameters('full_search', '0')
                 oRequest.addParameters('search_start', '0')
