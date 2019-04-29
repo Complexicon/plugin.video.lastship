@@ -31,6 +31,7 @@ from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
+from resources.lib.modules import hdgo
 from resources.lib.modules.handler.requestHandler import cRequestHandler
 
 class source:
@@ -44,16 +45,22 @@ class source:
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            url = self.__search(False, [localtitle] + source_utils.aliases_to_array(aliases))
-            if not url and title != localtitle: url = self.__search(False, [title] + source_utils.aliases_to_array(aliases))
+            url = self.__search(
+                False, [localtitle] + source_utils.aliases_to_array(aliases))
+            if not url and title != localtitle:
+                url = self.__search(
+                    False, [title] + source_utils.aliases_to_array(aliases))
             return url
         except:
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
-            url = self.__search(True, [localtvshowtitle] + source_utils.aliases_to_array(aliases))
-            if not url and tvshowtitle != localtvshowtitle: url = self.__search(True, [tvshowtitle] + source_utils.aliases_to_array(aliases))
+            url = self.__search(
+                True, [localtvshowtitle] + source_utils.aliases_to_array(aliases))
+            if not url and tvshowtitle != localtvshowtitle:
+                url = self.__search(
+                    True, [tvshowtitle] + source_utils.aliases_to_array(aliases))
             return url
         except:
             return
@@ -81,33 +88,42 @@ class source:
             oRequest = cRequestHandler(query)
             oRequest.removeBreakLines(False)
             oRequest.removeNewLines(False)
-            r= oRequest.request()
+            r = oRequest.request()
 
-            quality = dom_parser.parse_dom(r, 'span', attrs={'id': 'release_text'})[0].content.split('&nbsp;')[0]
+            quality = dom_parser.parse_dom(r, 'span', attrs={'id': 'release_text'})[
+                0].content.split('&nbsp;')[0]
             quality, info = source_utils.get_release_quality(quality)
 
-            
-            r = dom_parser.parse_dom(r, 'ul', attrs={'class': 'currentStreamLinks'})
-            r = [(dom_parser.parse_dom(i, 'p', attrs={'class': 'hostName'}), re.findall(r' href="(.*?)">', i.content)) for i in r]
-            r = [(re.sub('\shd', '', i[0][0].content.lower()), i[1][0]) for i in r if i[0] and i[1]]
+            r = dom_parser.parse_dom(
+                r, 'ul', attrs={'class': 'currentStreamLinks'})
+            r = [(dom_parser.parse_dom(i, 'p', attrs={'class': 'hostName'}), re.findall(
+                r' href="(.*?)">', i.content)) for i in r]
+            r = [(re.sub('\shd', '', i[0][0].content.lower()), i[1][0])
+                 for i in r if i[0] and i[1]]
 
             for hoster, id in r:
-                valid, hoster = source_utils.is_host_valid(hoster, hostDict)
-                if not valid: continue
-                sources.append({'source': hoster, 'quality': quality, 'language': 'de', 'info': '', 'url': id, 'direct': False, 'debridonly': False, 'checkquality': True})
+                if 'verystream' in hoster:
+                    sources = hdgo.getStreams(id, sources)
+                else:
+                    valid, hoster = source_utils.is_host_valid(
+                        hoster, hostDict)
+                    if not valid:
+                        continue
+                    sources.append({'source': hoster, 'quality': quality, 'language': 'de', 'info': '',
+                                    'url': id, 'direct': False, 'debridonly': False, 'checkquality': True})
 
             if len(sources) == 0:
                 raise Exception()
             return sources
         except:
-            source_faultlog.logFault(__name__,source_faultlog.tagScrape, url)
+            source_faultlog.logFault(__name__, source_faultlog.tagScrape, url)
             return sources
 
     def resolve(self, url):
         return str(url)
 
     def __search(self, isSerieSearch, titles):
-        
+
         try:
             t = [cleantitle.get(i) for i in set(titles) if i]
 
@@ -118,17 +134,19 @@ class source:
                 oRequest = cRequestHandler(query)
                 oRequest.removeBreakLines(False)
                 oRequest.removeNewLines(False)
-                r= oRequest.request()
-                
+                r = oRequest.request()
+
                 r = dom_parser.parse_dom(r, 'article')
-                r = dom_parser.parse_dom(r, 'a', attrs={'class': 'rb'}, req='href')
+                r = dom_parser.parse_dom(
+                    r, 'a', attrs={'class': 'rb'}, req='href')
                 r = [(i.attrs['href'], i.content) for i in r]
 
                 if isSerieSearch:
-                    r = [i[0] for i in r if cleantitle.get(i[1]) in t and not isSerieSearch or cleantitle.get(re.findall('(.*?)S\d', i[1])[0]) and isSerieSearch]
+                    r = [i[0] for i in r if cleantitle.get(i[1]) in t and not isSerieSearch or cleantitle.get(
+                        re.findall('(.*?)S\d', i[1])[0]) and isSerieSearch]
                 else:
-                    r = [i[0] for i in r if cleantitle.get(i[1]) in t and not isSerieSearch]
-                
+                    r = [i[0] for i in r if cleantitle.get(
+                        i[1]) in t and not isSerieSearch]
 
                 if len(r) > 0:
                     return source_utils.strip_domain(r[0])
@@ -136,8 +154,8 @@ class source:
             return
         except:
             try:
-                source_faultlog.logFault(__name__, source_faultlog.tagSearch, titles[0])
+                source_faultlog.logFault(
+                    __name__, source_faultlog.tagSearch, titles[0])
             except:
                 return
             return
-
