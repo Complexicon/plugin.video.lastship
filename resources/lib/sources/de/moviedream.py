@@ -29,6 +29,7 @@ import urlparse
 from resources.lib.modules import dom_parser
 from resources.lib.modules import source_utils
 from resources.lib.modules import source_faultlog
+from resources.lib.modules import hdgo
 from resources.lib.modules.handler.requestHandler import cRequestHandler
 from resources.lib.modules.handler.ParameterHandler import ParameterHandler
 
@@ -102,15 +103,18 @@ class source:
 
             for link, nothing, quli in r:
                 link = 'https' + link.replace("\r", "")
-                valid, host = source_utils.is_host_valid(link, hostDict)
-                if not valid: continue
-                
-                if quli == "hd":
-                    quli = '720p'
+                if 'verystream' in link:
+                    sources = hdgo.getStreams(link, sources)
                 else:
-                    quli = 'SD'
+                    valid, host = source_utils.is_host_valid(link, hostDict)
+                    if not valid: continue
+                    
+                    if quli == "hd":
+                        quli = '720p'
+                    else:
+                        quli = 'SD'
 
-                sources.append({'source': host, 'quality': quli, 'language': 'de', 'url': link, 'direct': False, 'debridonly': False})
+                    sources.append({'source': host, 'quality': quli, 'language': 'de', 'url': link, 'direct': False, 'debridonly': False})
 
             if len(sources) == 0:
                 raise Exception()
