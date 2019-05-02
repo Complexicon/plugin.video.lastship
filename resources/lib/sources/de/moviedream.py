@@ -39,7 +39,7 @@ class source:
         self.language = ['de']
         self.domains = ['moviedream.ws']
         self.base_link = 'https://moviedream.ws'
-        self.search_link = '/searchy.php?ser=%s'
+        self.search_link = '/suchergebnisse.php?imdbid=%s&sprache=Deutsch'
         self.hoster_link = '/episodeholen3.php'
 
         
@@ -73,7 +73,6 @@ class source:
 
     def sources(self, url, hostDict, hostprDict):
         sources = []
-
         try:
             if not url:
                 return sources
@@ -87,11 +86,12 @@ class source:
             if season and episode:
                 r = urllib.urlencode({'imdbid': data['imdb'], 'language': 'de', 'season': season, 'episode': episode})
                 oRequest = cRequestHandler(urlparse.urljoin(self.base_link, self.hoster_link))
-                oRequest.addParameters('episode', episode)
-                oRequest.addParameters('season', season)
-                oRequest.addParameters('imdbid', data['imdb'])
-                oRequest.addParameters('language', de)
+                oRequest.addHeaderEntry("X-Requested-With", "XMLHttpRequest")
                 oRequest.setRequestType(1)
+                oRequest.addParameters('imdbid', data['imdb'])
+                oRequest.addParameters('language', 'de')
+                oRequest.addParameters('season', season)
+                oRequest.addParameters('episode', episode)
                 r = oRequest.request()
             else:
                 oRequest = cRequestHandler(url)
@@ -132,7 +132,7 @@ class source:
             oRequest.removeBreakLines(False)
             oRequest.removeNewLines(False)
             r = oRequest.request()
-            r = re.findall(r'href=\'(.*?)\' style', r)
+            r = re.findall(r'linkto\".href=\"(.*?)\"\>', r)
 
             url = None
             if len(r) > 1:
@@ -150,6 +150,7 @@ class source:
 
             if url:
                 return source_utils.strip_domain(url)
+
         except:
             try:
                 source_faultlog.logFault(__name__, source_faultlog.tagSearch, imdb)
