@@ -164,7 +164,10 @@ class source:
                     if season == "0" or ("staffel" in title and ("0"+str(season) in title or str(season) in title)):
                         #We have the suspected link!
                         
-                        return source_utils.strip_domain(results[x][0])
+                        if not 'special' in title and not 'special' in i:
+                            return source_utils.strip_domain(results[x][0])
+                        elif  'special' in title and 'special' in i:
+                            return source_utils.strip_domain(results[x][0])
                 usedIndex += 1
 
             return
