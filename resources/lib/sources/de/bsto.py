@@ -103,13 +103,8 @@ class source:
             response = None
             if key != "" and "skipped" not in key.lower():
                 content = client.request(url)
-                content2 = cRequestHandler(url, caching=False).request()
                 s = dom_parser.parse_dom(content, 'input', attrs={'name': 's'})[0].attrs['value']
                 link = client.request(url + '?t=%s&s=%s' % (key, s), output='geturl')
-                oRequest = cRequestHandler(url + '?t=%s&s=%s' % (key, s))
-                links2 = oRequest.getHeaderLocationUrl()
-                links3 = oRequest.request()
-                link3 = oRequest.getHeaderLocationUrl()
                 return link
             elif not response or "skipped" in key.lower():
                 return
@@ -120,7 +115,7 @@ class source:
     def __search(self, titles, year):
         try:
             t = [cleantitle.get(i) for i in set(titles) if i]
-            oRequest = cRequestHandler(urlparse.urljoin(self.search_link))
+            oRequest = cRequestHandler(self.search_link)
             content = oRequest.request()
 
             links = dom_parser.parse_dom(content, 'div', attrs={'id': 'seriesContainer'})
