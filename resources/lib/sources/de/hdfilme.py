@@ -99,20 +99,18 @@ class source:
 
             if "episode" in url:
                 #we want the current link
-                streamlink = re.findall(r'stream" data-episode-id="(.*?)"\sonclick\=\"event.preventDefault\(\)\;\sload_episode\(this\)\">((?s).*?)</a>', moviecontent)
+                streamlink = re.findall(r'data-episode-id="(.*?)"\sonclick', moviecontent)
                 episode = int(re.findall(r'\?episode=(.*)', url)[0])
-                r = (r[0],streamlink[episode-1][0])
+                r = (r[0],streamlink[episode-1])
             else:
                 streamlink = dom_parser.parse_dom(moviecontent, 'a', attrs={'class': 'new'})
                 episode = int(re.findall(r'data-episode-id="(.*?)"', moviecontent)[0])
                 r = (r[0],episode)
-
             oRequest = cRequestHandler(urlparse.urljoin(self.base_link, self.get_link % r))
             oRequest.addHeaderEntry('Referer', urlparse.urljoin(self.base_link, url))
             oRequest.removeBreakLines(False)
             oRequest.removeNewLines(False)
             moviesource = oRequest.request()
-            
             foundsource = re.findall(r'window.urlVideo = (\".*?\");', moviesource)
             sourcejson = json.loads(foundsource[0])
 
@@ -120,7 +118,6 @@ class source:
             oRequest.removeBreakLines(False)
             oRequest.removeNewLines(False)
             moviesources = oRequest.request()
-
             streams = re.findall(r'/drive(.*?)\n', moviesources)
             qualitys = re.findall(r'RESOLUTION=(.*?)\n', moviesources)
             url_stream = re.findall(r'"(.*?)"', foundsource[0])
