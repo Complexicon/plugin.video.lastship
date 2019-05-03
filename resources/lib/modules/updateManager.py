@@ -37,8 +37,8 @@ if xbmc.getCondVisibility('system.platform.android') and int(xbmc.getInfoLabel('
 else:import zipfile
 
 ## plugin.video.lastship
-REMOTE_PLUGIN_COMMITS = "https://api.github.com/repos/lastship/plugin.video.lastship/commits/nightly?access_token=accc5a8af17294c2f9b5fa42e2912cfb5d33e8f7"
-REMOTE_PLUGIN_DOWNLOADS = "https://api.github.com/repos/lastship/plugin.video.lastship/zipball/nightly?access_token=accc5a8af17294c2f9b5fa42e2912cfb5d33e8f7"
+REMOTE_PLUGIN_COMMITS = "https://api.github.com/repos/lastship/plugin.video.lastship/commits/nightly?access_token=7ddaaff8478ec81a52fd434df60edbdde9ed3fbd"
+REMOTE_PLUGIN_DOWNLOADS = "https://api.github.com/repos/lastship/plugin.video.lastship/zipball/nightly?access_token=7ddaaff8478ec81a52fd434df60edbdde9ed3fbd"
 
 ## Filename of the update File.
 profilePath = translatePath(control.addon('plugin.video.lastship').getAddonInfo('profile')).decode('utf-8')
