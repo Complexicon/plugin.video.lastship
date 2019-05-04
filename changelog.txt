@@ -1,46 +1,19 @@
-[B][B]4.0.0~nightly14[/B][/B]
+[B]4.0.0[/B]
+  04.05.2019
 - Fix Cloudflare
-
-[B][B]4.0.0~nightly13[/B][/B]
 - Fix HD-Filme-Serien
 - Fix moviedream
 - Fix BS.to
-
-[B][B]4.0.0~nightly11[/B][/B]
 - Fix Cinemaxx
 - added verystream als hoster für filmpalast & moviedream
-
-
-[B][B]4.0.0~nightly10[/B][/B]
-- Fix Moviestream
 - Entfernt: Movies.gg, cinematrix, hdkino, streamit
-
-[B][B]4.0.0~nightly9[/B][/B]
 - Fix Kinoger / vio-Resolver implementiert
 - ClearCache ohne Dateialter
-
-[B][B]4.0.0~nightly8[/B][/B]
 - create init_.py (in recources/lib/indexers und modules
-
-[B]4.0.0~nightly7[/B]
 - Nachtrag Lizenzen
-
-[B]4.0.0~nightly6[/B]
 - Update requestHandler.py (Fix Cloudflare)
-
-[B]4.0.0~nightly5[/B]
-- Fix Serienstream.py Update
-
-[B]4.0.0~nightly4[/B]
-- Revert Serienstream.py
-
-[B]4.0.0~nightly3[/B]
 - Fix Serienstream (Treffer bei Suche verbessert)
-
-[B]4.0.0~nightly2[/B]
 - Update Cinemaxx Caching 
-
-[B]4.0.0~nighly1[/B]
 - viele interne Änderungen um Wartungsarbeiten an Lastship zu vereinfachen.
 - Logfix (meta.pop)
 - Staffelbenennung auswählbar (Bibliothek und Download getrennt)
@@ -52,15 +25,11 @@
 - ZDF-Scrapper Beta
   (nur Serien des letzen Jahres)
 - Neues Justwatch Modul
-- Hoffentlich vorerst endgültiger Fix für Netzkino und Netflix
 - Watchbox Serien Defekt (momentan Kampagne TV Now)
-- Fix Cloudflare
-- Fix HdFilme.net
 - Zufallswiedergabe wieder hinzugefügt (Userwunsch)
 - Fix Suche für Netflix, Netzkino und Watchbox
-  Die Suche hat bis jetzt nur den ersten treffer genommen.
+  Die Suche hat bis jetzt nur den ersten treffer genommen
 - Fix Blacingfast
-- Fix Cinemaxx.cc
 
 [B]3.1.0[/B]
   25.03.2019

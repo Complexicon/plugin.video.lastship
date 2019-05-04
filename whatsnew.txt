@@ -13,73 +13,44 @@ Bei einer Neuinstallation ist obiges nicht notwendig
 - Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen.
 
 [B][COLOR red]Anleitungen zu den Funktionen sind im Forum verfügbar.[/COLOR][/B]
-[B]Unser Forum: https://www.lastship.ch[/B]
 [B]Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby[/B]
 
 [COLOR orange]_________________________________________________________________________[/COLOR]
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
-[B]3.1.0[/B]
-  25.03.2019
-- Umstrukturierung whatsnew.txt (für Info-Popup)
-- Fix Error durch Widget im Log
-- höhere Treffergenauigkeit für Netflix, Netzkino und Watchbox
-- Watchbox und Netzkino als Premium markiert
-- weniger Seiten Anfragen dank Nutzung von Justwatch
-- Info-Popup nach Update / Erstinstallation
-- Watchbox Encoding Fix
-- Gitignore sinnvoll erweitert
-- Textanpassungen (Schreibweise, Sprachliches, Formatierung)
-- Hinweis zur notwendigen erneuten Autorisierung von Trakt.tv hinzugefügt.
-- thumbs.db entfernt
-- Neu: Watchbox
-- Fix SD-Autoplay Filter
-- Doppelter Verfügbarkeits-Check für Netflix
-- Kontextmenü-Einträge lassen sich nun unter Einstellungen/Allgemein verwalten
-- Zufallswiedergabe entfernt
--  Fanart/Poster Quelle Auswahlmöglichkeit hinzugefügt 
-    (control.py, movies.py, lastship.py, metacache.py):
-    Es ist bei Filmen nach der Suche möglich, über das Kontexmenü die Fanart/Poster 
-    Quelle zu ändern
-    Ist bei der gewählten Quelle nichts verfügbar, so wird kein Icon angezeigt
-- Fanart/Poster sind nun auswählbar in den Kategorien
-- Fix View Typ (Ansichten werden nun auch auf den Folgeseiten korrekt angezeigt)
-- Fix Trakt Bugfix (Benutzerauthorisierung wird nicht angezeigt)
-    Der Trakt Benutzer wird nun korrekt angezeigt.
-    ACHTUNG: ES IST ZWINGEND NOTWENDIG DASS JEDER BENUTZER TRAKT NEU AUTORISIERT! 
-    WIRD DIES NICHT GEMACHT WERDEN EINIGE TRAKT-OPTIONEN FEHLERHAFT SEIN!
-- New Indexpage: Movie-stream.eu
-- Changed Vodster Key (for Netflix)
-- Fix HDKino
-- Kurz FAQ im Einstellungs Menü (settings.xml)
-- Update settings.xml
-- Update Netflix
-- TMovie entfernt, Offline
-- Update zu Amazon: 
-  Es nun möglich, im Menü zu wählen, ob das Amazon VOD oder das Amazon Addon 
-  durchsucht/verwendet werden soll
-- Fix hdfilme
-
-[B]3.0.9[/B]
-  26.02.2019
-- Update Openload Pairing Hoster (sources.py)
-- Option "Hoster ausschließen" hinzugefügt
-  Die Option ermöglicht es einzelne Hoster auszuschließen ohne Einstellungen im
-  URL-Resolver zu ändern.
-  Filter wird nicht auf Debrid-Dienste angewandt
-- Amazon Suche verbessert
-- Updates/Fixes (sources.py, settings.xml)
-- Add Bald verfügbar Kategorie (tvshows/movies/navigator.py)
-  Unter "Bald verfügbar" findet man eine Vorschau von Filmen/Serien die
-  bald veröffentlicht werden (maximal 100, über Trakt realisiert). Zu
-  beachten ist dass es bei sehr neuen Veröffentlichungen sein kann dass
-  noch keine Informationen verfügbar sind.
-
-[B]3.0.8.1[/B]
-  14.02.2019
-- Bug Fix s.to (es werden zu wenig HD-Streams angezeigt)
-- Das ausblenden der Hosternamen etc. bei aktiviertem Autoplay ist jetzt einstellbar
+[B]4.0.0[/B]
+  04.05.2019
+- Fix Cloudflare
+- Fix HD-Filme-Serien
+- Fix moviedream
+- Fix BS.to
+- Fix Cinemaxx
+- added verystream als hoster für filmpalast & moviedream
+- Entfernt: Movies.gg, cinematrix, hdkino, streamit
+- Fix Kinoger / vio-Resolver implementiert
+- ClearCache ohne Dateialter
+- create init_.py (in recources/lib/indexers und modules
+- Nachtrag Lizenzen
+- Update requestHandler.py (Fix Cloudflare)
+- Fix Serienstream (Treffer bei Suche verbessert)
+- Update Cinemaxx Caching 
+- viele interne Änderungen um Wartungsarbeiten an Lastship zu vereinfachen.
+- Logfix (meta.pop)
+- Staffelbenennung auswählbar (Bibliothek und Download getrennt)
+- neue Screenshots
+- neues Icon
+- Fix View Typ in movies.py
+  Ansichten werden nun auch wieder auf den Folgeseiten korrekt angezeigt
+- Autoplay-Qualität auswählbar
+- ZDF-Scrapper Beta
+  (nur Serien des letzen Jahres)
+- Neues Justwatch Modul
+- Watchbox Serien Defekt (momentan Kampagne TV Now)
+- Zufallswiedergabe wieder hinzugefügt (Userwunsch)
+- Fix Suche für Netflix, Netzkino und Watchbox
+  Die Suche hat bis jetzt nur den ersten treffer genommen
+- Fix Blacingfast
 
 [COLOR orange]_________________________________________________________________________[/COLOR]
 Editierhinweise: Keine Tabulatoren. Text darf nicht länger als die Linie sein.
