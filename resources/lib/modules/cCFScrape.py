@@ -25,47 +25,36 @@
 import re, sys, urllib, urllib2
 from time import sleep
 from urlparse import urlparse
+import ast
+import operator as op
 
+operators = {ast.Add: op.add, ast.Sub: op.sub, ast.Mult: op.mul,
+             ast.Div: op.truediv, ast.Pow: op.pow, ast.BitXor: op.xor,
+             ast.USub: op.neg}
 
-def cf_sample_domain_function(func_expression, domain):
-    parameter_start_index = func_expression.find('}(') + 2
-    sample_index = cf_parse_expression(func_expression[parameter_start_index: func_expression.rfind(')))')])
-    return ord(domain[int(sample_index)])
+def parseJSString(s):
+    offset = 1 if s[0] == '+' else 0
+    val = s.replace('!+[]', '1').replace('!![]', '1').replace('[]', '0')[offset:]
 
+    val = val.replace('(+0', '(0').replace('(+1', '(1')
 
-def cf_arithmetic_op(op, a, b):
-    if op == '+':
-        return a + b
-    elif op == '/':
-        return a / float(b)
-    elif op == '*':
-        return a * float(b)
-    elif op == '-':
-        return a - b
+    val = re.findall(r'\((?:\d|\+|\-)*\)', val)
+
+    val = ''.join([str(eval_expr(i)) for i in val])
+    return int(val)
+
+def eval_expr(expr):
+    return eval_(ast.parse(expr, mode='eval').body)
+
+def eval_(node):
+    if isinstance(node, ast.Num):  # <number>
+        return node.n
+    elif isinstance(node, ast.BinOp):  # <left> <operator> <right>
+        return operators[type(node.op)](eval_(node.left), eval_(node.right))
+    elif isinstance(node, ast.UnaryOp):  # <operator> <operand> e.g., -1
+        return operators[type(node.op)](eval_(node.operand))
     else:
-        raise Exception('Unknown operation')
-
-
-def cf_parse_expression(expression, domain=None):
-    def _get_jsfuck_number(section):
-        digit_expressions = section.replace('!+[]', '1').replace('+!![]', '1').replace('+[]', '0').split('+')
-        return int(''.join(str(sum(int(digit_char) for digit_char in digit_expression[1:-1]))
-                           for digit_expression in digit_expressions))
-
-    if '/' in expression:
-        dividend, divisor = expression.split('/')
-        dividend = dividend[2:-1]
-        if domain:
-            divisor_a, divisor_b = divisor.split('))+(')
-            divisor_a = _get_jsfuck_number(divisor_a[5:])
-            divisor_b = cf_sample_domain_function(divisor_b, domain)
-            return _get_jsfuck_number(dividend) / float(divisor_a + divisor_b)
-        else:
-            divisor = divisor[2:-1]
-            return _get_jsfuck_number(dividend) / float(_get_jsfuck_number(divisor))
-    else:
-        return _get_jsfuck_number(expression[2:-1])
-
+        raise TypeError(node)
 
 class cCFScrape:
     def resolve(self, url, cookie_jar, user_agent):
@@ -133,26 +122,70 @@ class cCFScrape:
 
     @staticmethod
     def _extract_js(body, domain):
-        form_index = body.find('id="challenge-form"')
-        sub_body = body[form_index:]
-        if body.find('id="cf-dn-', form_index) != -1:
-            extra_div_expression = re.search('id="cf-dn-.*?>(.+?)<', sub_body).group(1)
-        js_answer = cf_parse_expression(re.search('setTimeout\(function\(.*?:(.*?)}', body, re.DOTALL).group(1))
-        builder = re.search("challenge-form'\);\s*;(.*);a.value", body, re.DOTALL).group(1)
-        lines = builder.replace(' return +(p)}();', '', 1).split(';')
+        init = re.findall('setTimeout\(function\(\){\s*var.*?.*:(.*?)}', body)[-1]
+        builder = re.findall(r"challenge-form\'\);\s*(.*)a.v", body)[0]
+        try:
+            challenge_element = re.findall(r'id="cf.*?>(.*?)</', body)[0]
+        except:
+            challenge_element = None
+
+        if '/' in init:
+            init = init.split('/')
+            decryptVal = parseJSString(init[0]) / float(parseJSString(init[1]))
+        else:
+            decryptVal = parseJSString(init)
+        lines = builder.split(';')
+        char_code_at_sep = '"("+p+")")}'
 
         for line in lines:
-            if len(line) and '=' in line:
-                heading, expression = line.split('=', 1)
-                if 'eval(eval(' in expression:
-                    expression_value = cf_parse_expression(extra_div_expression)
-                elif 'function(p' in expression:
-                    expression_value = cf_parse_expression(expression, domain)
-                else:
-                    expression_value = cf_parse_expression(expression)
-                js_answer = cf_arithmetic_op(heading[-1], js_answer, expression_value)
+            if len(line) > 0 and '=' in line:
+                sections = line.split('=')
+                if len(sections) < 3:
+                    if '/' in sections[1]:
+                        subsecs = sections[1].split('/')
+                        val_1 = parseJSString(subsecs[0])
+                        if char_code_at_sep in subsecs[1]:
+                            subsubsecs = re.findall(r"^(.*?)(.)\(function", subsecs[1])[0]
+                            operand_1 = parseJSString(subsubsecs[0] + ')')
+                            operand_2 = ord(domain[parseJSString(
+                                subsecs[1][subsecs[1].find(char_code_at_sep) + len(char_code_at_sep):-2])])
+                            val_2 = '%.16f%s%.16f' % (float(operand_1), subsubsecs[1], float(operand_2))
+                            val_2 = eval_expr(val_2)
+                        else:
+                            val_2 = parseJSString(subsecs[1])
+                        line_val = val_1 / float(val_2)
+                    elif len(sections) > 2 and 'atob' in sections[2]:
+                        expr = re.findall((r"id=\"%s.*?>(.*?)</" % re.findall(r"k = '(.*?)'", body)[0]), body)[0]
+                        if '/' in expr:
+                            expr_parts = expr.split('/')
+                            val_1 = parseJSString(expr_parts[0])
+                            val_2 = parseJSString(expr_parts[1])
+                            line_val = val_1 / float(val_2)
+                        else:
+                            line_val = parseJSString(expr)
+                    else:
+                        if 'function' in sections[1]:
+                            continue
+                        line_val = parseJSString(sections[1])
+
+                elif 'Element' in sections[2]:
+                    subsecs = challenge_element.split('/')
+                    val_1 = parseJSString(subsecs[0])
+                    if char_code_at_sep in subsecs[1]:
+                        subsubsecs = re.findall(r"^(.*?)(.)\(function", subsecs[1])[0]
+                        operand_1 = parseJSString(subsubsecs[0] + ')')
+                        operand_2 = ord(domain[parseJSString(
+                            subsecs[1][subsecs[1].find(char_code_at_sep) + len(char_code_at_sep):-2])])
+                        val_2 = '%.16f%s%.16f' % (float(operand_1), subsubsecs[1], float(operand_2))
+                        val_2 = eval_expr(val_2)
+                    else:
+                        val_2 = parseJSString(subsecs[1])
+                    line_val = val_1 / float(val_2)
+
+                decryptVal = '%.16f%s%.16f' % (float(decryptVal), sections[0][-1], float(line_val))
+                decryptVal = eval_expr(decryptVal)
 
         if '+ t.length' in body:
-            js_answer += len(domain)
-        ret = format(js_answer, '.10f')
-        return (str(ret))
+            decryptVal += len(domain)
+
+        return float('%.10f' % decryptVal)
