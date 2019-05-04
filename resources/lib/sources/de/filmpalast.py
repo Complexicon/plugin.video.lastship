@@ -97,7 +97,7 @@ class source:
             r = dom_parser.parse_dom(
                 r, 'ul', attrs={'class': 'currentStreamLinks'})
             r = [(dom_parser.parse_dom(i, 'p', attrs={'class': 'hostName'}), re.findall(
-                r' href="(.*?)">', i.content)) for i in r]
+                r' data-player-url="(.*?)">', i.content)) for i in r]
             r = [(re.sub('\shd', '', i[0][0].content.lower()), i[1][0])
                  for i in r if i[0] and i[1]]
 
