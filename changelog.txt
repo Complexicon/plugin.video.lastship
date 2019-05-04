@@ -1,3 +1,6 @@
+[B]4.0.1~nightly3[/B]
+- Update filmpalast
+
 [B]4.0.1~nightly2[/B]
 - Update Readme und Lastship Beschreibung in der addon.xml
 
