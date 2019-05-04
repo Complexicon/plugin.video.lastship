@@ -28,6 +28,7 @@
 				<screenshot>resources/screenshots/screenshot-05.png</screenshot>
 		</assets>
 		<news>
-		Die aktuellsten Änderungen findest du im Changelog oder im Forum
+		Die aktuellsten Änderungen findest du im Changelog oder im Forum.
+		</news>
 	</extension>
 </addon>
