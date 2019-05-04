@@ -1,4 +1,6 @@
-[B]4.0.01~nightly1[/B]
+[B]4.0.1~nightly1[/B]
+  04.05.2019
+- Update Settings.xml
 
 [B]4.0.0[/B]
   04.05.2019

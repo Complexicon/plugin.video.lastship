@@ -255,26 +255,19 @@
         <setting id="hilfe1" type="bool" label="[COLOR blue]Kann ich helfen?[/COLOR]" default="false" />
         <setting type="text" label="Du hast auch ohne Programmierkenntnisse verschiedene Möglichkeiten " visible="eq(-1,true)" enable="true" default=""/>
         <setting type="text" label="uns zu helfen." visible="eq(-2,true)" enable="true" default=""/>
-        <setting type="text" label="Besuche uns am Besten auf www.lastship.ch." visible="eq(-3,true)" enable="true" default=""/>
         <setting id="hilfe2" type="bool" label="[COLOR blue]Werden auch englische Streams unterstützt?[/COLOR]" default="false" />
         <setting type="text" label="Nein. Dies wird sich auch zukünftig nicht ändern." visible="eq(-1,true)" enable="true" default=""/>
         <setting id="hilfe3" type="bool" label="[COLOR blue]Warum geht der Hoster / der Link / die Seite XYZ nicht?[/COLOR]" default="false" />
         <setting type="text" label="Kontrolliere bitte ob der Hoster / der Link / die Seite in einem" visible="eq(-1,true)" enable="true" default=""/>
-        <setting type="text" label="Browser funktioniert. Wenn ja: Schildere uns das Problem bitte" visible="eq(-2,true)" enable="true" default=""/>
-        <setting type="text" label="auf www.lastship.ch." visible="eq(-3,true)" enable="true" default=""/>
+        <setting type="text" label="Browser funktioniert. Wenn ja: Schildere uns das Problem bitte." visible="eq(-2,true)" enable="true" default=""/>
         <setting id="hilfe4" type="bool" label="[COLOR blue]Wann wird der Fehler XYZ behoben?[/COLOR]" default="false" />
         <setting type="text" label="Dies ist sehr unterschiedlich weshalb dazu keine Aussage getroffen" visible="eq(-1,true)" enable="true" default=""/>
-        <setting type="text" label="werden kann. Bitte habe Geduld oder unterstütze uns auf" visible="eq(-2,true)" enable="true" default=""/>
-        <setting type="text" label="www.lastship.ch. Jede Hilfe ist willkommen." visible="eq(-3,true)" enable="true" default=""/>
+        <setting type="text" label="werden kann. Bitte habe Geduld." visible="eq(-2,true)" enable="true" default=""/>
         <setting id="hilfe5" type="bool" label="[COLOR blue]Warum werden nur wenige Streams gefunden?[/COLOR]" default="false" />
         <setting type="text" label="Kontrolliere bitte ob der Hoster / der Link / die Seite in einem" visible="eq(-1,true)" enable="true" default=""/>
-        <setting type="text" label="Browser funktioniert. Wenn ja: Schildere uns das Problem bitte" visible="eq(-2,true)" enable="true" default=""/>
-        <setting type="text" label="auf www.lastship.ch." visible="eq(-3,true)" enable="true" default=""/>
+        <setting type="text" label="Browser funktioniert. Wenn ja: Schildere uns das Problem bitte." visible="eq(-2,true)" enable="true" default=""/>
         <setting id="hilfe6" type="bool" label="[COLOR blue]Was mache ich bei Problemen mit Trakt.tv?[/COLOR]" default="false" />
         <setting type="text" label="Kontrolliere ob Trakt.tv im Browser erreichbar ist und" visible="eq(-1,true)" enable="true" default=""/>
-        <setting type="text" label="autorisiere Trakt.tv neu. Besteht das Problem weiterhin melde dich" visible="eq(-2,true)" enable="true" default=""/>
-        <setting type="text" label="auf www.lastship.ch." visible="eq(-3,true)" enable="true" default=""/>
-        <setting id="hilfe" type="bool" label="[COLOR blue]Ich habe andere Anliegen / Fehler. Wo bekomme ich Hilfe?[/COLOR]" default="false" /> <!-- Bitte immer als letzte FAQ verwenden -->
-        <setting type="text" label="Auf www.lastship.ch wird dir geholfen." visible="eq(-1,true)" enable="true" default=""/>
+        <setting type="text" label="autorisiere Trakt.tv neu. Besteht das Problem weiterhin melde dich." visible="eq(-2,true)" enable="true" default=""/>
     </category>
 </settings>
