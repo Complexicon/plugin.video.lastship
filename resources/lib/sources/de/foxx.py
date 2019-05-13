@@ -105,12 +105,12 @@ class source:
             oRequest.addHeaderEntry('Referer', url)
             r = oRequest.request()
 
-            phrase = re.findall("(?:jbdaskgs|m3u8File)[^>]=[^>]'([^']+)", r)[0]
+            phrase = re.findall("(?:jbdaskgs|m3u8File).*?\'(.+?)\\'", r)[0]
 
             if '\n' in phrase: return sources
 
             if "m3u8File" in r:
-                domain = re.findall("urlVideo\s=\s'(.*streamservice.online)", r)[0]
+                domain = re.findall("urlVideo.*?\'(.*streamservice.online)", r)[0]
                 link = domain + '/hls/' + phrase + '/' + phrase + '.playlist.m3u8'
                 oRequest = cRequestHandler(link)
                 oRequest.removeBreakLines(False)
