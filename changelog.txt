@@ -1,3 +1,6 @@
+[B]4.0.1~nightly4[/B]
+- Update foxx
+
 [B]4.0.1~nightly3[/B]
 - Update filmpalast
 
