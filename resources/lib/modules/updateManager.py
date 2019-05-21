@@ -36,6 +36,10 @@ if xbmc.getCondVisibility('system.platform.android') and int(xbmc.getInfoLabel('
     import fixetzipfile as zipfile
 else:import zipfile
 
+## URLRESOLVER
+REMOTE_URLRESOLVER_COMMITS = "https://api.github.com/repos/tvaddonsco/script.module.urlresolver/commits/master"
+REMOTE_URLRESOLVER_DOWNLOADS = "https://github.com/tvaddonsco/script.module.urlresolver/archive/master.zip"
+
 ## plugin.video.lastship
 REMOTE_PLUGIN_COMMITS = "https://api.github.com/repos/lastship/plugin.video.lastship/commits/nightly"
 REMOTE_PLUGIN_DOWNLOADS = "https://github.com/lastship/plugin.video.lastship/archive/nightly.zip"
@@ -46,6 +50,12 @@ LOCAL_PLUGIN_VERSION = os.path.join(profilePath, "plugin_commit_sha")
 ADDON_DIR = os.path.abspath(os.path.join(translatePath(control.addon('plugin.video.lastship').getAddonInfo('path')).decode('utf-8'), '..'))
 LOCAL_FILE_NAME_PLUGIN = os.path.join(profilePath, 'update_plugin.zip')
 
+## Filename of the update File UrlResolver (ur)
+profilePath_ur = translatePath(control.addon('script.module.urlresolver').getAddonInfo('profile')).decode('utf-8')
+LOCAL_PLUGIN_VERSION_UR = os.path.join(profilePath_ur, "resolver_commit_sha")
+ADDON_DIR_UR = os.path.abspath(os.path.join(translatePath(control.addon('script.module.urlresolver').getAddonInfo('path')).decode('utf-8'), '..'))
+LOCAL_FILE_NAME_PLUGIN_UR = os.path.join(profilePath_ur, 'update_urlresolver.zip')
+
 def pluginVideoLastship():
     name = 'plugin.video.lastship'
     path = control.addon(name).getAddonInfo('Path')
@@ -55,6 +65,20 @@ def pluginVideoLastship():
         xbmcgui.Dialog().ok('LastShip', name+ "-Update Erfolgreich.")
     else:
         xbmcgui.Dialog().ok('LastShip', 'Fehler beim ' + name+ "-Update.")
+
+def urlResolverUpdate():
+    if not os.path.exists(profilePath_ur):
+        os.mkdir(profilePath_ur)
+    name = 'script.module.urlresolver'
+    path = control.addon(name).getAddonInfo('Path')
+    commitXML = _getXmlString(REMOTE_URLRESOLVER_COMMITS)
+    if commitXML:
+        commitUpdate(commitXML, LOCAL_PLUGIN_VERSION_UR, REMOTE_URLRESOLVER_DOWNLOADS, path, "Updating " + name, LOCAL_FILE_NAME_PLUGIN_UR)
+        xbmcgui.Dialog().ok('LastShip', name+ "-Update Erfolgreich.")
+    else:
+        xbmcgui.Dialog().ok('LastShip', 'Fehler beim ' + name+ "-Update.")
+
+
 
 def commitUpdate(onlineFile, offlineFile, downloadLink, LocalDir, Title, localFileName):
     try:
@@ -128,3 +152,11 @@ def updateLastShip():
         log_utils.log("DevUpdate Complete")
     except Exception as e:
         log_utils.log(e)
+
+def updateUrlResolver():
+    try:
+        urlResolverUpdate()
+        log_utils.log("ResolverUpdate Complete")
+    except Exception as e:
+        log_utils.log(e)
+

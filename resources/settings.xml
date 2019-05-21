@@ -46,6 +46,7 @@
         <setting type="lsep" label="Entwicklung / Debugging" />
         <setting id="first.info" label="Info-Popup nach Update / Erstinstallation" visible="false" type="bool" default="" />
         <setting id="DevUpdate" type="bool" label="Nightly Update" default="false" />
+        <setting id="ResolverUpdate" type="bool" label="Resolver Update" default="false" visible="false" />
         <setting id="FaultLogger.enabled" type="bool" label="Fehlerhafte Provider erkennen" default="true" />
         <setting id="FaultLogger.numErrors" type="slider" label="Anzahl Errors für Deaktivierung" default="5" range="1,30" visible="eq(-1,true)"  option="int" />
         <setting id="FaultLogger.recheckHours" type="slider" label="Deaktivierten Provider überprüfen nach Stunden" default="24" range="12,72" visible="eq(-2,true)" option="int" />

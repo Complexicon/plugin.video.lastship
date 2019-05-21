@@ -49,8 +49,8 @@ class navigator:
     HOMEPATH = xbmc.translatePath('special://home/')
     ADDONSPATH = os.path.join(HOMEPATH, 'addons')
     THISADDONPATH = os.path.join(ADDONSPATH, ADDON_ID)
-    NEWSFILE = base64.b64decode(
-        'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2xhc3RzaGlwL3BsdWdpbi52aWRlby5sYXN0c2hpcC9uaWdodGx5L3doYXRzbmV3LnR4dA==')
+    #NEWSFILE = base64.b64decode(
+        #'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2xhc3RzaGlwL3BsdWdpbi52aWRlby5sYXN0c2hpcC9uaWdodGx5L3doYXRzbmV3LnR4dA==')
     LOCALNEWS = os.path.join(THISADDONPATH, 'whatsnew.txt')
 
     def root(self):
@@ -82,33 +82,18 @@ class navigator:
         if control.setting('DevUpdate') == 'true':
             self.addDirectoryItem("Nightly Update", 'devUpdateNavigator', 'nightly_update.png', 'DefaultAddonProgram.png')
 
+        if control.setting('ResolverUpdate') == 'true':
+            self.addDirectoryItem("Resolver Update", 'ResolverUpdateNavigator', 'nightly_update.png', 'DefaultAddonProgram.png')
+
         self.endDirectory()
 
     #######################################################################
     # News and Update Code
     def news(self):
         AddonVersion = control.addon('plugin.video.lastship').getAddonInfo('version')
-        message = self.open_news_url(self.NEWSFILE)
         r = open(self.LOCALNEWS)
         compfile = r.read()
-        if len(message) > 1:
-            if compfile == message:
-                pass
-            else:
-                text_file = open(self.LOCALNEWS, "w")
-                text_file.write(message)
-                text_file.close()
-                compfile = message
         self.showText('[B][COLOR springgreen]Infos und Updates[/COLOR][/B]' + ' ' + '---' + ' ' + '(Version: ' + AddonVersion + ')', compfile)
-
-    def open_news_url(self, url):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'klopp')
-        response = urllib2.urlopen(req)
-        link = response.read()
-        response.close()
-        print link
-        return link
 
     def showText(self, heading, text):
         id = 10147
