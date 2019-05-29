@@ -1,3 +1,6 @@
+[B]4.0.1~nightly6[/B]
+- Neue Trakt API Key's
+
 [B]4.0.1~nightly5[/B]
 - moviedream.ws entfernt (da es die Betreiber Seite überlastet)
 
