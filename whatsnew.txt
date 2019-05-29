@@ -1,6 +1,6 @@
 
 [B][COLOR yellow]Wichtig:[/COLOR][/B]
-Bei Aktualisierung auf Version 3.1.0 ist zwingend eine neue Autorisierung von Trakt.tv
+Bei Aktualisierung auf Version 4.0.1~nightly6 ist zwingend eine neue Autorisierung von Trakt.tv
 sowie das Löschen des Metacaches notwendig um Fehler zu vermeiden!
 Sollte das alleine nicht helfen, zusätzlich Kodi-Cache löschen und
 in Lastship "Alle Caches leeren".
