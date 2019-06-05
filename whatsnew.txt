@@ -1,6 +1,6 @@
 
 [B][COLOR yellow]Wichtig:[/COLOR][/B]
-Bei Aktualisierung auf Version 4.0.1~nightly6 ist zwingend eine neue Autorisierung von Trakt.tv
+Bei Aktualisierung auf Version 4.0.1 ist zwingend eine neue Autorisierung von Trakt.tv
 sowie das Löschen des Metacaches notwendig um Fehler zu vermeiden!
 Sollte das alleine nicht helfen, zusätzlich Kodi-Cache löschen und
 in Lastship "Alle Caches leeren".
@@ -12,45 +12,24 @@ Bei einer Neuinstallation ist obiges nicht notwendig
 - Amazon, Netflix und Maxdome sind nur mit einem gültigen Abo des Betreibers nutzbar.
 - Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen.
 
-[B][COLOR red]Anleitungen zu den Funktionen sind im Forum verfügbar.[/COLOR][/B]
+[B][COLOR red]Anleitungen zu den Funktionen sind in der FAQ verfügbar[/COLOR][/B]
+FAQ:https://github.com/lastship/Lastship-FAQ/blob/master/Lastship_FAQ.md
 [B]Unser Chatroom: https://gitter.im/Lastship_Chat/Lobby[/B]
 
 [COLOR orange]_________________________________________________________________________[/COLOR]
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
-[B]4.0.0[/B]
-  04.05.2019
-- Fix Cloudflare
-- Fix HD-Filme-Serien
-- Fix moviedream
-- Fix BS.to
-- Fix Cinemaxx
-- added verystream als hoster für filmpalast & moviedream
-- Entfernt: Movies.gg, cinematrix, hdkino, streamit
-- Fix Kinoger / vio-Resolver implementiert
-- ClearCache ohne Dateialter
-- create init_.py (in recources/lib/indexers und modules
-- Nachtrag Lizenzen
-- Update requestHandler.py (Fix Cloudflare)
-- Fix Serienstream (Treffer bei Suche verbessert)
-- Update Cinemaxx Caching 
-- viele interne Änderungen um Wartungsarbeiten an Lastship zu vereinfachen.
-- Logfix (meta.pop)
-- Staffelbenennung auswählbar (Bibliothek und Download getrennt)
-- neue Screenshots
-- neues Icon
-- Fix View Typ in movies.py
-  Ansichten werden nun auch wieder auf den Folgeseiten korrekt angezeigt
-- Autoplay-Qualität auswählbar
-- ZDF-Scrapper Beta
-  (nur Serien des letzen Jahres)
-- Neues Justwatch Modul
-- Watchbox Serien Defekt (momentan Kampagne TV Now)
-- Zufallswiedergabe wieder hinzugefügt (Userwunsch)
-- Fix Suche für Netflix, Netzkino und Watchbox
-  Die Suche hat bis jetzt nur den ersten treffer genommen
-- Fix Blacingfast
+[B]4.0.1[/B]
+  05.06.2019
+- Movie4k_lt entfernt, Seite Offline
+- movietown entfernt, hinter Cloudflare
+- Neue Trakt API Key's
+- moviedream.ws entfernt (da es die Betreiber Seite überlastet)
+- Update foxx
+- Update filmpalast
+- Update Readme und Lastship Beschreibung in der addon.xml
+- Update Settings.xml
 
 [COLOR orange]_________________________________________________________________________[/COLOR]
 Editierhinweise: Keine Tabulatoren. Text darf nicht länger als die Linie sein.
