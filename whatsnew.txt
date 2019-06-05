@@ -4,7 +4,7 @@ Bei Aktualisierung auf Version 4.0.1 ist zwingend eine neue Autorisierung von Tr
 sowie das Löschen des Metacaches notwendig um Fehler zu vermeiden!
 Sollte das alleine nicht helfen, zusätzlich Kodi-Cache löschen und
 in Lastship "Alle Caches leeren".
-Bei einer Neuinstallation ist obiges nicht notwendig
+Bei einer Neuinstallation ist obiges nicht notwendig.
 
 [B][COLOR blue]Allgemein:[/COLOR][/B]
 - Für die Seite Serienstream.to (s.to) ist ein Benutzerkonto erforderlich.
