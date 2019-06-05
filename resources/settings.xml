@@ -165,9 +165,7 @@
         <setting id="provider.kinox" type="bool" label="KINOX.TO" default="false" />
         <setting id="provider.movie2k-ag" type="bool" label="MOVIE2K.AG" default="true" />
         <setting id="provider.movie4k" type="bool" label="MOVIE4K.TO" default="true" />
-        <setting id="provider.movie4k-lt" type="bool" label="MOVIE4K.LT" default="true" />
         <setting id="provider.moviestream" type="bool" label="MOVIESTREAM.EU" default="true" />
-        <setting id="provider.movietown" type="bool" label="MOVIETOWN.ORG" default="true" />
         <setting id="provider.nanime" type="bool" label="NANIME.TO" default="false" />
         <setting id="provider.proxer" type="bool" label="PROXER.ME" default="true" />
         <setting id="provider.serienstream" type="bool" label="SERIENSTREAM.TO" default="false" />
