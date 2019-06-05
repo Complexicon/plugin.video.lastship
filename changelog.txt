@@ -1,19 +1,12 @@
-[B]4.0.1~nightly6[/B]
+[B]4.0.1[/B]
+  05.06.2019
+- Movie4k_lt entfernt, Seite Offline
+- movietown entfernt, hinter Cloudflare
 - Neue Trakt API Key's
-
-[B]4.0.1~nightly5[/B]
 - moviedream.ws entfernt (da es die Betreiber Seite überlastet)
-
-[B]4.0.1~nightly4[/B]
 - Update foxx
-
-[B]4.0.1~nightly3[/B]
 - Update filmpalast
-
-[B]4.0.1~nightly2[/B]
 - Update Readme und Lastship Beschreibung in der addon.xml
-
-[B]4.0.1~nightly1[/B]
 - Update Settings.xml
 
 [B]4.0.0[/B]
